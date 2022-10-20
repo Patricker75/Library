@@ -14,6 +14,10 @@ namespace Library.Data
         {
         }
 
-        public DbSet<Library.Models.Room> Rooms { get; set; } = default!;
+        public DbSet<Library.Models.Room> Room { get; set; } = default!;
+
+        public DbSet<Library.Models.Member> Member { get; set; }
+
+        public DbSet<Library.Models.Book> Book { get; set; }
     }
 }
