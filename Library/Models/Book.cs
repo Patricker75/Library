@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Library.Data;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
@@ -20,9 +21,33 @@ namespace Library.Models
         public string DeweyNumber { get; set; }
 
         [Column("condition")]
-        public int Condition { get; set; }
+        private short condition { get; set; }
+        [NotMapped]
+        public Condition Condition
+        {
+            get
+            {
+                return (Condition)condition;
+            }
+            set
+            {
+                condition = (short)value;
+            }
+        }
 
         [Column("audience")]
-        public int Audience { get; set; }
+        private short audience { get; set; }
+        [NotMapped]
+        public Audience Audience
+        {
+            get
+            {
+                return (Audience)audience;
+            }
+            set
+            {
+                audience = (short)value;
+            }
+        }
     }
 }

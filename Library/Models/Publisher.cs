@@ -6,7 +6,6 @@ namespace Library.Models
     {
         public int ID { get; set; }
 
-
         [Column("name")]
         public string Name { get; set; }
     }

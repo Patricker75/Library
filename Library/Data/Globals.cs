@@ -42,4 +42,10 @@
         Meeting = 1,
         Piano = 2
     }
+
+    public enum ItemType
+    {
+        EReader = 0,
+        Computer = 1
+    }
 }
