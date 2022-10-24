@@ -1,0 +1,64 @@
+﻿@page
+@model Library.Pages.Books.AddModel
+@{
+    
+}
+
+@section Scripts {
+
+    <script>
+        $("#add").click(function () {
+            var body = document.querySelector("#body");
+            var value = parseInt(body.getAttribute("value"));
+
+            value++;
+
+            var newRow = document.createElement("tr");
+
+            for (var i = 0; i < 3; i++) {
+                var cell = document.createElement("td");
+                var input = document.createElement("input");
+                input.setAttribute("type","text");
+
+                cell.appendChild(input);
+
+                newRow.appendChild(cell);
+            }
+            
+            body.appendChild(newRow);
+            body.setAttribute("value", value);
+        });
+    </script>
+}
+
+<h1 id="box">Empty</h1>
+
+<form method="post">
+    <label for="title">Book Title:</label>
+    <input type="text" id="title" />
+
+    <br />
+
+    <label for="authors">Authors</label>
+
+    <input type="button" id="add" value="Add"/>
+    <input type="button" id="remove" value="Remove"/>
+
+    <table id="authors">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Middle Initial</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+
+        <tbody id="body" value="1">
+            <tr>
+                <td>V</td>
+                <td></td>
+                <td>a</td>
+            </tr>
+        </tbody>
+    </table>
+</form>

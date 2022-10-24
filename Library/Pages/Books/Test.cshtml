@@ -1,0 +1,34 @@
+﻿@page
+@model Library.Pages.Books.TestModel
+@{
+}
+
+
+@section Scripts {
+
+    <script>
+        $("#add").click(function () {
+            var html = "";
+
+            html += "<tr><td>HEY</td></tr>";
+
+            $("#box").append(html);
+        });
+    </script>
+}
+
+<form>
+    <input type="button" id="add"/>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Temp</th>
+        </tr>
+    </thead>
+
+    <tbody id="box">
+        
+    </tbody>
+</table>

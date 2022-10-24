@@ -19,13 +19,13 @@ namespace Library.Pages.Books
             _context = context;
         }
 
-        public IList<Book> Book { get;set; } = default!;
+        public IList<Book> Books { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
             if (_context.Book != null)
             {
-                Book = await _context.Book.ToListAsync();
+                Books = await _context.Book.ToListAsync();
             }
         }
     }
