@@ -10,7 +10,13 @@
         $("#add").click(function () {
             var html = "";
 
-            html += "<tr><td>HEY</td></tr>";
+            html += "<tr>";
+
+            html += "<td> <input type=\"text\" /> </td>";
+            html += "<td> <input type=\"text\" /> </td>";
+
+            html += "</tr>";
+
 
             $("#box").append(html);
         });
@@ -19,16 +25,17 @@
 
 <form>
     <input type="button" id="add"/>
-</form>
 
-<table>
-    <thead>
-        <tr>
-            <th>Temp</th>
-        </tr>
-    </thead>
+    <table>
+        <thead>
+            <tr>
+                <th>Temp</th>
+                <th>Row 2</th>
+            </tr>
+        </thead>
 
-    <tbody id="box">
+        <tbody id="box">
         
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</form>

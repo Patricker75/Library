@@ -8,34 +8,32 @@
 
     <script>
         $("#add").click(function () {
-            var body = document.querySelector("#body");
-            var value = parseInt(body.getAttribute("value"));
+            var html = "";
+            var rowCounter = document.querySelector("#rowCounter");
 
-            value++;
+            var rowCount = parseInt(rowCounter.getAttribute("value"));
 
-            var newRow = document.createElement("tr");
+            html += "<tr>";
 
-            for (var i = 0; i < 3; i++) {
-                var cell = document.createElement("td");
-                var input = document.createElement("input");
-                input.setAttribute("type","text");
+            html += "<td> <input type=\"text\" name=\"Authors[" + rowCount + "].FirstName\" /> </td>";
+            html += "<td> <input type=\"text\" name=\"Authors[" + rowCount + "].MiddleName\" /> </td>";
+            html += "<td> <input type=\"text\" name=\"Authors[" + rowCount + "].LastName\" /> </td>";
 
-                cell.appendChild(input);
+            html += "</tr>";
 
-                newRow.appendChild(cell);
-            }
-            
-            body.appendChild(newRow);
-            body.setAttribute("value", value);
+            $("#body").append(html);
+
+            rowCount++;
+            rowCounter.setAttribute("value", rowCount);
         });
     </script>
 }
 
-<h1 id="box">Empty</h1>
+<h1>@Model.TestStr</h1>
 
 <form method="post">
     <label for="title">Book Title:</label>
-    <input type="text" id="title" />
+    <input type="text" id="title" name="title" value="@Model.Title"/>
 
     <br />
 
@@ -51,14 +49,29 @@
                 <th>Middle Initial</th>
                 <th>Last Name</th>
             </tr>
-        </thead>
+        </thead>    
 
-        <tbody id="body" value="1">
-            <tr>
-                <td>V</td>
-                <td></td>
-                <td>a</td>
-            </tr>
+        <input type="hidden" id="rowCounter" name="rowCount" value="@Model.RowCount" />
+        <tbody id="body" name="body">
+            @if (Model.RowCount == 0) {
+                <tr>
+                    <td><input type="text" asp-for="@Model.Authors[0].FirstName"/></td>
+                    <td><input type="text" asp-for="@Model.Authors[0].MiddleName"/></td>
+                    <td><input type="text" asp-for="@Model.Authors[0].LastName"/></td>
+                </tr>
+            }
+            else {
+                @for (int i = 0; i < Model.RowCount; i++)
+                {
+                    <tr>
+                        <td><input type="text" asp-for="@Model.Authors[i].FirstName"/></td>
+                        <td><input type="text" asp-for="@Model.Authors[i].MiddleName"/></td>
+                        <td><input type="text" asp-for="@Model.Authors[i].LastName"/></td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
+
+    <input type="submit" />
 </form>
