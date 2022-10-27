@@ -28,6 +28,6 @@ namespace Library.Data
 
         public DbSet<Library.Models.Device> Device { get; set; } = default!;
 
-        public DbSet<Library.Models.Employee> Employee { get; set; }
+        public DbSet<Library.Models.Employee> Employee { get; set; } = default!;
     }
 }

@@ -5,6 +5,7 @@ namespace Library.Models
 {
 	public partial class Book
 	{
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int ID { get; set; }
 
 

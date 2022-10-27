@@ -13,6 +13,8 @@
 
             var rowCount = parseInt(rowCounter.getAttribute("value"));
 
+            console.log("Inserting row" + rowCount);
+
             html += "<tr id=\"row" + rowCount + "\">";
 
             html += "<td> <input type=\"text\" name=\"Authors[" + rowCount + "].FirstName\" /> </td>";
@@ -30,6 +32,8 @@
         $("#remove").click(function() {
             var rowCounter = document.querySelector("#rowCounter");
             var rowCount = parseInt(rowCounter.getAttribute("value"));
+
+            console.log("Deleting row" + (rowCount - 1));
 
             if (rowCount > 1) {
                 $("#row" + (rowCount - 1)).remove();
@@ -62,8 +66,8 @@
         
         <input type="hidden" id="rowCounter" name="rowCount" value="@Model.RowCount" />
         <tbody id="body" name="body">
-            @if (Model.RowCount == 1 && Model.Authors == null) {
-                <tr id="row0">
+            @if (Model.RowCount == 0) {
+                <tr id="row 0">
                     <td><input type="text" asp-for="@Model.Authors[0].FirstName"/></td>
                     <td><input type="text" asp-for="@Model.Authors[0].MiddleName"/></td>
                     <td><input type="text" asp-for="@Model.Authors[0].LastName"/></td>
@@ -72,7 +76,8 @@
             else {
                 for (int i = 0; i < Model.RowCount; i++)
                 {
-                    <tr id="row@i">
+                    string rowName = "row" + @i;
+                    <tr id=@rowName>
                         <td><input type="text" asp-for="@Model.Authors[i].FirstName"/></td>
                         <td><input type="text" asp-for="@Model.Authors[i].MiddleName"/></td>
                         <td><input type="text" asp-for="@Model.Authors[i].LastName"/></td>
@@ -85,27 +90,28 @@
     <br />
 
     <label for="publisher">Publisher</label>
-    <input type="text" id="publisher" name="publisher" />
+    <input type="text" id="publisher" name="publisher" value="@Model.Publisher"/>
 
     <br />
 
     <label for="dewey">Dewey Decimal Number</label>
-    <input type="text" id="dewey" name="dewey"/>
+    <input type="text" id="dewey" name="dewey" value="@Model.Dewey"/>
 
     <br />
 
     <label for="summary">Summary</label>
-    <textarea id="summary" name="summary">
+    <textarea id="summary" name="summary" asp-for="@Model.Summary">
     </textarea>
 
     <br />
 
-    <input type="text" id="genre" name="genre" />
+    <label for="genre">Genre</label>
+    <input type="text" id="genre" name="genre" value="@Model.Genre"/>
 
     <br />
 
     <label for="audience">Target Audience</label>
-    <select name="audience">
+    <select name="audience" value="@Model.Audience" asp-for="@Model.Audience">
         <option value="">Select A Target Audience</option>
         <option value="0">Children</option>
         <option value="1">Young Adult</option>
@@ -116,7 +122,7 @@
     <br />
 
     <label for="condition">Conditon</label>
-    <select name="condition">
+    <select name="condition" asp-for="@Model.Condition">
         <option value="">Select A Condition</option>
         <option value="0">New</option>
         <option value="1">Slight</option>
@@ -128,3 +134,5 @@
 
     <input type="submit" value="Add Book"/>
 </form>
+
+<h3 style="color:red">@Model.ErrorMessage</h3>
