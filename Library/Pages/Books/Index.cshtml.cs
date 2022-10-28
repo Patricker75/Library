@@ -12,6 +12,12 @@ namespace Library.Pages.Books
 {
     public class IndexModel : PageModel
     {
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; } = string.Empty;
+
+        [BindProperty(SupportsGet = true)]
+        public int SearchChoice { get; set; }
+
         private readonly Library.Data.LibraryContext _context;
 
         public IndexModel(Library.Data.LibraryContext context)
@@ -21,11 +27,14 @@ namespace Library.Pages.Books
 
         public IList<Book> Books { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public void OnGet()
         {
             if (_context.Book != null)
             {
-                Books = await _context.Book.ToListAsync();
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    
+                }
             }
         }
     }

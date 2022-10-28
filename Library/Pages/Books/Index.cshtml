@@ -7,6 +7,16 @@
 
 <h1>Books</h1>
 
+<form>
+    <input type="text" name="SearchString" value="@Model.SearchString"/>
+    <select value="">
+        <option value="0">Title</option>
+        <option value="1">Author</option>
+        <option value="2">Publisher</option>
+    </select>
+    <input type="submit" value="Search" />
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -19,7 +29,7 @@
     <tbody>
         @foreach(var book in Model.Books) {
             <tr>
-                <td>@book.Title</td>
+                <td> <a asp-page="./ViewBook" asp-route-id="@book.ID">@book.Title</a></td>
                 <td>@book.Summary</td>
                 <td>@book.DeweyNumber</td>
             </tr>
