@@ -1,5 +1,6 @@
 using Library.Data;
 using Library.Models;
+using Library.Models.Relationships;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -26,13 +27,13 @@ namespace Library.Pages.Books
         public string Genre { get; set; } = string.Empty;
 
         [BindProperty]
-        public int? Audience { get; set; }
+        public int Audience { get; set; } = -1;
 
         [BindProperty]
         public string Publisher { get; set; } = string.Empty;
 
         [BindProperty]
-        public int? Condition { get; set; }
+        public int Condition { get; set; } = -1;
 
         [BindProperty]
         public string ErrorMessage { get; set; } = string.Empty;
@@ -42,6 +43,7 @@ namespace Library.Pages.Books
         public AddModel(LibraryContext context)
         {
             _context = context;
+            Authors = new List<Author>() { new Author()};
         }
 
         public void OnGet()
@@ -69,8 +71,8 @@ namespace Library.Pages.Books
                 validForm = false;
             }
 
-            // Checks if Condition or Audience is null
-            if (Condition == null || Audience == null)
+            // Checks if Condition or Audience is -1
+            if (Condition == -1 || Audience == -1)
             {
                 validForm = false;
             }
@@ -113,29 +115,119 @@ namespace Library.Pages.Books
             }
         }
 
+        private int GetPublisherID()
+        {
+            int? publisherID = null;
+            if (_context.Publisher.Any())
+            {
+                var queryResult = _context.Publisher.Where(p => p.Name == Publisher);
+                if (queryResult.Any())
+                {
+                    publisherID = queryResult.First().ID;
+                }
+            }
+
+            if (publisherID == null)
+            {
+                Models.Publisher newPublisher = new Models.Publisher()
+                {
+                    Name = Publisher
+                };
+
+                _context.Publisher.Add(newPublisher);
+                _context.SaveChanges();
+
+                publisherID = newPublisher.ID;
+            }
+
+            return (int)publisherID;
+        }
+
+        private IList<int> GetAuthorIDs()
+        {
+            List<int> authorIDs = new List<int>();
+
+            // Checks if author table is empty
+            if (!_context.Author.Any())
+            {
+                _context.AddRange(Authors);
+
+                _context.SaveChanges();
+
+                foreach (Author author in _context.Author.ToList())
+                {
+                    authorIDs.Add(author.ID);
+                }
+
+                return authorIDs;
+            }
+
+            // Iterates through Authors (the list) for any existing authors
+            foreach (Author author in Authors)
+            {
+                var queryResult = _context.Author.Where(a => a.FirstName == author.FirstName
+                && a.MiddleName == author.MiddleName
+                && a.LastName == author.LastName);
+
+                int authorID;
+                if (queryResult.Any())
+                {
+                    authorID = queryResult.First().ID;
+                }
+                else
+                {
+                    _context.Author.Add(author);
+                    _context.SaveChanges();
+
+                    authorID = author.ID;
+                }
+
+                authorIDs.Add(authorID);
+            }
+
+            return authorIDs;
+        }
+
+        private void RelateAuthorToBook(int bookID, IList<int> authorIDs)
+        {
+            foreach (int authorID in authorIDs)
+            {
+                _context.Writes.Add(new Writes()
+                {
+                    AuthorID = authorID,
+                    BookID = bookID
+                });
+            }
+        }
+
         private void AddToDatabase()
         {
             Book newBook = new Book()
             {
                 Title = Title,
-                //Audience = (Data.Audience)Audience,
-                Condition = (Data.Condition)Condition,
+                Audience = (Audience)Audience,
+                Condition = (Condition)Condition,
                 DeweyNumber = Dewey,
                 Summary = Summary,
                 Genre = Genre
             };
 
-            Publisher publisher = new Publisher()
-            {
-                Name = Publisher
-            };
+            int publisherID = GetPublisherID();
+            IList<int> authorIDs = GetAuthorIDs();
 
+            // Add newBook to DB and save to get ID
             _context.Book.Add(newBook);
             _context.SaveChanges();
 
-            int id = newBook.ID;
+            // Relates newBook, publisher, and authors appropriately
+            _context.Publishes.Add(new Publishes()
+            {
+                BookID = newBook.ID,
+                PublisherID = publisherID,
+            });
+            RelateAuthorToBook(newBook.ID, authorIDs);
 
-            ErrorMessage = "New Book ID: " + id;
+            _context.SaveChanges();
         }
 
         public IActionResult OnPost()
@@ -144,9 +236,7 @@ namespace Library.Pages.Books
             {
                 AddToDatabase();
 
-                return Page();
-                //return RedirectToPage("Add");
-                //return RedirectToPage("ViewBook", "ByObject", b);
+                return RedirectToPage("Add");
             }
             else
             {

@@ -5,7 +5,6 @@ namespace Library.Models
 {
 	public partial class Book
 	{
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int ID { get; set; }
 
 
@@ -22,33 +21,9 @@ namespace Library.Models
 		public string DeweyNumber { get; set; }
 
 		[Column("condition")]
-		private short condition { get; set; }
-		[NotMapped]
-		public Condition Condition
-		{
-			get
-			{
-				return (Condition)condition;
-			}
-			set
-			{
-				condition = (short)value;
-			}
-		}
+		public Condition Condition { get; set; }
 
 		[Column("audience")]
-		private short audience { get; set; }
-		[NotMapped]
-		public Audience Audience
-		{
-			get
-			{
-				return (Audience)audience;
-			}
-			set
-			{
-				audience = (short)value;
-			}
-		}
+		public Audience Audience { get; set; }
 	}
 }
