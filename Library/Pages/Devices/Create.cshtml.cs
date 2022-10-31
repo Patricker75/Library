@@ -26,7 +26,16 @@ namespace Library.Pages.Devices
 
         [BindProperty]
         public Device Device { get; set; }
+
+        [BindProperty]
+        public int Condition { get; set; } = -1;
         
+        [BindProperty]
+        public string Name { get; set; } = string.Empty;
+
+        [BindProperty]
+        public string itemType { get; set; } = string.Empty;
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

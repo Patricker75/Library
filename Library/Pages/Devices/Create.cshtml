@@ -2,32 +2,77 @@
 @model Library.Pages.Devices.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    //ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        //$("#add").click(function () {
+        //var html = "";
 
-<h4>Device</h4>
+        //html += "<tr>";
+
+        //html += "<td> <input type=\"text\" /> </td>";
+        //html += "<td> <input type=\"text\" /> </td>";
+
+      //  html += "</tr>";
+
+
+        //$("#box").append(html);
+        /*
+        <label asp -for= "Device.Name" class= "control-label" > </label>
+            < input asp -for= "Device.Name" class= "form-control" />
+                <span asp - validation -for= "Device.Name" class= "text-danger" > </span>
+                */
+        });
+
+
+
+    </script>
+
+}
+
+
+
+<h4>Device Checkout</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+            <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Device.ItemType" class="control-label"></label>
-                <input asp-for="Device.ItemType" class="form-control" />
-                <span asp-validation-for="Device.ItemType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Device.Name" class="control-label"></label>
-                <input asp-for="Device.Name" class="form-control" />
-                <span asp-validation-for="Device.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Device.Condition" class="control-label"></label>
-                <input asp-for="Device.Condition" class="form-control" />
-                <span asp-validation-for="Device.Condition" class="text-danger"></span>
-            </div>
+                <label for="devicename">Device</label>
+                <select name="devicename" asp-for="@Model.itemType">
+                    <option value="-1">Select device to add</option>
+                    <option value="0">Macbook</option>
+                    <option value="1">Windows Laptop</option>
+                    <option value="2">Audio Book</option>
+                    <option value="3">E-Reader</option>
+                    <option value="4">Calculator</option>
+                </select>
+               
+                <br />
+                <br />
+                    <label for="dname">Name of device:</label>
+                    <input type="text" id="dname" name="dname" value="@Model.Name"/> <br><br>
+                  
+           
+               
+           
+                <label for="condition">Conditon</label>
+                <select name="condition" asp-for="@Model.Condition">
+                    <option value="-1">Select A Condition</option>
+                    <option value="0">New</option>
+                    <option value="1">Slight</option>
+                    <option value="2">Damaged</option>
+                    <option value="3">Needs Repair</option>
+                </select>
+                <br />
+
+
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -39,6 +84,4 @@
     <a asp-page="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
