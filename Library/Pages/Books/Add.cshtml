@@ -112,7 +112,7 @@
 
     <label for="audience">Target Audience</label>
     <select name="audience" value="@Model.Audience" asp-for="@Model.Audience">
-        <option value="-1">Select A Target Audience</option>
+        <option selected="selected" hidden="hidden">Select A Target Audience</option>
         <option value="0">Children</option>
         <option value="1">Young Adult</option>
         <option value="2">Adult</option>
@@ -123,7 +123,7 @@
 
     <label for="condition">Conditon</label>
     <select name="condition" asp-for="@Model.Condition">
-        <option value="-1">Select A Condition</option>
+        <option selected="selected" hidden="hidden">Select A Condition</option>
         <option value="0">New</option>
         <option value="1">Slight</option>
         <option value="2">Damaged</option>

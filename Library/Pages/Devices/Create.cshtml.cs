@@ -12,9 +12,21 @@ namespace Library.Pages.Devices
 {
     public class CreateModel : PageModel
     {
-        private readonly Library.Data.LibraryContext _context;
+        [BindProperty]
+        public string Name { get; set; } = string.Empty;
+        
+        [BindProperty]
+        public int Condition { get; set; } = -1;
 
-        public CreateModel(Library.Data.LibraryContext context)
+        [BindProperty]
+        public int ItemType { get; set; } = -1;
+
+        [BindProperty]
+        public string ErrorMessage { get; set; } = string.Empty;
+
+        private readonly LibraryContext _context;
+
+        public CreateModel(LibraryContext context)
         {
             _context = context;
         }
@@ -24,31 +36,51 @@ namespace Library.Pages.Devices
             return Page();
         }
 
-        [BindProperty]
-        public Device Device { get; set; }
-
-        [BindProperty]
-        public int Condition { get; set; } = -1;
-        
-        [BindProperty]
-        public string Name { get; set; } = string.Empty;
-
-        [BindProperty]
-        public string itemType { get; set; } = string.Empty;
-
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        bool VerifyForm()
         {
-          if (!ModelState.IsValid)
+            // Check that there is an Name
+            if (string.IsNullOrEmpty(Name))
             {
-                return Page();
+                return false;
             }
 
-            _context.Device.Add(Device);
-            await _context.SaveChangesAsync();
+            // Check that Condition is Chosen
+            if (Condition < 0)
+            {
+                return false;
+            }
 
-            return RedirectToPage("./Index");
+            // Check that Item Type is Chosen
+            if (ItemType < 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public IActionResult OnPost()
+        {
+            if (VerifyForm())
+            {
+                Device newDevice = new Device()
+                {
+                    Name = Name,
+                    Condition = (Condition)Condition,
+                    ItemType = (ItemType)ItemType
+                };
+
+                _context.Device.Add(newDevice);
+
+                return RedirectToPage("Create");
+            }
+            else {
+                ErrorMessage = "A Required Field has Been Left Blank";
+
+                ModelState.Clear();
+
+                return Page();
+            }
         }
     }
 }

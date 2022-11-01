@@ -12,9 +12,21 @@ namespace Library.Pages.Services
 {
     public class CreateModel : PageModel
     {
-        private readonly Library.Data.LibraryContext _context;
+        [BindProperty]
+        public string Name { get; set; } = string.Empty;
 
-        public CreateModel(Library.Data.LibraryContext context)
+        [BindProperty]
+        public string Location { get; set; } = string.Empty;
+
+        [BindProperty]
+        public bool Availability { get; set; } = true;
+
+        [BindProperty]
+        public string ErrorMessage { get; set; } = string.Empty;
+
+        private readonly LibraryContext _context;
+
+        public CreateModel(LibraryContext context)
         {
             _context = context;
         }
@@ -24,22 +36,46 @@ namespace Library.Pages.Services
             return Page();
         }
 
-        [BindProperty]
-        public Service Service { get; set; }
-        
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        private bool VerifyForm()
         {
-          if (!ModelState.IsValid)
+            // Check if name is filled
+            if (string.IsNullOrEmpty(Name))
             {
-                return Page();
+                return false;
             }
 
-            _context.Service.Add(Service);
-            await _context.SaveChangesAsync();
+            // Check if location is filled
+            if (string.IsNullOrEmpty(Location))
+            {
+                return false;
+            }
 
-            return RedirectToPage("./Index");
+            return true;
+        }
+
+        public IActionResult OnPost()
+        {
+            if (VerifyForm())
+            {
+                Service newService = new Service()
+                {
+                    Name = Name,
+                    Location = Location,
+                    Availability = Availability
+                };
+
+
+
+                return RedirectToPage("Create");
+            }
+            else
+            {
+                ErrorMessage = "A Required Field has Been Left Blank";
+
+                ModelState.Clear();
+
+                return Page();
+            }
         }
     }
 }
