@@ -24,19 +24,7 @@ namespace Library.Models
 
 		public string? Address { get; set; }
 
-		private short gender { get; set; }
-		[NotMapped]
-		public Gender Gender
-		{
-			get
-			{
-				return (Gender)gender;
-			}
-			set
-			{
-				gender = (short)value;
-			}
-		}
+		public Gender Gender { get; set; }
 
 		[DataType(DataType.Date)]
 		[Column("birth_date")]

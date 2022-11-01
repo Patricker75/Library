@@ -14,19 +14,7 @@ namespace Library.Models
 		public bool IsAvailable { get; set; }
 		
 		[Column("room_type")]
-		private short roomType { get; set; }
-		[NotMapped]
-		public RoomType RoomType
-		{
-			get
-			{
-				return (RoomType)roomType;
-			}
-			set
-			{
-				roomType = (short)value;
-			}
-		} 
+		public RoomType RoomType { get; set; }
 
 		[ForeignKey("Member")]
 		[Column("reserver_id")]

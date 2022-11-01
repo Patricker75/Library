@@ -25,19 +25,7 @@ namespace Library.Models
 
 		public string? Address { get; set; }
 		
-		private short gender { get; set; }
-		[NotMapped]
-		public Gender Gender
-		{
-			get
-			{
-				return (Gender)gender;
-			}
-			set
-			{
-				gender = (short)value;
-			}
-		}
+		public Gender Gender { get; set; }
 
 		[DataType(DataType.Date)]
 		[Column("birth_date")]
@@ -48,19 +36,7 @@ namespace Library.Models
 		public DateTime JoinDate { get; set; } = DateTime.Now;
 
 		[Column("member_type")]
-		private short memberType { get; set; }
-		[NotMapped]
-		public MemberType MemberType
-		{
-			get
-			{
-				return (MemberType)memberType;
-			}
-			set
-			{
-				memberType = (short)value;
-			}
-		}
+		public MemberType MemberType { get; set; }
 
 		// Could Drop
 		[Column("check_out_count")]
@@ -70,19 +46,7 @@ namespace Library.Models
 		public short CheckOutLimit { get; set; }
 
 		[Column("status")]
-		private short memberStatus { get; set; }
-		[NotMapped]
-		public MemberStatus MemberStatus
-		{
-			get
-			{
-				return (MemberStatus)memberStatus;
-			}
-			set
-			{
-				memberStatus = (short)value;
-			}
-		}
+		public MemberStatus MemberStatus { get; set; }
 
 		[DataType(DataType.Currency)]
 		public decimal Balance { get; set; }

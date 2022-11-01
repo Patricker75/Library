@@ -40,8 +40,19 @@ namespace Library.Data
             builder.Entity<Writes>().HasKey(w => new { w.AuthorID, w.BookID });
 
             // Enum Conversions
-            builder.Entity<Book>().Property(b => b.Audience).HasConversion(b => (short)b, b => (Audience)b);
-            builder.Entity<Book>().Property(b => b.Condition).HasConversion(b => (short)b, b => (Condition)b);
+            builder.Entity<Book>().Property(b => b.Audience).HasConversion(v => (short)v, v => (Audience)v);
+            builder.Entity<Book>().Property(b => b.Condition).HasConversion(v => (short)v, v => (Condition)v);
+
+            builder.Entity<Device>().Property(d => d.ItemType).HasConversion(v => (short)v, v => (ItemType)v);
+            builder.Entity<Device>().Property(d => d.Condition).HasConversion(v => (short)v, v => (Condition)v);
+
+            builder.Entity<Employee>().Property(e => e.Gender).HasConversion(v => (short)v, v => (Gender)v);
+
+            builder.Entity<Member>().Property(m => m.Gender).HasConversion(v => (short)v, v => (Gender)v);
+            builder.Entity<Member>().Property(m => m.MemberType).HasConversion(v => (short)v, v => (MemberType)v);
+            builder.Entity<Member>().Property(m => m.MemberStatus).HasConversion(v => (short)v, v => (MemberStatus)v);
+
+            builder.Entity<Room>().Property(r => r.RoomType).HasConversion(v => (short)v, v => (RoomType)v);
         }
 
         public DbSet<Library.Models.Member> Member { get; set; } = default!;
