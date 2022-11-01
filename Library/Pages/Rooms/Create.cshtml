@@ -5,39 +5,40 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>Room</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Room.Location" class="control-label"></label>
-                <input asp-for="Room.Location" class="form-control" />
-                <span asp-validation-for="Room.Location" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Room.IsAvailable" /> @Html.DisplayNameFor(model => model.Room.IsAvailable)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Room.RoomType" class="control-label"></label>
-                <input asp-for="Room.RoomType" class="form-control" />
-                <span asp-validation-for="Room.RoomType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
+<h4>Create Room</h4>
+<form method="post">
+    
+    <label for="location">Location:</label>
+    <input type="text" name="location" value="@Model.Location" />   
+    
+    <br />
+    <label for="name">Room Type :</label>
+    <select name="name" asp-for="@Model.RoomType">
+        <option selected="selected" hidden="hidden">Select Room</option>
+        <option value="0">Study</option>
+        <option value="1">Meeting</option>
+        <option value="2">Piano</option>
+    </select>
+    <br />
+
+    <label for="available">Availability:</label>
+    <input type="checkbox" name="available" value="@Model.IsAvailable" checked="@Model.IsAvailable" />
+    <br />
+    
+
+    <br />
+    
+    <input type="submit" value="Create" class="btn btn-primary" />
+
+
+    </form>
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
+
+<h3 style="color:red">@Model.ErrorMessage</h3>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
