@@ -19,7 +19,7 @@ namespace Library.Pages.Devices
         public int Condition { get; set; } = -1;
 
         [BindProperty]
-        public int ItemType { get; set; } = -1;
+        public int Type { get; set; } = -1;
 
         [BindProperty]
         public string ErrorMessage { get; set; } = string.Empty;
@@ -51,7 +51,7 @@ namespace Library.Pages.Devices
             }
 
             // Check that Item Type is Chosen
-            if (ItemType < 0)
+            if (Type < 0)
             {
                 return false;
             }
@@ -67,16 +67,17 @@ namespace Library.Pages.Devices
                 {
                     Name = Name,
                     Condition = (Condition)Condition,
-                    ItemType = (ItemType)ItemType
+                    ItemType = (ItemType)Type
                 };
 
                 _context.Device.Add(newDevice);
+                _context.SaveChanges();
 
                 return RedirectToPage("Create");
             }
             else {
                 ErrorMessage = "A Required Field has Been Left Blank";
-
+                
                 ModelState.Clear();
 
                 return Page();

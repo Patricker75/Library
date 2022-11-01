@@ -64,7 +64,8 @@ namespace Library.Pages.Services
                     Availability = Availability
                 };
 
-
+                _context.Service.Add(newService);
+                _context.SaveChanges();
 
                 return RedirectToPage("Create");
             }

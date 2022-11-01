@@ -1,0 +1,68 @@
+﻿@page
+@model Library.Pages.Employees.AddModel
+@{
+}
+
+<form method="post">
+    <label for="username">Username:</label>
+    <input type="text" name="username" value="@Model.Username" />
+
+    <br />
+
+    <label for="fName">First Name:</label>
+    <input type="text" name="fName" value="@Model.FirstName" />
+
+    <br />
+
+    <label for="mName">Middle Name:</label>
+    <input type="text" name="mName" value="@Model.MiddleInitial" />
+
+    <br />
+
+    <label for="lName">Last Name:</label>
+    <input type="text" name="lName" value="@Model.LastName" />
+
+    <br />
+
+    <label for="phone">Phone Number:</label>
+    <input type="tel" name="phone" value="@Model.PhoneNumber">
+
+    <br />
+
+    <label for="address">Address:</label>
+    <input type="text" name="address" value="@Model.Address" />
+
+    <br />
+
+    <label for="gender">Gender:</label>
+    <select name="gender" asp-for="@Model.Gender">
+        <option selected="selected" hidden="hidden">Select a Gender</option>
+        <option value="0">Male</option>
+        <option value="1">Female</option>
+        <option value="2">Other</option>
+    </select>
+
+    <br />
+
+    <label for="birth">Birth Date:</label>
+    <input type="date" name="birth" asp-for="@Model.BirthDate" />
+
+    <br />
+
+    <label for="hire">Hire Date:</label>
+    <input type="date" name="hire" asp-for="@Model.HireDate" />
+
+    <br />
+
+    <label for="title">Job Title:</label>
+    <input type="text" name="title" value="@Model.JobTitle" />
+
+    <br />
+
+    <label for="salary">Salary:</label>
+    <input type="number" name="salary" value="@Model.Salary" />
+
+    <br />
+
+    <input type="submit" value="Add Employee" />
+</form>

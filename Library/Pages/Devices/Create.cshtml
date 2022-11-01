@@ -15,25 +15,21 @@
 <h1>Device Creation</h1>
 <hr />
 <form method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <label for="type">Device</label>
-        <select name="type" asp-for="@Model.ItemType">
-            <option selected="selected" hidden="hidden">Select device to add</option>
-            <option value="0">Macbook</option>
-            <option value="1">Windows Laptop</option>
-            <option value="2">Audio Book</option>
-            <option value="3">E-Reader</option>
-            <option value="4">Calculator</option>
-        </select>
+    
+        <label for="type">Device Type:</label>
+            <select name="type" value="@Model.Type" asp-for="@Model.Type">
+                <option selected="selected" hidden="hidden">Select A Device Type</option>
+                <option value="0">E-Reader</option>
+                <option value="1">Computer</option>
+            </select>
                
         <br />
-        <label for="name">Name of device:</label>
+        <label for="name">Name of Device:</label>
         <input type="text" id="name" name="name" value="@Model.Name"/>
 
         <br />
-        <label for="condition">Conditon</label>
-        <select name="condition" asp-for="@Model.Condition">
+        <label for="condition">Condition:</label>
+        <select name="condition" value="@Model.Condition" asp-for="@Model.Condition">
             <option selected="selected" hidden="hidden">Select A Condition</option>
             <option value="0">New</option>
             <option value="1">Slight</option>
