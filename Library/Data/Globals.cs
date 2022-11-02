@@ -17,7 +17,7 @@
     {
         Active = 0,
         Inactive = 1,
-        Suspended = 2
+        Suspended = 2 // Account Balance too High
     }
 
     public enum Condition
