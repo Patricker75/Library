@@ -9,9 +9,13 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
-		public string Username { get; set; }
+        [Column("username")]
+        public string Username { get; set; }
+        
+		[Column("password")]
+        public string Password { get; set; }
 
-		[Column("first_name")]
+        [Column("first_name")]
 		public string FirstName { get; set; }
 
 		[Column("middle_initial")]
