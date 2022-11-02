@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Library.Data;
 using Library.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace Library.Pages.Members
 {
@@ -48,9 +49,83 @@ namespace Library.Pages.Members
         [BindProperty]
         public int MemberType { get; set; } = -1;
 
+
+        public string ErrorMessage { get; set; } = string.Empty;
+
         public IndexModel(Library.Data.LibraryContext context)
         {
             _context = context;
+        }
+
+        bool VerifyForm()
+        {
+            if (string.IsNullOrEmpty(Username))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(Password))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(FirstName))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(LastName))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(PhoneNum))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(Address))
+            {
+                return false;
+            }
+            if (Gender <0)
+            {
+                return false;
+            }
+
+            return true;
+
+
+
+        }
+        public IActionResult OnPost()
+        {
+            if (VerifyForm())
+            {
+                Member newMember = new Member()
+                {
+                    Username = Username,
+                    Password = Password,
+                    FirstName = FirstName,
+                    LastName = LastName,
+                    PhoneNum = PhoneNum,
+                    Address = Address,
+                    Gender = (Gender)Gender,
+
+                    
+                };
+
+                _context.Member.Add(newMember);
+                _context.SaveChanges();
+
+                return RedirectToPage("Create");
+            }
+            else
+            {
+                ErrorMessage = "A Required Field has Been Left Blank";
+
+                ModelState.Clear();
+
+                return Page();
+            }
         }
 
         public IList<Member> Member { get;set; } = default!;
