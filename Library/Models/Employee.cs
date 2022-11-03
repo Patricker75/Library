@@ -48,7 +48,7 @@ namespace Library.Models
 
 		[ForeignKey("Employee")]
 		[Column("supervisor_id")]
-		public int SupervisorID { get; set; }
+		public int? SupervisorID { get; set; }
 
 
         public bool IsValid()

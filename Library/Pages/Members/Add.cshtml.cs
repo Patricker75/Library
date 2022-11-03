@@ -12,47 +12,36 @@ using System.Xml.Linq;
 
 namespace Library.Pages.Members
 {
-    public class IndexModel : PageModel
+    [BindProperties]
+    public class AddModel : PageModel
     {
-        [BindProperty]
         public string Username { get; set; } = string.Empty;
 
-        [BindProperty, MaxLength(10)]
         public string Password { get; set; } = string.Empty;
 
-        [BindProperty]
         public string FirstName { get; set; } = string.Empty;
 
-        [BindProperty]
         public string MiddleName { get; set; } = string.Empty;
 
-        [BindProperty]
         public string LastName { get; set; } = string.Empty;
 
-        [BindProperty]
-        public string PhoneNum { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
 
-        [BindProperty]
         public string Address { get; set; } = string.Empty;
 
-        [BindProperty]
         public int Gender { get; set; } = -1;
 
-        [BindProperty]
         public DateTime BirthDate { get; set; }
 
-        [BindProperty]
         public DateTime JoinDate { get; set; } = DateTime.Now;
 
-        [BindProperty]
         public int MemberType { get; set; } = -1;
 
-        [BindProperty]
         public string ErrorMessage { get; set; } = string.Empty;
 
         private readonly Library.Data.LibraryContext _context;
 
-        public IndexModel(Library.Data.LibraryContext context)
+        public AddModel(Library.Data.LibraryContext context)
         {
             _context = context;
         }
@@ -80,11 +69,16 @@ namespace Library.Pages.Members
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(PhoneNum))
+            if (string.IsNullOrEmpty(PhoneNumber))
             {
                 return false;
             }
             if (string.IsNullOrEmpty(Address))
+            {
+                return false;
+            }
+
+            if (Password.Length > 10)
             {
                 return false;
             }
@@ -119,7 +113,7 @@ namespace Library.Pages.Members
                     FirstName = FirstName,
                     LastName = LastName,
                     
-                    PhoneNum = PhoneNum,
+                    PhoneNum = PhoneNumber,
 
                     Address = Address,
                     Gender = (Gender)Gender,
@@ -153,7 +147,7 @@ namespace Library.Pages.Members
                 _context.Member.Add(newMember);
                 _context.SaveChanges();
 
-                return RedirectToPage("Create");
+                return RedirectToPage("Add");
             }
             else
             {

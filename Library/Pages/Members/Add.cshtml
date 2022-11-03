@@ -1,5 +1,5 @@
 ﻿@page
-@model Library.Pages.Members.IndexModel
+@model Library.Pages.Members.AddModel
 
 @{
     ViewData["Title"] = "Members";
@@ -15,7 +15,7 @@
     <br />
 
     <label for="Password">Password:</label>
-    <input type="text" name="Password" value="@Model.Password" />
+    <input type="password" name="Password" value="@Model.Password" />
     
     <br />
     
@@ -35,7 +35,7 @@
     <br />
     
     <label for="Phonenumber">Phone Number:</label>
-    <input type="text" name="Phonenumber" value="@Model.PhoneNum" />
+    <input type="text" name="Phonenumber" value="@Model.PhoneNumber" />
     
     <br />
     
@@ -55,12 +55,12 @@
     <br />
     
     <label for="BirthDate">Birth Date:</label>
-    <input type="date" name="BirthDate" value="@Model.BirthDate" />
+    <input type="date" name="BirthDate" asp-for="@Model.BirthDate" />
     
     <br />
     
     <label for="JoinDate">Join Date:</label>
-    <input type="date" name="JoinDate" value="@Model.JoinDate" />
+    <input type="date" name="JoinDate" asp-for="@Model.JoinDate" />
     
     <br />
     
