@@ -9,10 +9,11 @@
 
 <form>
     <input type="text" name="SearchString" value="@Model.SearchString"/>
-    <select value="">
+    <select value="@Model.SearchChoice" asp-for="@Model.SearchChoice">
         <option value="0">Title</option>
         <option value="1">Author</option>
         <option value="2">Publisher</option>
+        <option value="3">Genre</option>
     </select>
     <input type="submit" value="Search" />
 </form>
@@ -21,16 +22,21 @@
     <thead>
         <tr>
             <th>Title</th>
-            <th>Summary</th>
+            <th>Genre</th>
+            <th>Author</th>
             <th>Dewey Number</th>
         </tr>
     </thead>
 
     <tbody>
         @foreach(var book in Model.Books) {
+            var authorID = Model.Writes.Where(w => w.BookID == book.ID).First().AuthorID;
+
+            var author = Model._context.Author.Where(a => a.ID == authorID).First();
             <tr>
                 <td> <a asp-page="./ViewBook" asp-route-id="@book.ID">@book.Title</a></td>
-                <td>@book.Summary</td>
+                <td>@book.Genre</td>
+                <td>@author.FirstName @author.LastName</td>
                 <td>@book.DeweyNumber</td>
             </tr>
         }
