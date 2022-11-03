@@ -116,9 +116,18 @@ namespace Library.Pages.Employees
                     Salary = Salary,
                     
                     Gender = (Gender)Gender,
+
                     BirthDate = BirthDate,
                     HireDate = HireDate
                 };
+
+                if (!string.IsNullOrEmpty(MiddleInitial))
+                {
+                    newEmployee.MiddleName = MiddleInitial;
+                }
+
+                _context.Employee.Add(newEmployee);
+                _context.SaveChanges();
 
                 return RedirectToPage("Add");
             }

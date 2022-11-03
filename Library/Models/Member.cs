@@ -10,21 +10,21 @@ namespace Library.Models
 		public int ID { get; set; }
 
         [Column("username")]
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
         
 		[Column("password")]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
         [Column("first_name")]
-		public string FirstName { get; set; }
+		public string FirstName { get; set; } = string.Empty;
 
-		[Column("middle_initial")]
+        [Column("middle_initial")]
 		public string? MiddleName { get; set; }
 
 		[Column("last_name")]
-		public string LastName { get; set; }
+		public string LastName { get; set; } = string.Empty;
 
-		[Column("phone_number")]
+        [Column("phone_number")]
 		public string? PhoneNum { get; set; }
 
 		public string? Address { get; set; }
