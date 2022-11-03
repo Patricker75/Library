@@ -1,3 +1,4 @@
+using Library.Data;
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,9 +9,30 @@ namespace Library.Pages.Books
     {
         public Book Book { get; set; }
 
-        public void OnGetByObject(Book book)
+        private readonly LibraryContext _context;
+
+        public ViewBookModel(LibraryContext context)
         {
-            Book = book;
+            _context = context;
+        }
+
+        public IActionResult OnGet(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Book? b = _context.Book.Find(id);
+
+            if (b == null)
+            {
+                return NotFound();
+            }
+
+            Book = (Book)b;
+
+            return Page();
         }
     }
 }
