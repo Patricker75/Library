@@ -11,43 +11,26 @@ using System.Xml.Linq;
 
 namespace Library.Pages.Rooms
 {
+    [BindProperties]
     public class CreateModel : PageModel
     {
-       
+        public int Type { get; set; } = -1;
 
-        [BindProperty]
-        public int RoomType { get; set; } = -1;
-
-        [BindProperty]
         public string Location { get; set; } = string.Empty;
 
-        [BindProperty]
-        public bool IsAvailable { get; set; } = true;
-
-        [BindProperty]
         public string ErrorMessage { get; set; } = string.Empty;
+        
         public CreateModel(Library.Data.LibraryContext context)
         {
             _context = context;
         }
 
         private readonly Library.Data.LibraryContext _context;
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-
-        [BindProperty]
-        public Room Room { get; set; }
-        
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         
         private bool VerifyForm()
         {
             // Check if name is filled
-            if (RoomType<0)
+            if (Type < 0)
             {
                 return false;
             }
@@ -66,12 +49,13 @@ namespace Library.Pages.Rooms
             {
                 Room newRoom = new Room()
                 {
-                    RoomType = (RoomType)RoomType,
+                    RoomType = (RoomType)Type,
                     Location = Location,
-                    IsAvailable = IsAvailable
+                    IsAvailable = true
                 };
 
-
+                _context.Room.Add(newRoom);
+                _context.SaveChanges();
 
                 return RedirectToPage("Create");
             }

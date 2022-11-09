@@ -12,6 +12,8 @@ namespace Library.Pages.Rooms
 {
     public class IndexModel : PageModel
     {
+        public string Message { get; set; } = string.Empty;
+
         private readonly Library.Data.LibraryContext _context;
 
         public IndexModel(Library.Data.LibraryContext context)
@@ -21,12 +23,30 @@ namespace Library.Pages.Rooms
 
         public IList<Room> Room { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public void OnGet(string message = "")
         {
+            Message = message;
+
             if (_context.Room != null)
             {
-                Room = await _context.Room.ToListAsync();
+                Room = _context.Room.ToList();
             }
+        }
+
+        public IActionResult OnPostReserve(int memberID, int roomID)
+        {
+            if (_context.Room.Where(r => r.ReserverID == memberID).Any())
+            {
+                return RedirectToAction("Get", new { message = "You Already Have a Room Reserved" });
+            }
+
+            Room room = _context.Room.Where(r => r.ID == roomID).First();
+            room.ReserverID = memberID;
+            room.IsAvailable = false;
+
+            _context.SaveChanges();
+            return RedirectToAction("Get", new { message = "Room Reserved" });
+
         }
     }
 }

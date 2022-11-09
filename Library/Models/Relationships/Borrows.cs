@@ -5,7 +5,7 @@ namespace Library.Models.Relationships
 {
     public class Borrows
     {
-        private bool Returned { get; set; }
+        public bool Returned { get; set; }
 
         [DataType(DataType.Date)]
         [Column("return_date")]

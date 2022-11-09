@@ -36,6 +36,36 @@
             </tr>
         }
     }
+
+    <thead>
+        <tr>
+            <th>Device Name</th>
+            <th>Return Date</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @{
+        var devices = (from d in Model.Context.Device
+                       where (from b in Model.Borrows
+                              select b.DeviceID).Contains(d.ID)
+                       select d).ToList();
+
+        foreach (var device in devices)
+        {
+            <tr>
+                <td>@device.Name</td>
+                <td>@Model.Borrows.Where(b => b.DeviceID == device.ID).First().ReturnDate.ToString("MM/dd/yyyy")</td>
+                <td>
+                    <form asp-page-handler="ReturnDevice" method="post">
+                        <input type="hidden" name="deviceID" value="@device.ID" />
+                        <input type="hidden" name="memberID" value="@Model.Member.ID" />
+                        <button>Return</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    }
 </table>
 
 

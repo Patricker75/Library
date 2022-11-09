@@ -14,24 +14,18 @@
     <input type="text" name="location" value="@Model.Location" />   
     
     <br />
-    <label for="name">Room Type :</label>
-    <select name="name" asp-for="@Model.RoomType">
+    
+    <label for="type">Room Type :</label>
+    <select name="type" value="@Model.Type" asp-for="@Model.Type">
         <option selected="selected" hidden="hidden">Select Room</option>
         <option value="0">Study</option>
         <option value="1">Meeting</option>
         <option value="2">Piano</option>
     </select>
-    <br />
-
-    <label for="available">Availability:</label>
-    <input type="checkbox" name="available" value="@Model.IsAvailable" checked="@Model.IsAvailable" />
-    <br />
     
-
     <br />
     
     <input type="submit" value="Create" class="btn btn-primary" />
-
 
     </form>
 <div>

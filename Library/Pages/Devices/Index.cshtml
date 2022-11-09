@@ -10,6 +10,9 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
+<h2 style="color:red">@Model.Message</h2>
+
 <table class="table">
     <thead>
         <tr>
@@ -26,23 +29,35 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Device) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ItemType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Condition)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @{
+            int? memberID = null;
+            if (Model.HttpContext.Session.GetString("loginType") == "member")
+            {
+                memberID = Model.HttpContext.Session.GetInt32("loginID");
+            }
+            foreach (var item in Model.Device) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Condition)
+                    </td>
+
+                    @if (memberID != null) {
+                        <td>
+                            <form method="post" asp-page-handler="Borrow">
+                                <input type="hidden" name="memberID" value="@memberID" />
+                                <input type="hidden" name="deviceID" value="@item.ID" />
+                                <input type="submit" value="Borrow"/>
+                            </form>
+                        </td>
+                    }
+                </tr>
+            }
+        }
     </tbody>
 </table>

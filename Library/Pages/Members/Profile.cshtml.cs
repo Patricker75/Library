@@ -13,6 +13,7 @@ namespace Library.Pages.Members
 
         public List<CheckOuts> CurrentCheckOuts { get; set; } = default!;
         public List<Holds> Holds { get; set; } = default!;
+        public List<Borrows> Borrows { get; set; } = default!;
 
         public readonly LibraryContext Context;
 
@@ -44,6 +45,10 @@ namespace Library.Pages.Members
                      where h.MemberID == memberID && h.Waiting
                      select h).ToList();
 
+            Borrows = (from b in Context.Borrows
+                       where b.MemberID  == memberID && !b.Returned
+                       select b).ToList();
+
             return Page();
         }
 
@@ -51,12 +56,22 @@ namespace Library.Pages.Members
         public IActionResult OnPostReturn(int bookID, int memberID)
         {
             // Returns book given the ID
-            var checkoutTransaction = (from co in Context.CheckOuts
+            var checkedOutBook = (from co in Context.CheckOuts
                                         where co.MemberID == memberID && co.BookID == bookID && !co.Returned
                                         select co).First();
-            checkoutTransaction.Returned = true;
+            checkedOutBook.Returned = true;
 
-            Context.Attach(checkoutTransaction).State = EntityState.Modified;
+            Context.SaveChanges();
+
+            return RedirectToAction("Get");
+        }
+
+        public IActionResult OnPostReturnDevice(int deviceID, int memberID)
+        {
+            var borrowedDevice = (from b in Context.Borrows
+                                      where b.MemberID == memberID && b.DeviceID == deviceID && !b.Returned
+                                      select b).First();
+            borrowedDevice.Returned = true;
 
             Context.SaveChanges();
 
