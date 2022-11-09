@@ -3,4 +3,58 @@
 @{
 }
 
+<h1>Hello @Model.Member.FirstName @Model.Member.LastName!</h1>
 <a href="../Books">Catalog</a>
+
+<h3>Current Check Outs</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Book Title</th>
+            <th>Return Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    @{
+        var books = (from b in Model.Context.Book
+                     where (from co in Model.CurrentCheckOuts
+                            select co.BookID).Contains(b.ID)
+                     select b).ToList();
+
+        foreach (var b in books)
+        {
+            <tr>
+                <td><a asp-page="../Books/ViewBook" asp-route-id=@b.ID>@b.Title</a></td>
+                <td>@Model.CurrentCheckOuts.Where(co => co.BookID == b.ID).First().ReturnDate.ToString("MM/dd/yyyy")</td>
+                <td>
+                    <form asp-page-handler="Return" method="post">
+                        <input type="hidden" name="bookID" value="@b.ID" />
+                        <input type="hidden" name="memberID" value="@Model.Member.ID" />
+                        <button>Return</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+
+<h3>Current Holds</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Book Title</th>
+            <th>Hold Date</th>
+        </tr>
+    </thead>
+    @{
+        foreach (var b in Model.Holds)
+        {
+            var book = Model.Context.Book.Where(_b => _b.Title == b.BookTitle).First();
+            <tr>
+                <td><a asp-page="../Books/ViewBook" asp-route-id=@book.ID>@b.BookTitle</a></td>
+                <td>@b.HoldDate.ToString("MM/dd/yyyy")</td>
+            </tr>
+        }
+    }
+</table>

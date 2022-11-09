@@ -52,15 +52,31 @@ namespace Library.Pages.Employees
         private bool VerifyForm()
         {
             // Checks if username, first name, last name, job title, password, address, phone number is filled
-            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName)
-                || string.IsNullOrEmpty(JobTitle) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Address)
-                || string.IsNullOrEmpty(PhoneNumber))
+            if (string.IsNullOrEmpty(Username) || Username.Length > 20)
             {
                 return false;
             }
-
-            // Check that values are a certain length
-            if (Password.Length > 10)
+            if (string.IsNullOrEmpty(Password) || Password.Length > 10)
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(FirstName) || FirstName.Length > 20)
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(LastName) || LastName.Length > 20)
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(JobTitle) || JobTitle.Length > 50)
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(Address) || Address.Length > 150)
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(PhoneNumber) || PhoneNumber.Length > 10)
             {
                 return false;
             }
@@ -119,7 +135,7 @@ namespace Library.Pages.Employees
 
                 if (!string.IsNullOrEmpty(MiddleInitial))
                 {
-                    newEmployee.MiddleName = MiddleInitial;
+                    newEmployee.MiddleName = MiddleInitial.Substring(0, 1);
                 }
 
                 _context.Employee.Add(newEmployee);
@@ -129,7 +145,7 @@ namespace Library.Pages.Employees
             }
             else
             {
-                ErrorMessage = "A Required Field has Been Left Blank";
+                ErrorMessage = "A Required Field has Been Left Blank or Invalid Length/Value";
 
                 ModelState.Clear();
 

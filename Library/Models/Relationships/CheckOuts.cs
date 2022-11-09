@@ -6,6 +6,7 @@ namespace Library.Models.Relationships
     [Table("check_outs")]
     public class CheckOuts
     {
+        [Column("returned")]
         public bool Returned { get; set; }
 
         [DataType(DataType.Date)]

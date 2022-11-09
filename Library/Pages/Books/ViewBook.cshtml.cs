@@ -123,7 +123,7 @@ namespace Library.Pages.Books
         private void HoldBook(int memberID, int bookID)
         {
             Book? b = _context.Book.Find(bookID);
-            int? authorID = _context.Writes.Find(bookID).AuthorID;
+            int? authorID = _context.Writes.Where(w => w.BookID == bookID).First().AuthorID;
 
             if (authorID == null || b == null)
             {
@@ -190,7 +190,7 @@ namespace Library.Pages.Books
             }
             else if (availableBookID != null)
             {
-                CheckOutBook((int)memberID, BookID);
+                CheckOutBook((int)memberID, (int)availableBookID);
                 return RedirectToPage("ViewBook", new { id = BookID, message = "Check Out Successful" });
             }
             else

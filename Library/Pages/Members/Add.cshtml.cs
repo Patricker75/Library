@@ -21,6 +21,7 @@ namespace Library.Pages.Members
 
         public string FirstName { get; set; } = string.Empty;
 
+        [MaxLength(1)]
         public string MiddleName { get; set; } = string.Empty;
 
         public string LastName { get; set; } = string.Empty;
@@ -53,36 +54,31 @@ namespace Library.Pages.Members
 
         bool VerifyForm()
         {
-            if (string.IsNullOrEmpty(Username))
+            if (string.IsNullOrEmpty(Username) || Username.Length > 20)
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(Password) || Password.Length > 10)
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(FirstName))
+            if (string.IsNullOrEmpty(FirstName) || FirstName.Length > 20)
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(LastName))
+            if (string.IsNullOrEmpty(LastName) || LastName.Length > 20)
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(PhoneNumber))
+            if (string.IsNullOrEmpty(PhoneNumber) || PhoneNumber.Length > 10)
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(Address))
+            if (string.IsNullOrEmpty(Address) || Address.Length > 150)
             {
                 return false;
             }
-
-            if (Password.Length > 10)
-            {
-                return false;
-            }
-
+            
             if (Gender < 0)
             {
                 return false;
@@ -141,7 +137,7 @@ namespace Library.Pages.Members
 
                 if (!string.IsNullOrEmpty(MiddleName))
                 {
-                    newMember.MiddleName = MiddleName;
+                    newMember.MiddleName = MiddleName.Substring(0,1);
                 }
 
                 _context.Member.Add(newMember);
@@ -151,7 +147,7 @@ namespace Library.Pages.Members
             }
             else
             {
-                ErrorMessage = "A Required Field has Been Left Blank";
+                ErrorMessage = "A Required Field has Been Left Blank or Invalid Length/Value";
 
                 ModelState.Clear();
 

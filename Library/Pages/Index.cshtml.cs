@@ -1,21 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Library.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        private readonly LibraryContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, LibraryContext context)
         {
             _logger = logger;
-        }
-
-        public void OnGet()
-        {
-            HttpContext.Session.SetString("loginType", "member");
-            HttpContext.Session.SetInt32("loginID", 17);
+            _context = context;
         }
     }
 }
