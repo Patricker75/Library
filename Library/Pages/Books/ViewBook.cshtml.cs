@@ -1,5 +1,6 @@
 using Library.Data;
 using Library.Models;
+using Library.Models.Relationships;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -67,20 +68,78 @@ namespace Library.Pages.Books
             }
 
             List<Book> copies = _context.Book.Where(_b => _b.Title == b.Title).ToList();
+
+            // Check if member has a copy of book checked out
+            int? memberID = HttpContext.Session.GetInt32("loginID");
             foreach (Book book in copies)
             {
-                // Check if book is checked out
-                if (_context.CheckOuts.Where(c => c.BookID == book.ID && !c.Returned) != null) {
-                    copies.Remove(book);
+                if (_context.CheckOuts.Where(c => c.MemberID == memberID && c.BookID == book.ID && !c.Returned).Any()) {
+                    return -1;
+                }
+                if (_context.Holds.Where(h => h.MemberID == memberID && h.BookTitle == b.Title && h.Waiting).Any())
+                {
+                    return -1;
                 }
             }
 
-            if (copies.Count > 0)
+            b = null;
+            foreach (Book book in copies)
             {
-                return copies.First().ID;
+                
+                // Check record if a book hasnt been checked out ever
+                if (!_context.CheckOuts.Where(_b => _b.BookID == book.ID).Any())
+                {
+                    b = book;
+                    break;
+                }
+                // Check if book is checked out, see if its returned
+                else if (!_context.CheckOuts.Where(_b => _b.BookID == book.ID && !_b.Returned).Any())
+                {
+                    b = book;
+                    break;
+                }
+            }
+
+            if (b != null)
+            {
+                return b.ID;
             }
 
             return null;
+        }
+
+        private void CheckOutBook(int memberID, int bookID)
+        {
+            _context.CheckOuts.Add(new Models.Relationships.CheckOuts()
+            {
+                BookID = bookID,
+                MemberID = memberID,
+                Returned = false,
+                ReturnDate = DateTime.Now.AddDays(14)
+            });
+            _context.SaveChanges();
+        }
+
+        private void HoldBook(int memberID, int bookID)
+        {
+            Book? b = _context.Book.Find(bookID);
+            int? authorID = _context.Writes.Find(bookID).AuthorID;
+
+            if (authorID == null || b == null)
+            {
+                return;
+            }
+
+            _context.Holds.Add(new Holds()
+            {
+                BookTitle = b.Title,
+                MemberID = memberID,
+                AuthorID = (int)authorID,
+                HoldDate = DateTime.Today,
+                Waiting = true
+            });
+
+            _context.SaveChanges();
         }
 
         public IActionResult OnPost()
@@ -123,18 +182,22 @@ namespace Library.Pages.Books
                     break;
             }
 
-            int? checkOutID = SearchBook(BookID);
+            int? availableBookID = SearchBook(BookID);
 
-            if (checkOutID == null)
+            if (availableBookID == -1)
             {
-                //HOLD BOOK
+                return RedirectToPage("ViewBook", new { id = BookID, message = "Book Already Checked Out/Held" });
+            }
+            else if (availableBookID != null)
+            {
+                CheckOutBook((int)memberID, BookID);
+                return RedirectToPage("ViewBook", new { id = BookID, message = "Check Out Successful" });
             }
             else
             {
-                // CHECKOUT BOOK
+                HoldBook((int)memberID, BookID);
+                return RedirectToPage("ViewBook", new { id = BookID, message = "Holding Book" });
             }
-
-            return RedirectToPage("ViewBook", new { id = BookID, message = "Check Out Successful" });
         }
     }
 }

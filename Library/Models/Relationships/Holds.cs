@@ -5,7 +5,7 @@ namespace Library.Models.Relationships
 {
     public class Holds
     {
-        private bool Waiting { get; set; }
+        public bool Waiting { get; set; }
 
         [DataType(DataType.Date)]
         [Column("hold_date")]
@@ -16,7 +16,11 @@ namespace Library.Models.Relationships
         public int MemberID { get; set; }
 
         [ForeignKey("Book")]
-        [Column("book_id")]
-        public int BookID { get; set; }
+        [Column("book_title")]
+        public string BookTitle { get; set; }
+
+        [ForeignKey("Author")]
+        [Column("author_id")]
+        public int AuthorID { get; set; }
     }
 }

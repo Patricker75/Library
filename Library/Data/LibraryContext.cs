@@ -33,7 +33,7 @@ namespace Library.Data
             builder.Entity<Accesses>().HasKey(a => new { a.MemberID, a.ResourceID, a.TimeStamp });
             builder.Entity<Borrows>().HasKey(b => new { b.MemberID, b.DeviceID, b.ReturnDate });
             builder.Entity<CheckOuts>().HasKey(c => new { c.BookID, c.MemberID, c.ReturnDate });
-            builder.Entity<Holds>().HasKey(h => new { h.BookID, h.MemberID, h.HoldDate });
+            builder.Entity<Holds>().HasKey(h => new { h.BookTitle, h.MemberID, h.HoldDate });
             builder.Entity<Manages>().HasKey(m => new { m.EmployeeID, m.ServiceID });
             builder.Entity<Publishes>().HasKey(p => new { p.BookID, p.PublisherID});
             builder.Entity<Uses>().HasKey(u => new { u.MemberID, u.ServiceID });
