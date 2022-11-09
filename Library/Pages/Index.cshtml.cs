@@ -14,7 +14,8 @@ namespace Library.Pages
 
         public void OnGet()
         {
-
+            HttpContext.Session.SetString("loginType", "member");
+            HttpContext.Session.SetInt32("loginID", 17);
         }
     }
 }

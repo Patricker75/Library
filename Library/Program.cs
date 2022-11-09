@@ -8,6 +8,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<LibraryContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Library") ?? throw new InvalidOperationException("Connection string 'LibraryContext' not found.")));
 
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

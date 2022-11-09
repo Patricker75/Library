@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Library.Models;
 using Library.Models.Relationships;
+using Library.Data;
 
 namespace Library.Pages.Books
 {
@@ -75,11 +76,11 @@ namespace Library.Pages.Books
                             break;
                     }
 
-                    Books = books.ToList();
+                    Books = books.GroupBy(b => b.Title).Select(b => b.First()).ToList();
                 }
                 else
                 {
-                    Books = _context.Book.ToList();
+                    Books = _context.Book.GroupBy(b => b.Title).Select(b => b.First()).ToList();
                 }
             }
         }

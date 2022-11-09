@@ -3,7 +3,7 @@ using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Library.Pages.Members
+namespace Library.Pages.Employees
 {
     [BindProperties]
     public class LoginModel : PageModel
@@ -21,12 +21,6 @@ namespace Library.Pages.Members
             _context = context;
         }
 
-        public void OnGet()
-        {
-            Username = "vboi69";
-            Password = "passboi";
-        }
-
         private IActionResult LoginFail()
         {
             Password = string.Empty;
@@ -37,7 +31,7 @@ namespace Library.Pages.Members
 
         public IActionResult OnPost()
         {
-            if (_context.Member == null)
+            if (_context.Employee == null)
             {
                 return RedirectToPage("../Error");
             }
@@ -50,15 +44,15 @@ namespace Library.Pages.Members
                 return LoginFail();
             }
 
-            Member? member = _context.Member.Where(m => m.Username == Username && m.Password == Password).FirstOrDefault();
+            Employee? employee = _context.Employee.Where(e => e.Username == Username && e.Password == Password).FirstOrDefault();
 
-            if (member == null)
+            if (employee == null)
             {
                 return LoginFail();
             }
 
-            HttpContext.Session.SetString("loginType", "member");
-            HttpContext.Session.SetInt32("loginID", member.ID);
+            HttpContext.Session.SetString("loginType", "employee");
+            HttpContext.Session.SetInt32("loginID", employee.ID);
 
             return RedirectToPage("Profile");
         }

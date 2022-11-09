@@ -7,17 +7,26 @@
     <tbody>
         <tr>
             <th>Title</th>
-            <td>@Model.Book.Title</td>
+            <td>@Model.Books.First().Title</td>
         </tr>
 
         <tr>
             <th>Summary</th>
-            <td>@Model.Book.Summary</td>
+            <td>@Model.Books.First().Summary</td>
         </tr>
 
         <tr>
             <th>Genre</th>
-            <td>@Model.Book.Genre</td>
+            <td>@Model.Books.First().Genre</td>
         </tr>
     </tbody>
 </table>
+
+@if (Model.HttpContext.Session.GetString("loginType") == "member") {
+    <form method="post">
+        <input type="hidden" asp-for="@Model.BookID" />
+        <button>Check Out</button>
+    </form>
+
+    <h3>@Model.Message</h3>
+}

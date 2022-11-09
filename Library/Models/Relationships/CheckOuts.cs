@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models.Relationships
 {
+    [Table("check_outs")]
     public class CheckOuts
     {
-        private bool Returned { get; set; }
+        public bool Returned { get; set; }
 
         [DataType(DataType.Date)]
         [Column("return_date")]
