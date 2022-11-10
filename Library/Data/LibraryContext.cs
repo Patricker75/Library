@@ -71,6 +71,8 @@ namespace Library.Data
 
         public DbSet<Library.Models.Employee> Employee { get; set; } = default!;
 
+        public DbSet<Library.Models.Notification> Notification { get; set; } = default!;
+
         public DbSet<Library.Models.Relationships.Accesses> Accesses { get; set; } = default!;
 
         public DbSet<Library.Models.Relationships.Borrows> Borrows { get; set; } = default!;
@@ -86,5 +88,7 @@ namespace Library.Data
         public DbSet<Library.Models.Relationships.Uses> Uses { get; set; } = default!;
 
         public DbSet<Library.Models.Relationships.Writes> Writes { get; set; } = default!;
+
+        
     }
 }

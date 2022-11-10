@@ -5,6 +5,7 @@
 
 <h1>Hello @Model.Member.FirstName @Model.Member.LastName!</h1>
 <a href="../Books">Catalog</a>
+<a href="/Members/Notifications">Notifications</a>
 
 @if (Model.ReservedRoom != null)
 {
@@ -25,7 +26,8 @@
     </table>
 }
 
-<h3>Current Check Outs</h3>
+<h3>Current Check Outs</h3> 
+
 <table class="table">
     <thead>
         <tr>
