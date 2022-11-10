@@ -20,7 +20,14 @@ namespace Library.Pages.Employees
         {
             if (HttpContext.Session.GetString("loginType") != "employee")
             {
-                return RedirectToPage("../Error");
+                if (HttpContext.Session.GetString("loginType") == "member")
+                {
+                    return RedirectToPage("/Members/Profile");
+                }
+                else
+                {
+                    return RedirectToPage("/Login");
+                }
             }
 
             int? employeeID = HttpContext.Session.GetInt32("loginID");
@@ -30,6 +37,21 @@ namespace Library.Pages.Employees
             }
 
             Employee = _context.Employee.Where(e => e.ID == employeeID).First();
+
+            string roles = "";
+            if (Employee.JobTitle.Contains("Librarian"))
+            {
+                roles += "librarian";
+            }
+            if (Employee.JobTitle.Contains("Chief") || Employee.JobTitle.Contains("Head"))
+            {
+                if (!string.IsNullOrEmpty(roles))
+                {
+                    roles += ",";
+                }
+                roles += "admin";
+            }
+            HttpContext.Session.SetString("roles", roles);
 
             return Page();
         }

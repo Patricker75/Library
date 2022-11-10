@@ -58,6 +58,12 @@ namespace Library.Pages.Members
             {
                 return false;
             }
+            // Check if username exists in member or employee table
+            if (_context.Member.Where(m => m.Username == Username).Any() || _context.Employee.Where(e => e.Username == Username).Any()) 
+            {
+                return false;
+            }
+
             if (string.IsNullOrEmpty(Password) || Password.Length > 10)
             {
                 return false;

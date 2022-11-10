@@ -1,5 +1,5 @@
 ﻿@page
-@model Library.Pages.Members.LoginModel
+@model Library.Pages.LoginModel
 @{
 }
 
@@ -16,5 +16,8 @@
 
     <input type="submit" value="Log In"/>
 </form>
+
+<a asp-page="/Members/Add">Not a Member? Join Now</a>
+
 
 <h3 style="color:red">@Model.ErrorMessage</h3>

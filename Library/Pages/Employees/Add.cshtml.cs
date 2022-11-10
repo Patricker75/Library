@@ -44,9 +44,15 @@ namespace Library.Pages.Employees
             BirthDate = new DateTime(HireDate.Year - 18, HireDate.Month, HireDate.Day);
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            
+            string? roles = HttpContext.Session.GetString("roles");
+            if (roles == null || !roles.Contains("admin"))
+            {
+                return RedirectToPage("/Index");
+            }
+
+            return Page();
         }
 
         private bool VerifyForm()
@@ -56,6 +62,12 @@ namespace Library.Pages.Employees
             {
                 return false;
             }
+            // Check if username exists in member or employee table
+            if (_context.Member.Where(m => m.Username == Username).Any() || _context.Employee.Where(e => e.Username == Username).Any())
+            {
+                return false;
+            }
+
             if (string.IsNullOrEmpty(Password) || Password.Length > 10)
             {
                 return false;

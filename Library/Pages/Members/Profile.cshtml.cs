@@ -28,7 +28,14 @@ namespace Library.Pages.Members
         {
             if (HttpContext.Session.GetString("loginType") != "member")
             {
-                return RedirectToPage("../Error");
+                if (HttpContext.Session.GetString("loginType") == "employee")
+                {
+                    return RedirectToPage("/Employess/Profile");
+                }
+                else
+                {
+                    return RedirectToPage("/Login");
+                }
             }
 
             int? memberID = HttpContext.Session.GetInt32("loginID");
