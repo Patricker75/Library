@@ -3,6 +3,7 @@ using Library.Models;
 using Library.Models.Relationships;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Pages.Members
@@ -14,6 +15,7 @@ namespace Library.Pages.Members
         public List<CheckOuts> CurrentCheckOuts { get; set; } = default!;
         public List<Holds> Holds { get; set; } = default!;
         public List<Borrows> Borrows { get; set; } = default!;
+        public Room? ReservedRoom { get; set; } = default!;
 
         public readonly LibraryContext Context;
 
@@ -49,10 +51,13 @@ namespace Library.Pages.Members
                        where b.MemberID  == memberID && !b.Returned
                        select b).ToList();
 
+            ReservedRoom = (from r in Context.Room
+                            where r.ReserverID == memberID
+                            select r).FirstOrDefault();
+
             return Page();
         }
 
-        // id = BookID
         public IActionResult OnPostReturn(int bookID, int memberID)
         {
             // Returns book given the ID
@@ -72,6 +77,20 @@ namespace Library.Pages.Members
                                       where b.MemberID == memberID && b.DeviceID == deviceID && !b.Returned
                                       select b).First();
             borrowedDevice.Returned = true;
+
+            Context.SaveChanges();
+
+            return RedirectToAction("Get");
+        }
+
+        public IActionResult OnPostRelinquish(int roomID, int memberID)
+        {
+            Room reserved = (from r in Context.Room
+                            where r.ReserverID == memberID && r.ID == roomID
+                            select r).First();
+
+            reserved.ReserverID = null;
+            reserved.IsAvailable = true;
 
             Context.SaveChanges();
 

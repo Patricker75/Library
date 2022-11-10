@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Library.Data;
 using Library.Models;
 
 namespace Library.Pages.Services
 {
+    [BindProperties]
     public class CreateModel : PageModel
     {
-        [BindProperty]
         public string Name { get; set; } = string.Empty;
 
-        [BindProperty]
         public string Location { get; set; } = string.Empty;
 
-        [BindProperty]
-        public bool Availability { get; set; } = true;
-
-        [BindProperty]
         public string ErrorMessage { get; set; } = string.Empty;
 
         private readonly LibraryContext _context;
@@ -61,7 +51,7 @@ namespace Library.Pages.Services
                 {
                     Name = Name,
                     Location = Location,
-                    Availability = Availability
+                    IsAvailable = true
                 };
 
                 _context.Service.Add(newService);

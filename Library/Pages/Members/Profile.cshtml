@@ -6,6 +6,25 @@
 <h1>Hello @Model.Member.FirstName @Model.Member.LastName!</h1>
 <a href="../Books">Catalog</a>
 
+@if (Model.ReservedRoom != null)
+{
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Reserved Room</th>
+                <td>@Model.ReservedRoom.Location</td>
+                <td>
+                    <form method="post" asp-page-handler="Relinquish">
+                        <input type="hidden" name="memberID" value="@Model.Member.ID" />
+                        <input type="hidden" name="roomID" value="@Model.ReservedRoom.ID" />
+                        <input type="submit" value="Relinquish Room" />
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
 <h3>Current Check Outs</h3>
 <table class="table">
     <thead>

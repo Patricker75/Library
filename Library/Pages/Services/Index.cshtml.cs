@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Library.Data;
 using Library.Models;
+using Library.Models.Relationships;
 
 namespace Library.Pages.Services
 {
     public class IndexModel : PageModel
     {
+        public List<Service> Services { get; set; } = default!;
+
         private readonly Library.Data.LibraryContext _context;
 
         public IndexModel(Library.Data.LibraryContext context)
@@ -19,14 +16,33 @@ namespace Library.Pages.Services
             _context = context;
         }
 
-        public IList<Service> Service { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public void OnGet()
         {
             if (_context.Service != null)
             {
-                Service = await _context.Service.ToListAsync();
+                Services = (from s in _context.Service
+                           where s.IsAvailable
+                           select s).ToList();
             }
+        }
+
+        public IActionResult OnPostUse(int memberID, int serviceID)
+        {
+            if (_context.Member.Find(memberID) != null)
+            {
+                return RedirectToAction("Get");
+            }
+
+            _context.Uses.Add(new Uses()
+            {
+                MemberID = memberID,
+                ServiceID = serviceID,
+                TimeStamp = DateTime.UtcNow
+            });
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Get");
         }
     }
 }

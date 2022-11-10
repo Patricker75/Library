@@ -13,6 +13,6 @@ namespace Library.Models
 		public string Location { get; set; }
 
 		[Column("availability")]
-		public bool Availability { get; set; }
+		public bool IsAvailable { get; set; }
 	}
 }
