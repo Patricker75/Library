@@ -23,6 +23,12 @@ namespace Library.Pages.Services
 
         public IActionResult OnGet()
         {
+            string? loginType = HttpContext.Session.GetString("loginType");
+            if (loginType == null || loginType != "employee")
+            {
+                return RedirectToPage("/Index");
+            }
+
             return Page();
         }
 

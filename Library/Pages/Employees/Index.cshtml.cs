@@ -21,12 +21,20 @@ namespace Library.Pages.Employees
             Context = context;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            string? loginType = HttpContext.Session.GetString("loginType");
+            if (loginType == null || loginType != "employee")
+            {
+                return RedirectToPage("/Index");
+            }
+
             if (Context.Employee != null)
             {
                 Employees = Context.Employee.ToList();
             }
+
+            return Page();
         }
 
         public IActionResult OnPostEdit(int employeeID)

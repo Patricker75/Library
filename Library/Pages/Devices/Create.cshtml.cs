@@ -10,18 +10,15 @@ using Library.Models;
 
 namespace Library.Pages.Devices
 {
+    [BindProperties]
     public class CreateModel : PageModel
     {
-        [BindProperty]
         public string Name { get; set; } = string.Empty;
         
-        [BindProperty]
         public int Condition { get; set; } = -1;
 
-        [BindProperty]
         public int Type { get; set; } = -1;
 
-        [BindProperty]
         public string ErrorMessage { get; set; } = string.Empty;
 
         private readonly LibraryContext _context;
@@ -33,6 +30,12 @@ namespace Library.Pages.Devices
 
         public IActionResult OnGet()
         {
+            string? loginType = HttpContext.Session.GetString("loginType");
+            if (loginType == null || loginType != "employee")
+            {
+                return RedirectToPage("/Index");
+            }
+
             return Page();
         }
 

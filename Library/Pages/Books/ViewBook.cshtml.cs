@@ -16,11 +16,11 @@ namespace Library.Pages.Books
         [BindProperty]
         public string Message { get; set; } = string.Empty;
 
-        private readonly LibraryContext _context;
+        public readonly LibraryContext Context;
 
         public ViewBookModel(LibraryContext context)
         {
-            _context = context;
+            Context = context;
         }
 
         public IActionResult OnGet(int? id, string? message)
@@ -35,14 +35,14 @@ namespace Library.Pages.Books
                 Message = message;
             }
 
-            Book? book = _context.Book.Find(id);
+            Book? book = Context.Book.Find(id);
 
             if (book == null)
             {
                 return NotFound();
             }
 
-            Books = _context.Book.Where(b => b.Title == book.Title).ToList();
+            Books = Context.Book.Where(b => b.Title == book.Title).ToList();
 
             BookID = (int)id;
 
@@ -51,32 +51,32 @@ namespace Library.Pages.Books
 
         private int CalculateCheckOut(int memberID)
         {
-            if (_context.CheckOuts == null)
+            if (Context.CheckOuts == null)
             {
                 return -1;
             }
             
-            return _context.CheckOuts.Where(c => c.MemberID == memberID && !c.Returned).Count();
+            return Context.CheckOuts.Where(c => c.MemberID == memberID && !c.Returned).Count();
         }
 
         private int? SearchBook(int id)
         {
-            Book? b = _context.Book.Find(id);
+            Book? b = Context.Book.Find(id);
             if (b == null)
             {
                 return null;
             }
 
-            List<Book> copies = _context.Book.Where(_b => _b.Title == b.Title).ToList();
+            List<Book> copies = Context.Book.Where(_b => _b.Title == b.Title).ToList();
 
             // Check if member has a copy of book checked out
             int? memberID = HttpContext.Session.GetInt32("loginID");
             foreach (Book book in copies)
             {
-                if (_context.CheckOuts.Where(c => c.MemberID == memberID && c.BookID == book.ID && !c.Returned).Any()) {
+                if (Context.CheckOuts.Where(c => c.MemberID == memberID && c.BookID == book.ID && !c.Returned).Any()) {
                     return -1;
                 }
-                if (_context.Holds.Where(h => h.MemberID == memberID && h.BookTitle == b.Title && h.Waiting).Any())
+                if (Context.Holds.Where(h => h.MemberID == memberID && h.BookTitle == b.Title && h.Waiting).Any())
                 {
                     return -1;
                 }
@@ -87,13 +87,13 @@ namespace Library.Pages.Books
             {
                 
                 // Check record if a book hasnt been checked out ever
-                if (!_context.CheckOuts.Where(_b => _b.BookID == book.ID).Any())
+                if (!Context.CheckOuts.Where(_b => _b.BookID == book.ID).Any())
                 {
                     b = book;
                     break;
                 }
                 // Check if book is checked out, see if its returned
-                else if (!_context.CheckOuts.Where(_b => _b.BookID == book.ID && !_b.Returned).Any())
+                else if (!Context.CheckOuts.Where(_b => _b.BookID == book.ID && !_b.Returned).Any())
                 {
                     b = book;
                     break;
@@ -110,27 +110,27 @@ namespace Library.Pages.Books
 
         private void CheckOutBook(int memberID, int bookID)
         {
-            _context.CheckOuts.Add(new Models.Relationships.CheckOuts()
+            Context.CheckOuts.Add(new Models.Relationships.CheckOuts()
             {
                 BookID = bookID,
                 MemberID = memberID,
                 Returned = false,
                 ReturnDate = DateTime.Now.AddDays(14)
             });
-            _context.SaveChanges();
+            Context.SaveChanges();
         }
 
         private void HoldBook(int memberID, int bookID)
         {
-            Book? b = _context.Book.Find(bookID);
-            int? authorID = _context.Writes.Where(w => w.BookID == bookID).First().AuthorID;
+            Book? b = Context.Book.Find(bookID);
+            int? authorID = Context.Writes.Where(w => w.BookID == bookID).First().AuthorID;
 
             if (authorID == null || b == null)
             {
                 return;
             }
 
-            _context.Holds.Add(new Holds()
+            Context.Holds.Add(new Holds()
             {
                 BookTitle = b.Title,
                 MemberID = memberID,
@@ -139,7 +139,7 @@ namespace Library.Pages.Books
                 Waiting = true
             });
 
-            _context.SaveChanges();
+            Context.SaveChanges();
         }
 
         public IActionResult OnPost()
@@ -151,7 +151,7 @@ namespace Library.Pages.Books
                 return RedirectToPage("../Error");
             }
             
-            Member? member = _context.Member.Find(memberID);
+            Member? member = Context.Member.Find(memberID);
 
             if (member == null)
             {
@@ -198,6 +198,11 @@ namespace Library.Pages.Books
                 HoldBook((int)memberID, BookID);
                 return RedirectToPage("ViewBook", new { id = BookID, message = "Holding Book" });
             }
+        }
+
+        public IActionResult OnPostEdit(int bookID)
+        {
+            return RedirectToPage("/Books/Edit", new { bookID = bookID });
         }
     }
 }

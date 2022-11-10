@@ -4,33 +4,35 @@
 }
 
 <form method="post">
+    <input type="hidden" name="employeeID" value="@Model.ID"/>
+
     <label for="firstname">First Name:</label>
-    <input type="text" name="firstname" value="@Model.Employee.FirstName" />
+    <input type="text" name="firstname" value="@Model.FirstName" />
 
     <br />
 
     <label for="middleinitial">Middle Name:</label>
-    <input type="text" name="middleinitial" value="@Model.Employee.MiddleName" />
+    <input type="text" name="middleinitial" value="@Model.MiddleInitial" />
 
     <br />
 
     <label for="lastname">Last Name:</label>
-    <input type="text" name="lastname" value="@Model.Employee.LastName" />
+    <input type="text" name="lastname" value="@Model.LastName" />
 
     <br />
 
     <label for="phonenumber">Phone Number:</label>
-    <input type="tel" name="phonenumber" value="@Model.Employee.PhoneNum">
+    <input type="tel" name="phonenumber" value="@Model.PhoneNumber">
 
     <br />
 
     <label for="address">Address:</label>
-    <input type="text" name="address" value="@Model.Employee.Address" />
+    <input type="text" name="address" value="@Model.Address" />
 
     <br />
 
     <label for="gender">Gender:</label>
-    <select name="gender" asp-for="@Model.Employee.Gender">
+    <select name="gender" asp-for="@Model.Gender">
         <option value="0">Male</option>
         <option value="1">Female</option>
         <option value="2">Other</option>
@@ -39,26 +41,28 @@
     <br />
 
     <label for="birthdate">Birth Date:</label>
-    <input type="date" name="birthdate" asp-for="@Model.Employee.BirthDate" />
+    <input type="date" name="birthdate" asp-for="@Model.BirthDate" />
 
     <br />
 
     <label for="hiredate">Hire Date:</label>
-    <input type="date" name="hiredate" asp-for="@Model.Employee.HireDate" />
+    <input type="date" name="hiredate" asp-for="@Model.HireDate" />
+
+    @if (Model.Roles.Contains("admin")) {
+        <br />
+
+        <label for="jobtitle">Job Title:</label>
+        <input type="text" name="jobtitle" value="@Model.JobTitle" />
+
+        <br />
+
+        <label for="salary">Salary:</label>
+        <input type="number" name="salary" value="@Model.Salary" />
+    }
 
     <br />
 
-    <label for="jobtitle">Job Title:</label>
-    <input type="text" name="jobtitle" value="@Model.Employee.JobTitle" />
-
-    <br />
-
-    <label for="salary">Salary:</label>
-    <input type="number" name="salary" value="@Model.Employee.Salary" />
-
-    <br />
-
-    <input type="submit" value="Add Employee" />
+    <input type="submit" value="Save Changes" />
 </form>
 
 <h3 style="color:red">@Model.ErrorMessage</h3>

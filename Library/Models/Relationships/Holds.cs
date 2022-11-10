@@ -22,5 +22,8 @@ namespace Library.Models.Relationships
         [ForeignKey("Author")]
         [Column("author_id")]
         public int AuthorID { get; set; }
+
+        [Column("notified")]
+        public bool Notified { get; set; }
     }
 }

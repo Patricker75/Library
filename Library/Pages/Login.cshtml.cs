@@ -25,8 +25,8 @@ namespace Library.Pages
         {
             ErrorMessage = message;
 
-            Username = "vboi75";
-            Password = "empassboi";
+            Username = "TestEmploy";
+            Password = "passtest";
         }
 
         private bool VerifyForm()

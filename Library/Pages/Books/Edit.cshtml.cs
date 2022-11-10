@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Library.Pages.Books
 {
     [BindProperties]
-    public class AddModel : PageModel
+    public class EditModel : PageModel
     {
+        public int ID { get; set; }
+
         public string Title { get; set; } = string.Empty;
 
         public int RowCount { get; set; } = 0;
@@ -31,13 +33,12 @@ namespace Library.Pages.Books
 
         private readonly LibraryContext _context;
 
-        public AddModel(LibraryContext context)
+        public EditModel(LibraryContext context)
         {
             _context = context;
-            Authors = new List<Author>() { new Author()};
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int bookID)
         {
             string? loginType = HttpContext.Session.GetString("loginType");
             if (loginType == null || loginType != "employee")
@@ -45,44 +46,40 @@ namespace Library.Pages.Books
                 return RedirectToPage("/Index");
             }
 
-            RowCount++;
+            Book? b = _context.Book.Find(bookID);
+            
+            if (b == null)
+            {
+                return RedirectToPage("/Books/Index");
+            }
+
+            ID = b.ID;
+            Title = b.Title;
+
+            IQueryable<Writes> writes = _context.Writes.Where(w => w.BookID == bookID);
+            Authors = (from a in _context.Author
+                       where writes.Where(w => w.AuthorID == a.ID).Any()
+                       select a).ToList();
+
+            RowCount = Authors.Count;
+
+            Dewey = b.DeweyNumber;
+            Genre = b.Genre;
+            Summary = b.Summary;
+
+            Audience = (int)b.Audience;
+            Condition = (int)b.Condition;
+
+            IQueryable<Publishes> publishes = _context.Publishes.Where(p => p.BookID == bookID);
+            Publisher = _context.Publisher.Where(p => p.ID == publishes.First().PublisherID).First().Name;
 
             return Page();
-        }
-
-        private bool VerifyForm()
-        {
-            bool validForm = true;
-
-            // Checks if Title, Publisher, Dewey, Summary, Genre is empty/null
-            if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Publisher) || string.IsNullOrEmpty(Dewey) || string.IsNullOrEmpty(Summary) || string.IsNullOrEmpty(Genre))
-            {
-                validForm = false;
-            }
-
-
-            // Removes any that are blank from authors list
-            DeleteEmptyRows();
-
-            // Checks if all authors are valid
-            if (!ValidateAuthors())
-            {
-                validForm = false;
-            }
-
-            // Checks if Condition or Audience is -1
-            if (Condition == -1 || Audience == -1)
-            {
-                validForm = false;
-            }
-
-            return validForm;
         }
 
         // Returns True if all Authors Added have a first and last name
         private bool ValidateAuthors()
         {
-            foreach(var author in Authors)
+            foreach (var author in Authors)
             {
                 if (!author.IsValid())
                 {
@@ -103,13 +100,13 @@ namespace Library.Pages.Books
                     i--;
                 }
             }
-            
+
             if (Authors.Count > 0)
             {
                 RowCount = Authors.Count;
             }
             else
-            { 
+            {
                 RowCount = 0;
             }
         }
@@ -187,70 +184,100 @@ namespace Library.Pages.Books
             return authorIDs;
         }
 
-        private void RelateAuthorToBook(int bookID, IList<int> authorIDs)
+        private bool VerifyForm()
         {
-            foreach (int authorID in authorIDs)
+            bool validForm = true;
+
+            // Checks if Title, Publisher, Dewey, Summary, Genre is empty/null
+            if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Publisher) || string.IsNullOrEmpty(Dewey) || string.IsNullOrEmpty(Summary) || string.IsNullOrEmpty(Genre))
             {
-                _context.Writes.Add(new Writes()
-                {
-                    AuthorID = authorID,
-                    BookID = bookID
-                });
+                validForm = false;
             }
+
+
+            // Removes any that are blank from authors list
+            DeleteEmptyRows();
+
+            // Checks if all authors are valid
+            if (!ValidateAuthors())
+            {
+                validForm = false;
+            }
+
+            // Checks if Condition or Audience is -1
+            if (Condition == -1 || Audience == -1)
+            {
+                validForm = false;
+            }
+
+            return validForm;
         }
 
-        private void AddToDatabase()
-        {
-            Book newBook = new Book()
-            {
-                Title = Title,
-                Audience = (Audience)Audience,
-                Condition = (Condition)Condition,
-                DeweyNumber = Dewey,
-                Summary = Summary,
-                Genre = Genre
-            };
-
-            int publisherID = GetPublisherID();
-            IList<int> authorIDs = GetAuthorIDs();
-
-            // Add newBook to DB and save to get ID
-            _context.Book.Add(newBook);
-            _context.SaveChanges();
-
-            // Relates newBook, publisher, and authors appropriately
-            _context.Publishes.Add(new Publishes()
-            {
-                BookID = newBook.ID,
-                PublisherID = publisherID,
-            });
-            RelateAuthorToBook(newBook.ID, authorIDs);
-
-            _context.SaveChanges();
-        }
-
-        public IActionResult OnPost()
+        public IActionResult OnPost(int bookID)
         {
             if (VerifyForm())
             {
-                AddToDatabase();
+                Book? b = _context.Book.Find(bookID);
 
-                return RedirectToPage("Add");
-            }
-            else
-            {
-                ErrorMessage = "A Required Field has Been Left Blank";
-
-                ModelState.Clear();
-
-                if (RowCount == 0)
+                if (b == null)
                 {
-                    Authors = new List<Author>();
-                    Authors.Add(new Author());
+                    return Page();
                 }
 
-                return Page();
+                b.Title = Title;
+                b.Audience = (Audience)Audience;
+                b.Condition = (Condition)Condition;
+                b.Summary = Summary;
+                b.Genre = Genre;
+                b.DeweyNumber = Dewey;
+
+                int? publisherID = _context.Publishes.Where(p => p.BookID == b.ID).First().PublisherID;
+
+                if (publisherID == null)
+                {
+                    return Page();
+                }
+
+                int newPublisherID = GetPublisherID();
+
+                if (publisherID != newPublisherID)
+                {
+                    _context.Publishes.Remove(_context.Publishes.Where(p => p.PublisherID == publisherID && p.BookID == b.ID).First());
+
+                    _context.Publishes.Add(new Publishes()
+                    {
+                        BookID = b.ID,
+                        PublisherID = newPublisherID
+                    });
+                }
+
+                var newAuthorsID = GetAuthorIDs();
+
+                var writes = _context.Writes.Where(w => w.BookID == b.ID).ToList();
+                foreach (var w in writes)
+                {
+                    if (!newAuthorsID.Contains(w.AuthorID))
+                    {
+                        _context.Writes.Remove(w);
+                    }
+                }
+
+                foreach (int id in newAuthorsID)
+                {
+                    if (!writes.Where(w => w.AuthorID == id).Any())
+                    {
+                        _context.Writes.Add(new Writes()
+                        {
+                            AuthorID = id,
+                            BookID= b.ID,
+                        });
+                    }
+                }
+
+                _context.SaveChanges();
             }
+
+            return Page();
         }
     }
 }

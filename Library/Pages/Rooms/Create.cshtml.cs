@@ -26,6 +26,17 @@ namespace Library.Pages.Rooms
         }
 
         private readonly Library.Data.LibraryContext _context;
+
+        public IActionResult OnGet()
+        {
+            string? loginType = HttpContext.Session.GetString("loginType");
+            if (loginType == null || loginType != "employee")
+            {
+                return RedirectToPage("/Index");
+            }
+
+            return Page();
+        }
         
         private bool VerifyForm()
         {
