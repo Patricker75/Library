@@ -12,21 +12,26 @@ namespace Library.Pages.Employees
 {
     public class IndexModel : PageModel
     {
-        private readonly Library.Data.LibraryContext _context;
+        public IList<Employee> Employees { get; set; } = default!;
 
-        public IndexModel(Library.Data.LibraryContext context)
+        public readonly LibraryContext Context;
+
+        public IndexModel(LibraryContext context)
         {
-            _context = context;
+            Context = context;
         }
 
-        public IList<Employee> Employee { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public void OnGet()
         {
-            if (_context.Employee != null)
+            if (Context.Employee != null)
             {
-                Employee = await _context.Employee.ToListAsync();
+                Employees = Context.Employee.ToList();
             }
+        }
+
+        public IActionResult OnPostEdit(int employeeID)
+        {
+            return RedirectToPage("/Employees/Edit", new { employeeID = employeeID });
         }
     }
 }
