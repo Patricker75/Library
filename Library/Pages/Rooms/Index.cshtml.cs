@@ -48,5 +48,17 @@ namespace Library.Pages.Rooms
             return RedirectToAction("Get", new { message = "Room Reserved" });
 
         }
+
+        public IActionResult OnPostEdit(int roomID)
+        {
+            Room? s = _context.Room.Find(roomID);
+
+            if (s == null)
+            {
+                return RedirectToAction("Get");
+            }
+
+            return RedirectToPage("/Rooms/Edit", new { id = roomID });
+        }
     }
 }

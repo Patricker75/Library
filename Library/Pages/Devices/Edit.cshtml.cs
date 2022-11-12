@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Library.Data;
 using Library.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Library.Pages.Devices
 {
     [BindProperties]
-    public class CreateModel : PageModel
+    public class EditModel : PageModel
     {
+        public int ID { get; set; }
+
         public string Name { get; set; } = string.Empty;
-        
+
         public int Condition { get; set; } = -1;
 
         public int Type { get; set; } = -1;
@@ -23,12 +20,12 @@ namespace Library.Pages.Devices
 
         private readonly LibraryContext _context;
 
-        public CreateModel(LibraryContext context)
+        public EditModel(LibraryContext context)
         {
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int id)
         {
             string? loginType = HttpContext.Session.GetString("loginType");
             if (loginType == null || loginType != "employee")
@@ -36,10 +33,22 @@ namespace Library.Pages.Devices
                 return RedirectToPage("/Index");
             }
 
+            Device? d = _context.Device.Find(id);
+
+            if (d == null)
+            {
+                return RedirectToPage("/Devices/Index");
+            }
+
+            ID = d.ID;
+            Name = d.Name;
+            Type = (int)d.ItemType;
+            Condition = (int)d.Condition;
+
             return Page();
         }
 
-        bool VerifyForm()
+        private bool VerifyForm()
         {
             // Check that there is an Name
             if (string.IsNullOrEmpty(Name) || Name.Length > 100)
@@ -62,25 +71,29 @@ namespace Library.Pages.Devices
             return true;
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(int deviceID)
         {
+            Device? d = _context.Device.Find(deviceID);
+            
+            if (d == null)
+            {
+                return Page();
+            }
+
             if (VerifyForm())
             {
-                Device newDevice = new Device()
-                {
-                    Name = Name,
-                    Condition = (Condition)Condition,
-                    ItemType = (ItemType)Type
-                };
-
-                _context.Device.Add(newDevice);
+                d.Name = Name;
+                d.Condition = (Condition)Condition;
+                d.ItemType = (ItemType)Type;
+                
                 _context.SaveChanges();
 
-                return RedirectToPage("Create");
+                return RedirectToPage("/Devices/Index");
             }
-            else {
+            else
+            {
                 ErrorMessage = "A Required Field has Been Left Blank";
-                
+
                 ModelState.Clear();
 
                 return Page();

@@ -4,8 +4,6 @@
 }
 <h1>Hello Welcome To Your Notifications!</h1>
 
-
-
 <table class="table">
     <thead>
         <tr>
@@ -16,24 +14,18 @@
 
     
     <tbody>
-         @foreach (var notification in Model.Notifications)
+        @foreach (var notif in Model.Notifications)
         {
-          <tr>
-                @if(@notification.Viewed== false)
-                {
-                <td> @notification.Message</td>
-                }
-                else
-                {
-                <td>No New Notifications</td>
-                }
-             <td>
-                 <form method="post" asp-page-handler="dismiss">
-                 <input type ="hidden" name="viewed" value="@notification.Viewed" />
-                 <input type="submit" value="Dimsiss" />
-                 </form>
-            </td>
-          </tr>
+            <tr>
+                <td>@notif.Message</td>
+                
+                <td>
+                    <form method="post" asp-page-handler="Dismiss">
+                        <input type="hidden" name="notifID" value="@notif.ID" />
+                        <input type="submit" value="Dismiss" />
+                    </form>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

@@ -18,10 +18,14 @@ namespace Library.Pages
 
         public IActionResult OnGet()
         {
+            return Page();
+
             HttpContext.Session.SetString("loginType", "employee");
             HttpContext.Session.SetInt32("loginID", 12);
             HttpContext.Session.SetString("roles", "admin,librarian");
             HttpContext.Session.SetString("userFullName", "autoFilled");
+
+            
 
             return RedirectToPage("/Books/ViewBook", new { id = 31 });
         }

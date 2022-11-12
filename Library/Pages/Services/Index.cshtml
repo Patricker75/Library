@@ -27,11 +27,8 @@
     </thead>
     <tbody>
         @{
-            int? memberID = null;
-            if (Model.HttpContext.Session.GetString("loginType") == "member")
-            {
-                memberID = Model.HttpContext.Session.GetInt32("loginID");
-            }
+            int? id = Model.HttpContext.Session.GetInt32("loginID");
+            
             foreach (var item in Model.Services) 
             {
                 <tr>
@@ -45,13 +42,21 @@
                         @Html.DisplayFor(modelItem => item.IsAvailable)
                     </td>
 
-                @if (memberID != null)
+                @if (Model.HttpContext.Session.GetString("loginType") == "member" && item.IsAvailable)
                 {
                     <td>
-                        <form asp-asp-page-handler="Use">
-                            <input type="hidden" name="memberID" value="@memberID" />
+                        <form method="post" asp-page-handler="Use">
+                            <input type="hidden" name="memberID" value="@id" />
                             <input type="hidden" name="serviceID" value="@item.ID" />
                             <input type="submit" value="Use Service" />
+                        </form>
+                    </td>
+                }
+                else if (Model.HttpContext.Session.GetString("loginType") == "employee") {
+                    <td>
+                        <form method="post" asp-page-handler="Edit">
+                            <input type="hidden" name="serviceID" value="@item.ID" />
+                            <input type="submit" value="Edit" />
                         </form>
                     </td>
                 }

@@ -28,7 +28,7 @@ namespace Library.Pages.Services
 
         public IActionResult OnPostUse(int memberID, int serviceID)
         {
-            if (_context.Member.Find(memberID) != null)
+            if (_context.Member.Find(memberID) == null)
             {
                 return RedirectToAction("Get");
             }
@@ -43,6 +43,18 @@ namespace Library.Pages.Services
             _context.SaveChanges();
 
             return RedirectToAction("Get");
+        }
+
+        public IActionResult OnPostEdit(int serviceID)
+        {
+            Service? s = _context.Service.Find(serviceID);
+
+            if (s == null)
+            {
+                return RedirectToAction("Get");
+            }
+
+            return RedirectToPage("/Services/Edit", new { id = serviceID });
         }
     }
 }

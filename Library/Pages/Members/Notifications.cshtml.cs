@@ -9,24 +9,49 @@ namespace Library.Pages.Members
     {
         public IList<Notification> Notifications { get; set; } = default!;
 
-        public readonly LibraryContext Context;
+        public readonly LibraryContext _context;
 
         public NotificationsModel(LibraryContext context)
         {
-            Context = context;
+            _context = context;
         }
-        public IActionResult OnPostDismiss(bool noticationViewed)
+        
+        public IActionResult OnGet()
         {
-            return RedirectToPage("Members/Notifications", new { noticationViewed = noticationViewed });
-        }
-        public void OnGet()
+            string? loginType = HttpContext.Session.GetString("loginType");
 
-        {
-
-            if (Context.Notification != null)
+            if (loginType == null || loginType != "member")
             {
-                Notifications = Context.Notification.ToList();
+                return RedirectToPage("/Index");
             }
+
+            int? memberID = HttpContext.Session.GetInt32("loginID");
+            if (memberID == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
+            if (_context.Notification != null)
+            {
+                Notifications = _context.Notification.Where(n => n.MemberID == memberID && !n.Viewed).ToList();
+            }
+
+            return Page();
+        }
+
+        public IActionResult OnPostDismiss(int notifID)
+        {
+            Notification? n = _context.Notification.Find(notifID);
+
+            if (n == null)
+            {
+                return RedirectToAction("Get");
+            }
+
+            n.Viewed = true;
+            _context.SaveChanges();
+
+            return RedirectToAction("Get");
         }
     }
 }

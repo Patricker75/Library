@@ -76,5 +76,17 @@ namespace Library.Pages.Devices
 
             return RedirectToAction("Get");
         }
+
+        public IActionResult OnPostEdit(int deviceID)
+        {
+            Device? s = _context.Device.Find(deviceID);
+
+            if (s == null)
+            {
+                return RedirectToAction("Get");
+            }
+
+            return RedirectToPage("/Devices/Edit", new { id = deviceID });
+        }
     }
 }
