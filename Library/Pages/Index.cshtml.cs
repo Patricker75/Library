@@ -1,4 +1,5 @@
 ﻿using Library.Data;
+using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -18,16 +19,11 @@ namespace Library.Pages
 
         public IActionResult OnGet()
         {
+            HttpContext.Session.SetString("loginType", "member");
+            HttpContext.Session.SetInt32("loginID", 17);
+            HttpContext.Session.SetString("userFullName", "Viet Bui");
+
             return Page();
-
-            HttpContext.Session.SetString("loginType", "employee");
-            HttpContext.Session.SetInt32("loginID", 12);
-            HttpContext.Session.SetString("roles", "admin,librarian");
-            HttpContext.Session.SetString("userFullName", "autoFilled");
-
-            
-
-            return RedirectToPage("/Books/ViewBook", new { id = 31 });
         }
     }
 }
