@@ -84,7 +84,7 @@ namespace Library.Pages.Members
                     memberID = ID,
                     fetchBooks = Books,
                     fetchDevices = Devices,
-                    fetchRooms = Rooms,
+                    
                     fetchServices = Services,
                     start = Start,
                     end = End

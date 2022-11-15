@@ -153,6 +153,11 @@ namespace Library.Pages.Books
             
             Member? member = Context.Member.Find(memberID);
 
+            if (member.MemberStatus == MemberStatus.Suspended)
+            {
+                return RedirectToPage("ViewBook", new { id = BookID, message = "Account Suspended Please Pay Fines" });
+            }
+
             if (member == null)
             {
                 return RedirectToPage("../Error");
