@@ -51,7 +51,6 @@ namespace Library.Pages.Members
 
         public IActionResult OnPost()
         {
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
             NewMember.JoinDate = DateTime.Today;
 
             if (ModelState.IsValid && VerifyForm())

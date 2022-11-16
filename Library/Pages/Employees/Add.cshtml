@@ -1,75 +1,103 @@
 ﻿@page
 @model Library.Pages.Employees.AddModel
 @{
+    @using Library.Data;
+    ViewData["Title"] = "Add New Employee";
 }
 
 <form method="post">
-    <label for="username">Username:</label>
-    <input type="text" name="username" value="@Model.Username" />
+    <div asp-validation-summary="ModelOnly"></div>
 
-    <br />
+    <div class="form-group">
+        <label asp-for="NewEmployee.Username" class="control-label">Username:</label>
+        <input asp-for="NewEmployee.Username" class="form-control"/>
+        <span asp-validation-for="NewEmployee.Username" class="text-danger"></span>
+    </div>
 
-    <label for="password">Password:</label>
-    <input type="password" name="password" value="@Model.Password" />
+    <div class="form-group">
+        <label asp-for="NewEmployee.Password" class="control-label">Password:</label>
+        <input asp-for="NewEmployee.Password" class="form-control"/>
+        <span asp-validation-for="NewEmployee.Password" class="text-danger"></span>
+    </div>
 
-    <br />
+    <div class="form-group">
+        <label asp-for="NewEmployee.FirstName" class="control-label">First Name:</label>
+        <input asp-for="NewEmployee.FirstName" class="form-control"/>
+        <span asp-validation-for="NewEmployee.FirstName" class="text-danger"></span>
+    </div>
 
-    <label for="firstname">First Name:</label>
-    <input type="text" name="firstname" value="@Model.FirstName" />
+    <div class="form-group">
+        <label asp-for="NewEmployee.MiddleName" class="control-label">Middle Name:</label>
+        <input asp-for="NewEmployee.MiddleName" class="form-control"/>
+        <span asp-validation-for="NewEmployee.MiddleName" class="text-danger"></span>
+    </div>
 
-    <br />
+    <div class="form-group">
+        <label asp-for="NewEmployee.LastName" class="control-label">Last Name:</label>
+        <input asp-for="NewEmployee.LastName" class="form-control"/>
+        <span asp-validation-for="NewEmployee.LastName" class="text-danger"></span>
+    </div>
 
-    <label for="middleinitial">Middle Name:</label>
-    <input type="text" name="middleinitial" value="@Model.MiddleInitial" />
+    <div class="form-group">
+        <label asp-for="NewEmployee.PhoneNumber" class="control-label">Phone Number:</label>
+        <input asp-for="NewEmployee.PhoneNumber" class="form-control"/>
+        <span asp-validation-for="NewEmployee.PhoneNumber" class="text-danger"></span>
+    </div>
 
-    <br />
+    <div class="form-group">
+        <label asp-for="NewEmployee.Address" class="control-label">Address:</label>
+        <input asp-for="NewEmployee.Address" class="form-control"/>
+        <span asp-validation-for="NewEmployee.Address" class="text-danger"></span>
+    </div>
 
-    <label for="lastname">Last Name:</label>
-    <input type="text" name="lastname" value="@Model.LastName" />
+    <div class="form-group">
+        <label asp-for="NewEmployee.Gender">Gender:</label>
+        <select asp-for="NewEmployee.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control">
+            <option selected="selected" hidden="hidden">Select Gender</option>
+        </select>
+        <span asp-validation-for="NewEmployee.Gender" class="text-danger"></span>
+    </div>
 
-    <br />
+    <div class="form-group">
+        <label asp-for="NewEmployee.BirthDate" class="control-label">Birthday:</label>
+        <input asp-for="NewEmployee.BirthDate" class="form-control"/>
+        <span asp-validation-for="NewEmployee.BirthDate" class="text-danger"></span>
+    </div>
 
-    <label for="phonenumber">Phone Number:</label>
-    <input type="tel" name="phonenumber" value="@Model.PhoneNumber">
+    <div class="form-group">
+        <label asp-for="NewEmployee.HireDate" class="control-label">Hire Date:</label>
+        <input asp-for="NewEmployee.HireDate" class="form-control"/>
+        <span asp-validation-for="NewEmployee.HireDate" class="text-danger"></span>
+    </div>
 
-    <br />
+    <div class="form-group">
+        <label asp-for="NewEmployee.JobTitle" class="control-label">Job Title:</label>
+        <input asp-for="NewEmployee.JobTitle" class="form-control"/>
+        <span asp-validation-for="NewEmployee.JobTitle" class="text-danger"></span>
+    </div>
 
-    <label for="address">Address:</label>
-    <input type="text" name="address" value="@Model.Address" />
+    <div class="form-group">
+        <label asp-for="NewEmployee.Salary" class="control-label">Salary:</label>
+        <input asp-for="NewEmployee.Salary" class="form-control"/>
+        <span asp-validation-for="NewEmployee.Salary" class="text-danger"></span>
+    </div>
 
-    <br />
-
-    <label for="gender">Gender:</label>
-    <select name="gender" asp-for="@Model.Gender">
-        <option selected="selected" hidden="hidden">Select a Gender</option>
-        <option value="0">Male</option>
-        <option value="1">Female</option>
-        <option value="2">Other</option>
-    </select>
-
-    <br />
-
-    <label for="birthdate">Birth Date:</label>
-    <input type="date" name="birthdate" asp-for="@Model.BirthDate" />
-
-    <br />
-
-    <label for="hiredate">Hire Date:</label>
-    <input type="date" name="hiredate" asp-for="@Model.HireDate" />
-
-    <br />
-
-    <label for="jobtitle">Job Title:</label>
-    <input type="text" name="jobtitle" value="@Model.JobTitle" />
-
-    <br />
-
-    <label for="salary">Salary:</label>
-    <input type="number" name="salary" value="@Model.Salary" />
-
-    <br />
-
-    <input type="submit" value="Add Employee" />
+    <input type="submit" class="btn btn-primary" value="Add Employee" />
 </form>
 
-<h3 style="color:red">@Model.ErrorMessage</h3>
+<a href="/Index">Go Home</a>
+
+@switch (Model.Error)
+{
+    case 1:
+    <h3 class="text-danger">Username Already Taken</h3>
+    break;
+
+    case 2:
+    <h3 class="text-danger">Birthday Can Not Be In the Future</h3>
+    break;
+
+    case 3:
+    <h3 class="text-danger">Not Allowed to Hire Anyone Under Age 18</h3>
+    break;
+}

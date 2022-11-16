@@ -8,32 +8,49 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
+		[Required]
+		[MaxLength(20)]
 		[Column("username")]
 		public string Username { get; set; }
 
+        [Required]
+		[DataType(DataType.Password)]
+        [MaxLength(10)]
         [Column("password")]
         public string Password { get; set; }
 
+        [Required]
+        [MaxLength(20)]
         [Column("first_name")]
 		public string FirstName { get; set; }
 
-		[Column("middle_initial")]
+        [MaxLength(1)]
+        [Column("middle_initial")]
 		public string? MiddleName { get; set; }
 
-		[Column("last_name")]
+        [Required]
+        [MaxLength(20)]
+        [Column("last_name")]
 		public string LastName { get; set; }
 
-		[Column("phone_number")]
-		public string? PhoneNum { get; set; }
+        [Required]
+		[DataType(DataType.PhoneNumber)]
+        [MaxLength(10)]
+        [Column("phone_number")]
+		public string? PhoneNumber { get; set; }
 
-		public string? Address { get; set; }
+        [Required]
+        [MaxLength(150)]
+        public string? Address { get; set; }
 
 		public Gender Gender { get; set; }
 
-		[DataType(DataType.Date)]
+        [Required]
+        [DataType(DataType.Date)]
 		[Column("birth_date")]
 		public DateTime BirthDate { get; set; }
 
+        [Required]
 		[DataType(DataType.Date)]
 		[Column("hire_date")]
 		public DateTime HireDate { get; set; }
@@ -41,9 +58,12 @@ namespace Library.Models
 		[Column("hours_worked")]
 		public decimal HoursWorked { get; set; }
 
+        [Required]
 		[Column("job_title")]
 		public string JobTitle { get; set; }
 
+        [Required]
+        [DataType(DataType.Currency)]
 		public decimal Salary { get; set; }
 
 		[ForeignKey("Employee")]

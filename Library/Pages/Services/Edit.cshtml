@@ -12,19 +12,19 @@
     <input type="hidden" asp-for="Service.ID" />
     
     <div class="form-group">
-        <label asp-for="Service.Name">Name:</label>
+        <label asp-for="Service.Name" class="control-label">Name:</label>
         <input asp-for="Service.Name" class="form-control" />
         <span asp-validation-for="Service.Name" class="text-danger" ></span>
     </div>
     
     <div class="form-group">
-        <label asp-for="Service.Location">Location:</label>
+        <label asp-for="Service.Location" class="control-label">Location:</label>
         <input asp-for="Service.Location" class="form-control" />
         <span asp-validation-for="Service.Location" class="text-danger"></span>
     </div>
     
     <div class="form-group">
-        <label asp-for="Service.IsAvailable">Is Available:</label>
+        <label asp-for="Service.IsAvailable" class="control-label">Is Available:</label>
         <input asp-for="Service.IsAvailable" />
         <span asp-validation-for="Service.IsAvailable" class="text-danger"></span>
     </div>

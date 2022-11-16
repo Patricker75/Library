@@ -10,13 +10,13 @@
     <div asp-validation-summary="ModelOnly"></div>
 
     <div class="form-group">
-        <label asp-for="NewService.Name">Service Name:</label>
+        <label asp-for="NewService.Name" class="control-label">Service Name:</label>
         <input asp-for="NewService.Name" class="form-control" />
         <span asp-validation-for="NewService.Name" class="text-danger"></span>
     </div>
     
     <div class="form-group">
-        <label asp-for="NewService.Location">Location:</label>
+        <label asp-for="NewService.Location" class="control-label">Location:</label>
         <input asp-for="NewService.Location" class="form-control" />
         <span asp-validation-for="NewService.Location" class="text-danger"></span>
     </div>
