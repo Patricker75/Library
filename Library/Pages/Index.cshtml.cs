@@ -19,18 +19,6 @@ namespace Library.Pages
 
         public IActionResult OnGet()
         {
-<<<<<<< HEAD
-            //HttpContext.Session.SetString("loginType", "member");
-            //HttpContext.Session.SetInt32("loginID", 17);
-            //HttpContext.Session.SetString("userFullName", "Viet Bui");
-
-            //return RedirectToPage("/Employees/ItemCatalog");
-=======
-           // HttpContext.Session.SetString("loginType", "member");
-            //HttpContext.Session.SetInt32("loginID", 17);
-            //HttpContext.Session.SetString("userFullName", "Viet Bui");
->>>>>>> 7cdf424d32340358b0f97c2f3ee09a7acc2271e2
-
             return Page();
         }
     }

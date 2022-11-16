@@ -79,10 +79,6 @@ namespace Library.Pages.Members
                     memberID = ID,
                     fetchBooks = Books,
                     fetchDevices = Devices,
-<<<<<<< HEAD
-=======
-                    
->>>>>>> 7cdf424d32340358b0f97c2f3ee09a7acc2271e2
                     fetchServices = Services,
                     start = Start,
                     end = End
