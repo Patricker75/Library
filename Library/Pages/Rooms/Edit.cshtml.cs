@@ -5,18 +5,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Library.Pages.Rooms
 {
-    [BindProperties]
     public class EditModel : PageModel
     {
-        public int ID { get; set; }
-
-        public int Type { get; set; } = -1;
-
-        public string Location { get; set; } = string.Empty;
-
-        public bool IsAvailable { get; set; }
-
-        public string ErrorMessage { get; set; } = string.Empty;
+        [BindProperty]
+        public Room Room { get; set; } = default!;
 
         private readonly LibraryContext _context;
 
@@ -40,59 +32,22 @@ namespace Library.Pages.Rooms
                 return RedirectToPage("/Rooms/Index");
             }
 
-            ID = r.ID;
-
-            Location = r.Location;
-            Type = (int)r.RoomType;
-            IsAvailable = r.IsAvailable;
+            Room = r;
 
             return Page();
         }
 
-        private bool VerifyForm()
-        {
-            // Check that there is an Name
-            if (string.IsNullOrEmpty(Location) || Location.Length > 10)
+        public IActionResult OnPost()
+        { 
+            if (ModelState.IsValid)
             {
-                return false;
-            }
-
-            // Check that Item Type is Chosen
-            if (Type < 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public IActionResult OnPost(int roomID)
-        {
-            Room? r = _context.Room.Find(roomID);
-            
-            if (r == null)
-            {
-                return Page();
-            }
-
-            if (VerifyForm())
-            {
-                r.Location = Location;
-                r.IsAvailable = IsAvailable;
-                r.RoomType = (RoomType)Type;
-                
+                _context.Room.Update(Room);
                 _context.SaveChanges();
 
-                return RedirectToPage("/Rooms/Index");
+                return RedirectToPage("/Rooms");
             }
-            else
-            {
-                ErrorMessage = "A Required Field has Been Left Blank";
 
-                ModelState.Clear();
-
-                return Page();
-            }
+            return Page();
         }
     }
 }

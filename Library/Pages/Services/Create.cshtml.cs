@@ -5,14 +5,10 @@ using Library.Models;
 
 namespace Library.Pages.Services
 {
-    [BindProperties]
     public class CreateModel : PageModel
     {
-        public string Name { get; set; } = string.Empty;
-
-        public string Location { get; set; } = string.Empty;
-
-        public string ErrorMessage { get; set; } = string.Empty;
+        [BindProperty]
+        public Service NewService { get; set; } = default!;
 
         private readonly LibraryContext _context;
 
@@ -32,47 +28,17 @@ namespace Library.Pages.Services
             return Page();
         }
 
-        private bool VerifyForm()
-        {
-            // Check if name is filled
-            if (string.IsNullOrEmpty(Name))
-            {
-                return false;
-            }
-
-            // Check if location is filled
-            if (string.IsNullOrEmpty(Location))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public IActionResult OnPost()
         {
-            if (VerifyForm())
+            if (ModelState.IsValid)
             {
-                Service newService = new Service()
-                {
-                    Name = Name,
-                    Location = Location,
-                    IsAvailable = true
-                };
-
-                _context.Service.Add(newService);
-                _context.SaveChanges();
+               _context.Service.Add(NewService);
+               _context.SaveChanges();
 
                 return RedirectToPage("Create");
             }
-            else
-            {
-                ErrorMessage = "A Required Field has Been Left Blank";
-
-                ModelState.Clear();
-
-                return Page();
-            }
+            
+            return Page();
         }
     }
 }

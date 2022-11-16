@@ -8,11 +8,15 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
-		public string Location { get; set; }
+		[Required]
+		[MaxLength(10)]
+        [Column("location")]
+        public string Location { get; set; }
 
 		[Column("availability")]
 		public bool IsAvailable { get; set; }
-		
+
+		[Required]
 		[Column("room_type")]
 		public RoomType RoomType { get; set; }
 

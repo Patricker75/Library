@@ -10,3 +10,7 @@ redo roles
 
 Drop Condtions, Add # Copies
 Side Nav
+
+
+USEFUL (DONT DELETE PLEASE):
+var errors = ModelState.Values.SelectMany(v => v.Errors);

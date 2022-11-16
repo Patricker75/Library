@@ -2,74 +2,78 @@
 @model Library.Pages.Members.AddModel
 
 @{
+    @using Library.Data;
     ViewData["Title"] = "Members";
 }
 
 <h1>Library Members</h1>
 
 <form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
 
-    <label for="Username">Username:</label>
-    <input type="text" name="Username" value="@Model.Username" />
+    <div class="form-group">
+        <label asp-for="NewMember.Username">Username:</label>
+        <input asp-for="NewMember.Username" class="form-control" />
+        <span asp-validation-for="NewMember.Username" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="NewMember.Password">Password:</label>
+        <input asp-for="NewMember.Password" class="form-control" />
+        <span asp-validation-for="NewMember.Password" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="NewMember.FirstName">First Name:</label>
+        <input asp-for="NewMember.FirstName" class="form-control" />
+        <span asp-validation-for="NewMember.FirstName" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="NewMember.MiddleName">Middle Name:</label>
+        <input asp-for="NewMember.MiddleName" class="form-control" />
+        <span asp-validation-for="NewMember.MiddleName" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="NewMember.LastName">Last Name:</label>
+        <input asp-for="NewMember.LastName" class="form-control" />
+        <span asp-validation-for="NewMember.LastName" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="NewMember.PhoneNumber">Phone Number:</label>
+        <input asp-for="NewMember.PhoneNumber" class="form-control" />
+        <span asp-validation-for="NewMember.PhoneNumber" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="NewMember.Address">Address:</label>
+        <input asp-for="NewMember.Address" class="form-control" />
+        <span asp-validation-for="NewMember.Address" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="NewMember.Gender">Gender:</label>
+        <select asp-for="NewMember.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control">
+            <option selected="selected" hidden="hidden">Select Gender</option>
+        </select>
+        <span asp-validation-for="NewMember.Gender" class="text-danger"></span>
+    </div>
 
-    <br />
-
-    <label for="Password">Password:</label>
-    <input type="password" name="Password" value="@Model.Password" />
+    <div class="form-group">
+        <label asp-for="NewMember.BirthDate">Birthday:</label>
+        <input asp-for="NewMember.BirthDate" class="form-control" />
+        <span asp-validation-for="NewMember.BirthDate" class="text-danger"></span>
+    </div>
     
-    <br />
-    
-    <label for="FirstName">First Name:</label>
-    <input type="text" name="FirstName" value="@Model.FirstName" />
-    
-    <br />
-    
-    <label for="MiddleName">Middle Name:</label>
-    <input type="text" name="MiddleName" value="@Model.MiddleName" />
-    
-    <br />
-    
-    <label for="LastName">Last Name:</label>
-    <input type="text" name="LastName" value="@Model.LastName" />
-    
-    <br />
-    
-    <label for="Phonenumber">Phone Number:</label>
-    <input type="text" name="Phonenumber" value="@Model.PhoneNumber" />
-    
-    <br />
-    
-    <label for="Address">Address:</label>
-    <input type="text" name="Address" value="@Model.Address" />
-    
-    <br />
-    
-    <label for="gender">Gender:</label>
-    <select name="gender" value="@Model.Gender" asp-for="@Model.Gender">
-        <option selected="selected" hidden="hidden">Select A Device Type</option>
-        <option value="0">Male</option>
-        <option value="1">Female</option>
-        <option value="2">Other</option>
-    </select>
-
-    <br />
-    
-    <label for="BirthDate">Birth Date:</label>
-    <input type="date" name="BirthDate" asp-for="@Model.BirthDate" />
-    
-    <br />
-    
-    <label for="JoinDate">Join Date:</label>
-    <input type="date" name="JoinDate" asp-for="@Model.JoinDate" />
-    
-    <br />
-    
-    <label for="membertype">Member Type:</label>
-    <select name="membertype" asp-for="@Model.MemberType">
-        <option selected="selected" hidden="hidden">Select A Member Type</option>
-        <option value="0">Student</option>
-        <option value="1">Professional</option>
-    </select>
+    <div class="form-group">
+        <label asp-for="NewMember.MemberType">Member Type:</label>
+        <select asp-for="NewMember.MemberType" asp-items="Html.GetEnumSelectList<MemberType>()" class="form-control">
+            <option selected="selected" hidden="hidden">Select Member Type</option>
+        </select>
+        <span asp-validation-for="NewMember.MemberType" class="text-danger"></span>
+    </div>
 
     <br />
     
@@ -77,9 +81,19 @@
 
 </form>
 
+@switch (Model.Error)
+{
+    case 1:
+    <h3 value="@Model.Error" class="text-danger">Username Already Taken</h3>
+    break;
+
+    case 2:
+    <h3 value="@Model.Error" class="text-danger">Birthday Can Not Be In the Future</h3>
+    break;
+}
+
+
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
-
-<h3 style="color:red">@Model.ErrorMessage</h3>
 

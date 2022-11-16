@@ -11,21 +11,17 @@ using System.Xml.Linq;
 
 namespace Library.Pages.Rooms
 {
-    [BindProperties]
     public class CreateModel : PageModel
     {
-        public int Type { get; set; } = -1;
+        [BindProperty]
+        public Room NewRoom { get; set; } = default!;
 
-        public string Location { get; set; } = string.Empty;
-
-        public string ErrorMessage { get; set; } = string.Empty;
-        
-        public CreateModel(Library.Data.LibraryContext context)
+        public CreateModel(LibraryContext context)
         {
             _context = context;
         }
 
-        private readonly Library.Data.LibraryContext _context;
+        private readonly LibraryContext _context;
 
         public IActionResult OnGet()
         {
@@ -38,46 +34,17 @@ namespace Library.Pages.Rooms
             return Page();
         }
         
-        private bool VerifyForm()
-        {
-            // Check if name is filled
-            if (Type < 0)
-            {
-                return false;
-            }
-
-            // Check if location is filled
-            if (string.IsNullOrEmpty(Location))
-            {
-                return false;
-            }
-
-            return true;
-        }
         public IActionResult OnPost()
         {
-            if (VerifyForm())
+            if (ModelState.IsValid)
             {
-                Room newRoom = new Room()
-                {
-                    RoomType = (RoomType)Type,
-                    Location = Location,
-                    IsAvailable = true
-                };
-
-                _context.Room.Add(newRoom);
+                _context.Room.Add(NewRoom);
                 _context.SaveChanges();
 
-                return RedirectToPage("Create");
+                return RedirectToPage("/Rooms/Create");
             }
-            else
-            {
-                ErrorMessage = "A Required Field has Been Left Blank";
 
-                ModelState.Clear();
-
-                return Page();
-            }
+            return Page();
         }
     }
 }

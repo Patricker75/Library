@@ -9,24 +9,38 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
+		[Required]
+		[MaxLength(20)]
         [Column("username")]
         public string Username { get; set; } = string.Empty;
-        
+
+		[Required]
+		[MaxLength(10)]
+		[DataType(DataType.Password)]
 		[Column("password")]
         public string Password { get; set; } = string.Empty;
 
+        [Required]
+        [MaxLength(20)]
         [Column("first_name")]
 		public string FirstName { get; set; } = string.Empty;
 
+		[MaxLength(1)]
         [Column("middle_initial")]
 		public string? MiddleName { get; set; }
 
-		[Column("last_name")]
+        [Required]
+        [MaxLength(20)]
+        [Column("last_name")]
 		public string LastName { get; set; } = string.Empty;
 
+		[MaxLength(10)]
+		[DataType(DataType.PhoneNumber)]
         [Column("phone_number")]
-		public string? PhoneNum { get; set; }
+		public string? PhoneNumber { get; set; }
 
+		[Required]
+		[MaxLength(150)]
 		public string? Address { get; set; }
 		
 		public Gender Gender { get; set; }
@@ -37,14 +51,10 @@ namespace Library.Models
 
 		[DataType(DataType.Date)]
 		[Column("join_date")]
-		public DateTime JoinDate { get; set; } = DateTime.Now;
+		public DateTime JoinDate { get; set; }
 
 		[Column("member_type")]
 		public MemberType MemberType { get; set; }
-
-		// Could Drop
-		[Column("check_out_count")]
-		public short CheckOutCount { get; set; }
 
 		[Column("check_out_limit")]
 		public short CheckOutLimit { get; set; }

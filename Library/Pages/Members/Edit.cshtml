@@ -1,51 +1,68 @@
 ﻿@page
 @model Library.Pages.Members.EditModel
 @{
+    @using Library.Data;
+    ViewData["Title"] = "Edit Member";
 }
 
 <form method="post">
-    <input type="hidden" name="memberID" value="@Model.ID" />
+    <div asp-validation-summary="ModelOnly"></div>
 
-    <label for="FirstName">First Name:</label>
-    <input type="text" name="FirstName" value="@Model.FirstName" />
+    <input type="hidden" asp-for="Member.ID" />
+    
+    <div class="form-group">
+        <label asp-for="Member.FirstName">First Name:</label>
+        <input asp-for="Member.FirstName" class="form-control" />
+        <span asp-validation-for="Member.FirstName" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Member.MiddleName">Middle Name:</label>
+        <input asp-for="Member.MiddleName" class="form-control" />
+        <span asp-validation-for="Member.MiddleName" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Member.LastName">Last Name:</label>
+        <input asp-for="Member.LastName" class="form-control" />
+        <span asp-validation-for="Member.LastName" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Member.PhoneNumber">Phone Number:</label>
+        <input asp-for="Member.PhoneNumber" class="form-control" />
+        <span asp-validation-for="Member.PhoneNumber" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Member.Address">Address:</label>
+        <input asp-for="Member.Address" class="form-control" />
+        <span asp-validation-for="Member.Address" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Member.Gender">Gender:</label>
+        <select asp-for="Member.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control">
+            <option selected="selected" hidden="hidden">Select Gender</option>
+        </select>
+        <span asp-validation-for="Member.Gender" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Member.BirthDate">Birthday:</label>
+        <input asp-for="Member.BirthDate" class="form-control" />
+        <span asp-validation-for="Member.BirthDate" class="text-danger"></span>
+    </div>
 
     <br />
-
-    <label for="MiddleName">Middle Name:</label>
-    <input type="text" name="MiddleName" value="@Model.MiddleName" />
-
-    <br />
-
-    <label for="LastName">Last Name:</label>
-    <input type="text" name="LastName" value="@Model.LastName" />
-
-    <br />
-
-    <label for="Phonenumber">Phone Number:</label>
-    <input type="text" name="Phonenumber" value="@Model.PhoneNumber" />
-
-    <br />
-
-    <label for="Address">Address:</label>
-    <input type="text" name="Address" value="@Model.Address" />
-
-    <br />
-
-    <label for="gender">Gender:</label>
-    <select name="gender" value="@Model.Gender" asp-for="@Model.Gender">
-        <option selected="selected" hidden="hidden">Select A Device Type</option>
-        <option value="0">Male</option>
-        <option value="1">Female</option>
-        <option value="2">Other</option>
-    </select>
-
-    <br />
-
-    <label for="BirthDate">Birth Date:</label>
-    <input type="date" name="BirthDate" asp-for="@Model.BirthDate" />
-
-    <br />
-
-    <input type="submit" value="Edit Member" class="btn btn-primary" />
+    
+    <input type="submit" value="Save Changes" class="btn btn-primary" />
 
 </form>
+
+@switch (Model.Error)
+{
+    case 1:
+    <h3 value="@Model.Error" class="text-danger">Birthday Can Not Be After Join Date (@Model.Member.JoinDate.ToString("mm/dd/yyyy"))</h3>
+    break;
+}

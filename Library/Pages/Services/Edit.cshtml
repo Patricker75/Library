@@ -5,32 +5,29 @@
     ViewData["Title"] = "Create";
 }
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-
-
 <h1>Edit Service</h1>
-
-<hr />
 <form method="post">
-    <input type="hidden" name="serviceID" value="@Model.ID" />
-    
-    <label for="name">Service Name:</label>
-    <input type="text" name="name" value="@Model.Name" />
-    
-    <br />
-    
-    <label for="location">Location:</label>
-    <input type="text" name="location" value="@Model.Location" />
-    <br />
+    <div asp-validation-summary="ModelOnly"></div>
 
-    <label for="available">Is Available:</label>
-    <input type="checkbox" name="available" asp-for="@Model.IsAvailable" />
-
-    <br />
+    <input type="hidden" asp-for="Service.ID" />
+    
+    <div class="form-group">
+        <label asp-for="Service.Name">Name:</label>
+        <input asp-for="Service.Name" class="form-control" />
+        <span asp-validation-for="Service.Name" class="text-danger" ></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Service.Location">Location:</label>
+        <input asp-for="Service.Location" class="form-control" />
+        <span asp-validation-for="Service.Location" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Service.IsAvailable">Is Available:</label>
+        <input asp-for="Service.IsAvailable" />
+        <span asp-validation-for="Service.IsAvailable" class="text-danger"></span>
+    </div>
 
     <input type="submit" value="Edit Service" class="btn btn-primary" />
 </form>
@@ -38,5 +35,3 @@
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
-
-<h3 style="color:red">@Model.ErrorMessage</h3>
