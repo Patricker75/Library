@@ -68,11 +68,6 @@ namespace Library.Pages.Members
                 return false;
             }
 
-            // Check if End Occurs after current time (future)
-            if (End > DateTime.Now) 
-            {
-                return false;
-            }
             return true;
         }
 
@@ -84,11 +79,10 @@ namespace Library.Pages.Members
                     memberID = ID,
                     fetchBooks = Books,
                     fetchDevices = Devices,
-                    fetchRooms = Rooms,
                     fetchServices = Services,
                     start = Start,
                     end = End
-                });;
+                });
             }
             else
             {

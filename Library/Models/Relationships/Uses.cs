@@ -5,6 +5,7 @@ namespace Library.Models.Relationships
 {
     public class Uses
     {
+        [Column("time_stamp")]
         [DataType(DataType.DateTime)]
         public DateTime TimeStamp { get; set; }
 

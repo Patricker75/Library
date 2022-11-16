@@ -19,9 +19,11 @@ namespace Library.Pages
 
         public IActionResult OnGet()
         {
-            HttpContext.Session.SetString("loginType", "member");
-            HttpContext.Session.SetInt32("loginID", 17);
-            HttpContext.Session.SetString("userFullName", "Viet Bui");
+            //HttpContext.Session.SetString("loginType", "member");
+            //HttpContext.Session.SetInt32("loginID", 17);
+            //HttpContext.Session.SetString("userFullName", "Viet Bui");
+
+            //return RedirectToPage("/Employees/ItemCatalog");
 
             return Page();
         }

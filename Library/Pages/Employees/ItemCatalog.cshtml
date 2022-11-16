@@ -1,0 +1,28 @@
+﻿@page
+@model Library.Pages.Employees.ItemCatalogModel
+@{
+}
+
+<form method="post">
+    <label asp-for="@Model.IncludeBooks">Include Books:</label>
+    <input asp-for="@Model.IncludeBooks" />
+
+    <br />
+
+    <label asp-for="@Model.IncludeDevices">Include Devices:</label>
+    <input asp-for="@Model.IncludeDevices" />
+
+    <br />
+
+    <label asp-for="@Model.IncludeRooms">Include Rooms:</label>
+    <input asp-for="@Model.IncludeRooms" />
+
+    <br />
+
+    <label asp-for="@Model.IncludeServices">Include Services:</label>
+    <input asp-for="@Model.IncludeServices" />
+
+    <br />
+
+    <input type="submit" value="Generate Report" />
+</form>
