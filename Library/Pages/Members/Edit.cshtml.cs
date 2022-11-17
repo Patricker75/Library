@@ -67,13 +67,19 @@ namespace Library.Pages.Members
                 return Page();
             }
 
-            Member.Username = m.Username;
-            Member.Password = m.Password;
-            Member.JoinDate = m.JoinDate;
+            m.FirstName = Member.FirstName;
+            m.MiddleName = Member.MiddleName;
+            m.LastName = Member.LastName;
+
+            m.PhoneNumber = Member.PhoneNumber;
+            m.Address = Member.Address;
+
+            m.Gender = Member.Gender;
+            m.BirthDate = Member.BirthDate;
 
             if (VerifyForm())
             {
-                _context.Member.Update(Member);
+                _context.Member.Update(m);
 
                 _context.SaveChanges();
 

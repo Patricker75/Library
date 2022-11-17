@@ -65,25 +65,32 @@ namespace Library.Pages.Employees
         public IActionResult OnPost()
         {
             Employee? e = _context.Employee.Find(Employee.ID);
-            
+
             if (e == null)
             {
                 return Page();
             }
 
-            Employee.Username = e.Username;
-            Employee.Password = e.Password;
+            e.FirstName = Employee.FirstName;
+            e.MiddleName = Employee.MiddleName;
+            e.LastName = Employee.LastName;
 
-            //if (Employee.HireDate == null)
-            //{
-            //    Employee.HireDate = e.HireDate;
-            //}
+            e.PhoneNumber = Employee.PhoneNumber;
+            e.Address = Employee.Address;
 
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            e.Gender = Employee.Gender;
+            e.BirthDate = Employee.BirthDate;
+            e.HireDate = Employee.HireDate;
+
+            e.JobTitle = Employee.JobTitle;
+            e.Salary = Employee.Salary;
+
+            ModelState.Clear();
+            TryValidateModel(e);
 
             if (ModelState.IsValid && VerifyForm())
             {
-                _context.Employee.Update(Employee);
+                _context.Employee.Update(e);
                 _context.SaveChanges();
 
                 int? loginID = HttpContext.Session.GetInt32("loginID");

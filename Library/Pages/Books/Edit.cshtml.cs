@@ -81,10 +81,10 @@ namespace Library.Pages.Books
         {
             foreach (var author in Authors)
             {
-                if (!author.IsValid())
-                {
-                    return false;
-                }
+                //if (!author.IsValid())
+                //{
+                //    return false;
+                //}
             }
 
             return true;
@@ -94,11 +94,11 @@ namespace Library.Pages.Books
         {
             for (int i = 0; i < Authors.Count; i++)
             {
-                if (Authors[i].IsEmpty())
-                {
-                    Authors.RemoveAt(i);
-                    i--;
-                }
+                //if (Authors[i].IsEmpty())
+                //{
+                //    Authors.RemoveAt(i);
+                //    i--;
+                //}
             }
 
             if (Authors.Count > 0)

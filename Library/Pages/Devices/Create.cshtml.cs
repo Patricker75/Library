@@ -10,16 +10,10 @@ using Library.Models;
 
 namespace Library.Pages.Devices
 {
-    [BindProperties]
     public class CreateModel : PageModel
     {
-        public string Name { get; set; } = string.Empty;
-        
-        public int Condition { get; set; } = -1;
-
-        public int Type { get; set; } = -1;
-
-        public string ErrorMessage { get; set; } = string.Empty;
+        [BindProperty]
+        public Device NewDeivce { get; set; } = default!;
 
         private readonly LibraryContext _context;
 
@@ -39,52 +33,17 @@ namespace Library.Pages.Devices
             return Page();
         }
 
-        bool VerifyForm()
-        {
-            // Check that there is an Name
-            if (string.IsNullOrEmpty(Name) || Name.Length > 100)
-            {
-                return false;
-            }
-
-            // Check that Condition is Chosen
-            if (Condition < 0)
-            {
-                return false;
-            }
-
-            // Check that Item Type is Chosen
-            if (Type < 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public IActionResult OnPost()
         {
-            if (VerifyForm())
+            if (ModelState.IsValid)
             {
-                Device newDevice = new Device()
-                {
-                    Name = Name,
-                    Condition = (Condition)Condition,
-                    ItemType = (ItemType)Type
-                };
-
-                _context.Device.Add(newDevice);
+                _context.Device.Add(NewDeivce);
                 _context.SaveChanges();
 
                 return RedirectToPage("Create");
             }
-            else {
-                ErrorMessage = "A Required Field has Been Left Blank";
-                
-                ModelState.Clear();
 
-                return Page();
-            }
+            return Page();
         }
     }
 }

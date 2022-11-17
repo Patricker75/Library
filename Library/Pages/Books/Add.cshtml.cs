@@ -6,28 +6,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Library.Pages.Books
 {
-    [BindProperties]
     public class AddModel : PageModel
     {
-        public string Title { get; set; } = string.Empty;
-
         public int RowCount { get; set; } = 0;
 
+        [BindProperty]
+        public Book NewBook { get; set; }
+
+        [BindProperty]
         public IList<Author> Authors { get; set; } = default!;
 
-        public string Dewey { get; set; } = string.Empty;
-
-        public string Summary { get; set; } = string.Empty;
-
-        public string Genre { get; set; } = string.Empty;
-
-        public int Audience { get; set; } = -1;
-
+        [BindProperty]
         public string Publisher { get; set; } = string.Empty;
 
-        public int Condition { get; set; } = -1;
-
-        public string ErrorMessage { get; set; } = string.Empty;
+        public int Error { get; set; }
 
         private readonly LibraryContext _context;
 
@@ -49,71 +41,7 @@ namespace Library.Pages.Books
 
             return Page();
         }
-
-        private bool VerifyForm()
-        {
-            bool validForm = true;
-
-            // Checks if Title, Publisher, Dewey, Summary, Genre is empty/null
-            if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Publisher) || string.IsNullOrEmpty(Dewey) || string.IsNullOrEmpty(Summary) || string.IsNullOrEmpty(Genre))
-            {
-                validForm = false;
-            }
-
-
-            // Removes any that are blank from authors list
-            DeleteEmptyRows();
-
-            // Checks if all authors are valid
-            if (!ValidateAuthors())
-            {
-                validForm = false;
-            }
-
-            // Checks if Condition or Audience is -1
-            if (Condition == -1 || Audience == -1)
-            {
-                validForm = false;
-            }
-
-            return validForm;
-        }
-
-        // Returns True if all Authors Added have a first and last name
-        private bool ValidateAuthors()
-        {
-            foreach(var author in Authors)
-            {
-                if (!author.IsValid())
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private void DeleteEmptyRows()
-        {
-            for (int i = 0; i < Authors.Count; i++)
-            {
-                if (Authors[i].IsEmpty())
-                {
-                    Authors.RemoveAt(i);
-                    i--;
-                }
-            }
-            
-            if (Authors.Count > 0)
-            {
-                RowCount = Authors.Count;
-            }
-            else
-            { 
-                RowCount = 0;
-            }
-        }
-
+        /*
         private int GetPublisherID()
         {
             int? publisherID = null;
@@ -228,29 +156,19 @@ namespace Library.Pages.Books
 
             _context.SaveChanges();
         }
-
+        */
         public IActionResult OnPost()
         {
-            if (VerifyForm())
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+
+            if (ModelState.IsValid)
             {
-                AddToDatabase();
+                _context.SaveChanges();
 
-                return RedirectToPage("Add");
+                return RedirectToPage("/Books/Create");
             }
-            else
-            {
-                ErrorMessage = "A Required Field has Been Left Blank";
 
-                ModelState.Clear();
-
-                if (RowCount == 0)
-                {
-                    Authors = new List<Author>();
-                    Authors.Add(new Author());
-                }
-
-                return Page();
-            }
+            return Page();
         }
     }
 }

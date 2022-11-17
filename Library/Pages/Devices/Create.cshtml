@@ -2,47 +2,43 @@
 @model Library.Pages.Devices.CreateModel
 
 @{
+    @using Library.Data;
     ViewData["Title"] = "Create";
-}
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
 }
 
 
 <h1>Device Creation</h1>
 <hr />
 <form method="post">
-    
-        <label for="type">Device Type:</label>
-            <select name="type" value="@Model.Type" asp-for="@Model.Type">
-                <option selected="selected" hidden="hidden">Select A Device Type</option>
-                <option value="0">E-Reader</option>
-                <option value="1">Computer</option>
-            </select>
-               
-        <br />
-        <label for="name">Name of Device:</label>
-        <input type="text" id="name" name="name" value="@Model.Name"/>
+    <div asp-validation-summary="ModelOnly"></div>
 
-        <br />
-        <label for="condition">Condition:</label>
-        <select name="condition" value="@Model.Condition" asp-for="@Model.Condition">
-            <option selected="selected" hidden="hidden">Select A Condition</option>
-            <option value="0">New</option>
-            <option value="1">Slight</option>
-            <option value="2">Damaged</option>
-            <option value="3">Needs Repair</option>
+    <div class="form-group">
+        <label asp-for="NewDeivce.ItemType" class="control-label">Device Type:</label>
+        <select asp-for="NewDeivce.ItemType" asp-items="Html.GetEnumSelectList<ItemType>()">
+            <option hidden="hidden" selected="selected">Select A Device Type</option>
         </select>
+        <span asp-validation-for="NewDeivce.ItemType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewDeivce.Name" class="control-label">Name:</label>
+        <input asp-for="NewDeivce.Name" />
+        <span asp-validation-for="NewDeivce.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewDeivce.Condition" class="control-label">Condition:</label>
+        <select asp-for="NewDeivce.Condition" asp-items="Html.GetEnumSelectList<Condition>()">
+            <option hidden="hidden" selected="selected">Select A Device Condition</option>
+        </select>
+        <span asp-validation-for="NewDeivce.Condition" class="text-danger"></span>
+    </div>
         
-        <br />
-        <input type="submit" value="Create" class="btn btn-primary" />
+    <br />
+    
+    <input type="submit" value="Create" class="btn btn-primary" />
 </form>
 
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
-
-<h3 style="color:red">@Model.ErrorMessage</h3>

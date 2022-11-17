@@ -1,7 +1,8 @@
 ﻿@page
 @model Library.Pages.Books.AddModel
 @{
-    
+    @using Library.Data;
+    ViewData["Title"] = "Add Book";
 }
 
 @section Scripts {
@@ -17,9 +18,9 @@
 
             html += "<tr id=\"row" + rowCount + "\">";
 
-            html += "<td> <input type=\"text\" name=\"Authors[" + rowCount + "].FirstName\" /> </td>";
-            html += "<td> <input type=\"text\" name=\"Authors[" + rowCount + "].MiddleName\" /> </td>";
-            html += "<td> <input type=\"text\" name=\"Authors[" + rowCount + "].LastName\" /> </td>";
+            html += "<td> <input asp-for=\"Authors[" + rowCount + "].FirstName\" class=\"form-control\"/> </td>";
+            html += "<td> <input asp-for=\"Authors[" + rowCount + "].MiddleName\" class=\"form-control\"/> </td>";
+            html += "<td> <input asp-for=\"Authors[" + rowCount + "].LastName\" class=\"form-control\"/> </td>";
 
             html += "</tr>";
 
@@ -45,15 +46,18 @@
 }
 
 <form method="post">
-    <label for="title">Book Title:</label>
-    <input type="text" id="title" name="title" value="@Model.Title"/>
+    <div asp-validation-summary="ModelOnly"></div>
 
-    <br />
+    <div class="form-group">
+        <label asp-for="NewBook.Title" class="control-label">Title:</label>
+        <input asp-for="NewBook.Title" class="form-control" />
+        <span asp-validation-for="NewBook.Title" class="text-danger"></span>
+    </div>
 
-    <label for="authors">Authors</label>
+    <label asp-for="Authors">Authors</label>
 
-    <input type="button" id="add" value="Add"/>
-    <input type="button" id="remove" value="Remove"/>
+    <input type="button" id="add" value="Add" class="btn"/>
+    <input type="button" id="remove" value="Remove" class="btn"/>
 
     <table id="authors">
         <thead>
@@ -64,75 +68,69 @@
             </tr>
         </thead>    
         
-        <input type="hidden" id="rowCounter" name="rowCount" value="@Model.RowCount" />
+        <input type="hidden" id="rowCounter" asp-for="RowCount" />
         <tbody id="body" name="body">
-            @if (Model.RowCount == 0) {
-                <tr id="row 0">
-                    <td><input type="text" asp-for="@Model.Authors[0].FirstName"/></td>
-                    <td><input type="text" asp-for="@Model.Authors[0].MiddleName"/></td>
-                    <td><input type="text" asp-for="@Model.Authors[0].LastName"/></td>
-                </tr>
-            }
-            else {
+            @{
                 for (int i = 0; i < Model.RowCount; i++)
                 {
                     string rowName = "row" + @i;
                     <tr id=@rowName>
-                        <td><input type="text" asp-for="@Model.Authors[i].FirstName"/></td>
-                        <td><input type="text" asp-for="@Model.Authors[i].MiddleName"/></td>
-                        <td><input type="text" asp-for="@Model.Authors[i].LastName"/></td>
+                        <td><input asp-for="Authors[i].FirstName" class="form-control" /></td>
+                        <td><input asp-for="Authors[i].MiddleName" class="form-control" /></td>
+                        <td><input asp-for="Authors[i].LastName" class="form-control" /></td>
                     </tr>
                 }
             }
         </tbody>
     </table>
 
-    <br />
+    <div class="form-control">
+        <label asp-for="Publisher" class="control-label">Publisher:</label>
+        <input asp-for="Publisher" class="form-control"/>
+        <span asp-validation-for="Publisher" class="text-danger"></span>
+    </div>
 
-    <label for="publisher">Publisher</label>
-    <input type="text" id="publisher" name="publisher" value="@Model.Publisher"/>
+    <div class="form-control">
+        <label asp-for="NewBook.DeweyNumber" class="control-label">Dewey Decimal Number:</label>
+        <input asp-for="NewBook.DeweyNumber" class="form-control"/>
+        <span asp-validation-for="NewBook.DeweyNumber" class="text-danger"></span>
+    </div>
 
-    <br />
+    <div class="form-control">
+        <label asp-for="NewBook.Summary" class="control-group">Summary:</label>
+        <textarea asp-for="NewBook.Summary" class="form-control">
+        </textarea>
+        <span asp-validation-for="NewBook.Summary" class="text-danger"></span>
+    </div>
 
-    <label for="dewey">Dewey Decimal Number</label>
-    <input type="text" id="dewey" name="dewey" value="@Model.Dewey"/>
-
-    <br />
-
-    <label for="summary">Summary</label>    
-    <textarea id="summary" name="summary" asp-for="@Model.Summary">
-    </textarea>
-
-    <br />
-
-    <label for="genre">Genre</label>
-    <input type="text" id="genre" name="genre" value="@Model.Genre"/>
-
-    <br />
-
-    <label for="audience">Target Audience</label>
-    <select name="audience" value="@Model.Audience" asp-for="@Model.Audience">
-        <option selected="selected" hidden="hidden">Select A Target Audience</option>
-        <option value="0">Children</option>
-        <option value="1">Young Adult</option>
-        <option value="2">Adult</option>
-        <option value="3">Researchers</option>
-    </select>
+    
+    <div class="form-control">
+        <label asp-for="NewBook.Genre" class="control-label">Genre:</label>
+        <input asp-for="NewBook.Genre" class="form-control"/>
+        <span asp-validation-for="NewBook.Genre" class="text-danger"></span>
+    </div>
 
     <br />
 
-    <label for="condition">Conditon</label>
-    <select name="condition" asp-for="@Model.Condition">
-        <option selected="selected" hidden="hidden">Select A Condition</option>
-        <option value="0">New</option>
-        <option value="1">Slight</option>
-        <option value="2">Damaged</option>
-        <option value="3">Needs Repair</option>
-    </select>
+    <div class="form-control">
+        <label asp-for="NewBook.Audience" class="control-label">Target Audience:</label>
+        <select asp-for="NewBook.Audience" asp-items="Html.GetEnumSelectList<Audience>()">
+            <option selected="selected" hidden="hidden">Select An Audience</option>
+        </select>
+        <span asp-validation-for="NewBook.Audience" class="text-danger"></span>
+    </div>
 
     <br />
 
-    <input type="submit" value="Add Book"/>
+    <div class="form-control">
+        <label asp-for="NewBook.Condition" class="control-label">Condition:</label>
+        <select asp-for="NewBook.Condition" asp-items="Html.GetEnumSelectList<Condition>()">
+            <option selected="selected" hidden="hidden">Select A Condition</option>
+        </select>
+        <span asp-validation-for="NewBook.Condition" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <input type="submit" value="Add Book" class="btn btn-primary"/>
 </form>
-
-<h3 style="color:red">@Model.ErrorMessage</h3>

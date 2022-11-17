@@ -5,18 +5,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Library.Pages.Devices
 {
-    [BindProperties]
     public class EditModel : PageModel
     {
-        public int ID { get; set; }
-
-        public string Name { get; set; } = string.Empty;
-
-        public int Condition { get; set; } = -1;
-
-        public int Type { get; set; } = -1;
-
-        public string ErrorMessage { get; set; } = string.Empty;
+        [BindProperty]
+        public Device Device { get; set; } = default!;
 
         private readonly LibraryContext _context;
 
@@ -40,64 +32,20 @@ namespace Library.Pages.Devices
                 return RedirectToPage("/Devices/Index");
             }
 
-            ID = d.ID;
-            Name = d.Name;
-            Type = (int)d.ItemType;
-            Condition = (int)d.Condition;
-
             return Page();
         }
 
-        private bool VerifyForm()
+        public IActionResult OnPost()
         {
-            // Check that there is an Name
-            if (string.IsNullOrEmpty(Name) || Name.Length > 100)
+            if (ModelState.IsValid)
             {
-                return false;
-            }
-
-            // Check that Condition is Chosen
-            if (Condition < 0)
-            {
-                return false;
-            }
-
-            // Check that Item Type is Chosen
-            if (Type < 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public IActionResult OnPost(int deviceID)
-        {
-            Device? d = _context.Device.Find(deviceID);
-            
-            if (d == null)
-            {
-                return Page();
-            }
-
-            if (VerifyForm())
-            {
-                d.Name = Name;
-                d.Condition = (Condition)Condition;
-                d.ItemType = (ItemType)Type;
-                
+                _context.Device.Update(Device);                
                 _context.SaveChanges();
 
                 return RedirectToPage("/Devices/Index");
             }
-            else
-            {
-                ErrorMessage = "A Required Field has Been Left Blank";
 
-                ModelState.Clear();
-
-                return Page();
-            }
+            return Page();
         }
     }
 }
