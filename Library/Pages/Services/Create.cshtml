@@ -1,0 +1,29 @@
+﻿@page
+@model Library.Pages.Services.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Add Service</h1>
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="NewService.Name" class="control-label">Service Name:</label>
+        <input asp-for="NewService.Name" class="form-control" />
+        <span asp-validation-for="NewService.Name" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="NewService.Location" class="control-label">Location:</label>
+        <input asp-for="NewService.Location" class="form-control" />
+        <span asp-validation-for="NewService.Location" class="text-danger"></span>
+    </div>
+
+    <input type="submit" value="Create" class="btn btn-primary" />
+</form>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>

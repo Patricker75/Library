@@ -22,9 +22,41 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Books/Index">Books Catalog</a>
                         </li>
+
+                        @{
+                            string? type = Context.Session.GetString("loginType");
+
+                            if (type == null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-page="/Login">Login</a>
+                                </li>
+                            }
+                            else if (type == "member")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-page="/Members/Profile">@Context.Session.GetString("userFullName")</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link test-dark" asp-page="/Logout">Logout</a>
+                                </li>
+                            }
+                            else if (type == "employee")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-page="/Employees/Profile">@Context.Session.GetString("userFullName")</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link test-dark" asp-page="/Logout">Logout</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>

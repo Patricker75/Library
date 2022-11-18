@@ -1,0 +1,31 @@
+﻿@page
+@model Library.Pages.Members.NotificationsModel
+@{
+}
+<h1>Hello Welcome To Your Notifications!</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Notifications</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    
+    <tbody>
+        @foreach (var notif in Model.Notifications)
+        {
+            <tr>
+                <td>@notif.Message</td>
+                
+                <td>
+                    <form method="post" asp-page-handler="Dismiss">
+                        <input type="hidden" name="notifID" value="@notif.ID" />
+                        <input type="submit" value="Dismiss" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

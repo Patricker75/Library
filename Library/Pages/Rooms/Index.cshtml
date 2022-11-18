@@ -1,0 +1,65 @@
+﻿@page
+@model Library.Pages.Rooms.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<h2 style="color:red">@Model.Message</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Room[0].Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Room[0].IsAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Room[0].RoomType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int? id = Model.HttpContext.Session.GetInt32("loginID");
+
+            foreach (var item in Model.Room) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsAvailable)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomType)
+                    </td>
+
+                    @if (Model.HttpContext.Session.GetString("loginType") == "member" && item.IsAvailable)
+                    {
+                        <td>
+                            <form method="post" asp-page-handler="Reserve">
+                                <input type="hidden" name="memberID" value="@id" />
+                                <input type="hidden" name="roomID" value="@item.ID" />
+                                <input type="submit" value="Reserve"/>
+                            </form>
+                        </td>
+                    }
+                    else if (Model.HttpContext.Session.GetString("loginType") == "employee") {
+                        <td>
+                            <form method="post" asp-page-handler="Edit">
+                                <input type="hidden" name="roomID" value="@item.ID" />
+                                <input type="submit" value="Edit" />
+                            </form>
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>
