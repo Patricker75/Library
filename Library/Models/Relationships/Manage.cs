@@ -2,13 +2,13 @@
 
 namespace Library.Models.Relationships
 {
-    public class Manages
+    public class Manage
     {
-        [ForeignKey("Employee")]
+        [ForeignKey("employee")]
         [Column("employee_id")]
         public int EmployeeID { get; set; }
 
-        [ForeignKey("Service")]
+        [ForeignKey("service")]
         [Column("service_id")]
         public int ServiceID { get; set; }
     }

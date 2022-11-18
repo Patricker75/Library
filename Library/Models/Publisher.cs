@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
@@ -6,6 +7,7 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
+		[MaxLength(50)]
 		[Column("name")]
 		public string Name { get; set; }
 	}

@@ -3,17 +3,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Library.Models.Relationships
 {
-    public class Accesses
+    public class Use
     {
+        [Required]
         [DataType(DataType.DateTime)]
+        [Column("time_stamp")]
         public DateTime TimeStamp { get; set; }
 
-        [ForeignKey("Member")]
+        [ForeignKey("service")]
+        [Column("service_id")]
+        public int ServiceID { get; set; }
+
+        [ForeignKey("member")]
         [Column("member_id")]
         public int MemberID { get; set; }
-
-        [ForeignKey("ResearchResource")]
-        [Column("resource_id")]
-        public int ResourceID { get; set; }
     }
 }

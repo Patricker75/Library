@@ -1,4 +1,5 @@
 ﻿using Library.Data;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
@@ -7,6 +8,7 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
+<<<<<<< HEAD
 		[Column("item_type")]
 		public ItemType ItemType { get; set; }
 
@@ -16,4 +18,16 @@ namespace Library.Models
 		[Column("condition")]
 		public Condition Condition { get; set; }
 	}
+=======
+		[Required]
+		public DeviceType Type { get; set; }
+
+		[Required]
+		[MaxLength(50)]
+		public string Name { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime DateAdded { get; set; }
+    }
+>>>>>>> model
 }
