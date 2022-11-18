@@ -1,0 +1,23 @@
+﻿@page
+@model Library.Pages.LoginModel
+@{
+}
+
+<form method="post">
+    <label for="username">Username:</label>
+    <input type="text" name="username" asp-for="@Model.Username"/>
+
+    <br />
+
+    <label for="password">Password:</label>
+    <input type="text" name="password" asp-for="@Model.Password" />
+
+    <br />
+
+    <input type="submit" value="Log In"/>
+</form>
+
+<a asp-page="/Members/Add">Not a Member? Join Now</a>
+
+
+<h3 style="color:red">@Model.ErrorMessage</h3>

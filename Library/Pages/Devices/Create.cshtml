@@ -1,0 +1,44 @@
+﻿@page
+@model Library.Pages.Devices.CreateModel
+
+@{
+    @using Library.Data;
+    ViewData["Title"] = "Create";
+}
+
+
+<h1>Device Creation</h1>
+<hr />
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="NewDeivce.ItemType" class="control-label">Device Type:</label>
+        <select asp-for="NewDeivce.ItemType" asp-items="Html.GetEnumSelectList<ItemType>()">
+            <option hidden="hidden" selected="selected">Select A Device Type</option>
+        </select>
+        <span asp-validation-for="NewDeivce.ItemType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewDeivce.Name" class="control-label">Name:</label>
+        <input asp-for="NewDeivce.Name" />
+        <span asp-validation-for="NewDeivce.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewDeivce.Condition" class="control-label">Condition:</label>
+        <select asp-for="NewDeivce.Condition" asp-items="Html.GetEnumSelectList<Condition>()">
+            <option hidden="hidden" selected="selected">Select A Device Condition</option>
+        </select>
+        <span asp-validation-for="NewDeivce.Condition" class="text-danger"></span>
+    </div>
+        
+    <br />
+    
+    <input type="submit" value="Create" class="btn btn-primary" />
+</form>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>

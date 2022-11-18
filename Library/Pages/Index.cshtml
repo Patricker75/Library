@@ -2,15 +2,31 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+
+    string? loginType = HttpContext.Session.GetString("loginType");
+    string? roles = HttpContext.Session.GetString("roles");
+
+    List<string> loginRoles = default!;
+    if (roles != null)
+    {
+        loginRoles = roles.Split(",").ToList();
+    }
 }
+
+<a href="/Members/CheckoutHistory">Report 1</a>
+<a href="/Employees/MembersRecord">Report 2</a>
 
 <table class="table">
     <tr>
         <th>Books</th>
         <td>
             <a href="/Books">Book Catalog</a>
-            <br />
-            <a href="/Books/Add">Add Book</a>
+            
+            @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
+            {
+                <br />
+                <a href="/Books/Add">Add Book</a>
+            }
         </td>
     </tr>
 
@@ -23,21 +39,32 @@
         </td>
     </tr>
 
-    <tr>
-        <th>Employees</th>
-        <td>
-            <a href="/Employees">Library Employees</a>
-            <br />
-            <a href="/Employees">Register New Employees</a>
-        </td>
-    </tr>
+    @if (loginType == "employee")
+    {
+        <tr>
+            <th>Employees</th>
+            <td>
+                <a href="/Employees">Library Employees</a>
+
+                @if (loginRoles != null && (loginRoles.Contains("admin")))
+                {
+                    <br />
+                    <a href="/Employees/Add">Register New Employee</a>
+                }
+            </td>
+        </tr>
+    }
 
     <tr>
         <th>Rooms</th>
         <td>
             <a href="/Rooms">Library Rooms</a>
-            <br />
-            <a href="/Rooms/Create">Add Room</a>
+
+            @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
+            {
+                <br />
+                <a href="/Rooms/Create">Add Room</a>
+            }
         </td>
     </tr>
 
@@ -45,8 +72,25 @@
         <th>Devices</th>
         <td>
             <a href="/Devices">Device Catalog</a>
-            <br />
-            <a href="/Devices/Create">Add New Device</a>
+
+            @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
+            {
+                <br />
+                <a href="/Devices/Create">Add New Device</a>
+            }
+        </td>
+    </tr>
+
+    <tr>
+        <th>Services</th>
+        <td>
+            <a href="/Services">Offered Services</a>
+
+            @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
+            {
+                <br />
+                <a href="/Services/Create">Add New Services</a>
+            }
         </td>
     </tr>
 </table>

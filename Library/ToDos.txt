@@ -1,0 +1,16 @@
+﻿Member: Checkout Suspensions, Pay Fines
+Employee: Supervisors & Service Management
+Queries/Reports: REDO REPORTS
+
+
+
+BUGS:
+Middle Name on Employee Edit/Save
+redo roles
+
+Drop Condtions, Add # Copies
+Side Nav
+
+
+USEFUL (DONT DELETE PLEASE):
+var errors = ModelState.Values.SelectMany(v => v.Errors);
