@@ -8,28 +8,22 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
+		[Required]
+		[MaxLength(15)]
 		public string Location { get; set; }
 
-		[Column("availability")]
-		public bool IsAvailable { get; set; }
-		
-		[Column("room_type")]
-		private short roomType { get; set; }
-		[NotMapped]
-		public RoomType RoomType
-		{
-			get
-			{
-				return (RoomType)roomType;
-			}
-			set
-			{
-				roomType = (short)value;
-			}
-		} 
+		[Required]
+		public RoomType Type { get; set; }
 
-		[ForeignKey("Member")]
-		[Column("reserver_id")]
-		public int? ReserverID { get; set; }
+		[Required]
+		[Column("available")]
+		public bool IsAvailable { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime DateAdded { get; set; }
+
+        [ForeignKey("Member")]
+		[Column("member_id")]
+		public int? MemberID { get; set; }
 	}
 }

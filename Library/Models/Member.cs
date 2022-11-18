@@ -9,82 +9,60 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
-		public string Username { get; set; }
+        [Required]
+        [MaxLength(20)]
+        [Column("first_name")]
+        public string FirstName { get; set; }
 
-		[Column("first_name")]
-		public string FirstName { get; set; }
+        [MaxLength(1)]
+        [Column("middle_name")]
+        public string? MiddleName { get; set; }
 
-		[Column("middle_initial")]
-		public string? MiddleName { get; set; }
+        [Required]
+        [MaxLength(20)]
+        [Column("last_name")]
+        public string LastName { get; set; }
 
-		[Column("last_name")]
-		public string LastName { get; set; }
+        [Required]
+        [MaxLength(150)]
+        public string Address { get; set; }
 
-		[Column("phone_number")]
-		public string? PhoneNum { get; set; }
+        [Required]
+        [MinLength(10), MaxLength(10)]
+        [RegularExpression(@"^[0-9]*$")]
+        [Column("phone_number")]
+        public string PhoneNumber { get; set; }
 
-		public string? Address { get; set; }
-		
-		private short gender { get; set; }
-		[NotMapped]
-		public Gender Gender
-		{
-			get
-			{
-				return (Gender)gender;
-			}
-			set
-			{
-				gender = (short)value;
-			}
-		}
+        [Required]
+        public Gender Gender { get; set; }
 
-		[DataType(DataType.Date)]
-		[Column("birth_date")]
-		public DateTime BirthDate { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        [Column("birth_date")]
+        public DateTime BirthDate { get; set; }
 
-		[DataType(DataType.Date)]
+        [DataType(DataType.Date)]
 		[Column("join_date")]
-		public DateTime JoinDate { get; set; } = DateTime.Now;
+		public DateTime JoinDate { get; set; }
 
-		[Column("member_type")]
-		private short memberType { get; set; }
-		[NotMapped]
-		public MemberType MemberType
-		{
-			get
-			{
-				return (MemberType)memberType;
-			}
-			set
-			{
-				memberType = (short)value;
-			}
-		}
+        [Required]
+        public MemberType Type { get; set; }
 
-		// Could Drop
-		[Column("check_out_count")]
-		public short CheckOutCount { get; set; }
+        [Required]
+        public MemberStatus Status { get; set; }
 
+        [Required]
 		[Column("check_out_limit")]
-		public short CheckOutLimit { get; set; }
+		public int CheckOutLimit { get; set; }
 
-		[Column("status")]
-		private short memberStatus { get; set; }
-		[NotMapped]
-		public MemberStatus MemberStatus
-		{
-			get
-			{
-				return (MemberStatus)memberStatus;
-			}
-			set
-			{
-				memberStatus = (short)value;
-			}
-		}
-
+        [Required]
 		[DataType(DataType.Currency)]
-		public decimal Balance { get; set; }
+        [Column("amount_owed")]
+		public decimal AmountOwed { get; set; }
+
+        [Required]
+        [ForeignKey("loginuser")]
+        [Column("login_id")]
+        public int LoginID { get; set; }
 	}
 }

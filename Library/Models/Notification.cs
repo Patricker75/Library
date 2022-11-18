@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
@@ -6,9 +7,16 @@ namespace Library.Models
     {
         public int ID { get; set; }
 
+        [Required]
+        [MaxLength(200)]
         public string Message { get; set; }
 
+        [Required]
         public bool Viewed { get; set; }
+
+        [Required]
+        [Column("time_stamp")]
+        public DateTime TimeStamp { get; set; }
 
         [ForeignKey("member")]
         [Column("member_id")]

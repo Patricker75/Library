@@ -1,4 +1,5 @@
 ﻿using Library.Data;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
@@ -7,38 +8,14 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
+		[Required]
+		public DeviceType Type { get; set; }
 
-		[Column("item_type")]
-		private short itemType { get; set; }
-		[NotMapped]
-		public ItemType ItemType
-		{
-			get
-			{
-				return (ItemType)itemType;
-			}
-			set
-			{
-				itemType = (short)value;
-			}
-		}
-
-		[Column("name")]
+		[Required]
+		[MaxLength(50)]
 		public string Name { get; set; }
 
-		[Column("condition")]
-		private short condition { get; set; }
-		[NotMapped]
-		public Condition Condition
-		{
-			get
-			{
-				return (Condition)condition;
-			}
-			set
-			{
-				condition = (short)value;
-			}
-		}
-	}
+        [DataType(DataType.Date)]
+        public DateTime DateAdded { get; set; }
+    }
 }

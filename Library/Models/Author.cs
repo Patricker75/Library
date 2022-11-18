@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
@@ -6,12 +7,15 @@ namespace Library.Models
 	{
 		public int ID { get; set; }
 
+		[MaxLength(20)]
 		[Column("first_name")]
 		public string FirstName { get; set; }
 
-		[Column("middle_initial")]
+		[MaxLength(1)]
+		[Column("middle_name")]
 		public string? MiddleName { get; set; }
 
+		[MaxLength(20)]
 		[Column("last_name")]
 		public string LastName { get; set; }
 	}
