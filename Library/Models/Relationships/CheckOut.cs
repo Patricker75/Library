@@ -22,16 +22,11 @@ namespace Library.Models.Relationships
         [Required]
         public ItemType Type { get; set; }
 
+        [Required]
+        public int ItemID { get; set; }
+
         [ForeignKey("member")]
         [Column("member_id")]
         public int MemberID { get; set; }
-
-        [ForeignKey("book")]
-        [Column("book_id")]
-        public int BookID { get; set; }
-
-        [ForeignKey("device")]
-        [Column("device_id")]
-        public int DeviceID { get; set; }
     }
 }
