@@ -1,0 +1,24 @@
+﻿@page
+@model Library.Pages.Resources.IndexModel
+@{
+    ViewData["Title"] = "Resources";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Resource Name</th>
+            <th>Resource Url</th>
+            <th>Resource Description</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var resource in Model.Resources)
+        {
+        <td>@resource.Name</td>
+        <td>@resource.Url.ToString()</td>
+        <td>@resource.Description</td>
+        }
+    </tbody>
+</table>
