@@ -52,5 +52,10 @@ namespace Library.Pages.Services
 
             return RedirectToPage("/Services/Index");
         }
+
+        public IActionResult OnPostEdit(int serviceID)
+        {
+            return RedirectToPage("/Services/Edit", new { serviceID = serviceID });
+        }
     }
 }

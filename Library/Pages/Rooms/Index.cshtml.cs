@@ -55,5 +55,10 @@ namespace Library.Pages.Rooms
 
             return RedirectToPage("/Rooms/Index");
         }
+
+        public IActionResult OnPostEdit(string location)
+        {
+            return RedirectToPage("/Rooms/Edit", new { location = location });
+        }
     }
 }

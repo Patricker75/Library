@@ -55,5 +55,10 @@ namespace Library.Pages.Resources
 
             return Redirect(r.Url);
         }
+
+        public IActionResult OnPostEdit(int resourceID)
+        {
+            return RedirectToPage("/Resources/Edit", new { resourceID = resourceID });
+        }
     }
 }

@@ -2,6 +2,8 @@
 @model Library.Pages.Resources.IndexModel
 @{
     ViewData["Title"] = "Resources";
+    string? loginType = HttpContext.Session.GetString("loginType");
+    string? role = HttpContext.Session.GetString("employeeRole");
 }
 
 <table class="table">
@@ -19,12 +21,24 @@
             <tr>
                 <td>@resource.Name</td>
                 <td>@resource.Description</td>
-                <td>
-                    <form method="post">
-                        <input type="hidden" name="resourceID" value="@resource.ID" />
-                        <input type="submit" value="Visit" />
-                    </form>
-                </td>
+                @if (loginType != null && loginType == "employee")
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="resourceID" value="@resource.ID" />
+                            <input type="submit" value="Visit" asp-page-handler="Edit"/>
+                        </form>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="resourceID" value="@resource.ID" />
+                            <input type="submit" value="Edit" />
+                        </form>
+                    </td>
+                }
             </tr>
         }
     </tbody>

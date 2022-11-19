@@ -68,5 +68,10 @@ namespace Library.Pages.Devices
 
             return RedirectToPage("/Devices/Index");
         }
+    
+        public IActionResult OnPostEdit(int deviceID)
+        {
+            return RedirectToPage("/Devices/Edit", new { deviceID = deviceID });
+        }
     }
 }

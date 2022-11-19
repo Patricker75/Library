@@ -29,7 +29,16 @@
                             <input type="hidden" name="deviceID" value="@d.ID" />
                             <input type="submit" value="Check Out" />
                         </form>
-                    </td>   
+                    </td>
+                }
+                else if (loginType != null && loginType == "employee")
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="deviceID" value="@d.ID" />
+                            <input type="submit" value="Check Out" asp-page-handler="edit"/>
+                        </form>
+                    </td>
                 }
             </tr>
         }

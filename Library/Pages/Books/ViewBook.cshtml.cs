@@ -137,9 +137,9 @@ namespace Library.Pages.Books
             return Page();
         }
 
-        public IActionResult OnPostEdit()
+        public IActionResult OnPostEdit(int bookID)
         {
-            return Page();
+            return RedirectToPage("/Books/Edit", new { bookID = bookID });
         }
     }
 }
