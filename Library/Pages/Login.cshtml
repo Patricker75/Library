@@ -4,13 +4,19 @@
 }
 
 <form method="post">
-    <label for="username">Username:</label>
-    <input type="text" name="username" asp-for="@Model.Username"/>
+    <div asp-validation-summary="ModelOnly"></div>
 
-    <br />
-
-    <label for="password">Password:</label>
-    <input type="text" name="password" asp-for="@Model.Password" />
+    <div class="form-group">
+        <label asp-for="Login.Username" class="control-label">Username:</label>
+        <input asp-for="Login.Username" class="form-control"/>
+        <span asp-validation-for="Login.Username" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Login.Password" class="control-label">Password:</label>
+        <input asp-for="Login.Password" class="form-control"/>
+        <span asp-validation-for="Login.Password" class="text-danger"></span>
+    </div>
 
     <br />
 
@@ -18,6 +24,3 @@
 </form>
 
 <a asp-page="/Members/Add">Not a Member? Join Now</a>
-
-
-<h3 style="color:red">@Model.ErrorMessage</h3>

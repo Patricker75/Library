@@ -25,7 +25,7 @@ namespace Library.Pages.Devices
                 return RedirectToPage("/Index");
             }
 
-            Device? d = _context.Device.Find(id);
+            Device? d = _context.Devices.Find(id);
 
             if (d == null)
             {
@@ -39,7 +39,7 @@ namespace Library.Pages.Devices
         {
             if (ModelState.IsValid)
             {
-                _context.Device.Update(Device);                
+                _context.Devices.Update(Device);                
                 _context.SaveChanges();
 
                 return RedirectToPage("/Devices/Index");

@@ -1,9 +1,8 @@
 ﻿@page
 @model Library.Pages.Devices.CreateModel
-
+@using Library.Data;
 @{
-    @using Library.Data;
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add New Device";
 }
 
 
@@ -13,25 +12,17 @@
     <div asp-validation-summary="ModelOnly"></div>
 
     <div class="form-group">
-        <label asp-for="NewDeivce.ItemType" class="control-label">Device Type:</label>
-        <select asp-for="NewDeivce.ItemType" asp-items="Html.GetEnumSelectList<ItemType>()">
+        <label asp-for="Device.Type" class="control-label">Device Type:</label>
+        <select asp-for="Device.Type" asp-items="Html.GetEnumSelectList<DeviceType>()">
             <option hidden="hidden" selected="selected">Select A Device Type</option>
         </select>
-        <span asp-validation-for="NewDeivce.ItemType" class="text-danger"></span>
+        <span asp-validation-for="Device.Type" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="NewDeivce.Name" class="control-label">Name:</label>
-        <input asp-for="NewDeivce.Name" />
-        <span asp-validation-for="NewDeivce.Name" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="NewDeivce.Condition" class="control-label">Condition:</label>
-        <select asp-for="NewDeivce.Condition" asp-items="Html.GetEnumSelectList<Condition>()">
-            <option hidden="hidden" selected="selected">Select A Device Condition</option>
-        </select>
-        <span asp-validation-for="NewDeivce.Condition" class="text-danger"></span>
+        <label asp-for="Device.Name" class="control-label">Name:</label>
+        <input asp-for="Device.Name" />
+        <span asp-validation-for="Device.Name" class="text-danger"></span>
     </div>
         
     <br />

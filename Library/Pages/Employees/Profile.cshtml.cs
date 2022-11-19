@@ -36,22 +36,7 @@ namespace Library.Pages.Employees
                 return RedirectToPage("../Error");
             }
 
-            Employee = _context.Employee.Where(e => e.ID == employeeID).First();
-
-            string roles = "";
-            if (Employee.JobTitle.Contains("Librarian"))
-            {
-                roles += "librarian";
-            }
-            if (Employee.JobTitle.Contains("Chief") || Employee.JobTitle.Contains("Head"))
-            {
-                if (!string.IsNullOrEmpty(roles))
-                {
-                    roles += ",";
-                }
-                roles += "admin";
-            }
-            HttpContext.Session.SetString("roles", roles);
+            Employee = _context.Employees.Where(e => e.ID == employeeID).First();
 
             return Page();
         }

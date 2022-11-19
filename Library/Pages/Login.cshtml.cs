@@ -5,14 +5,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Library.Pages
 {
-    [BindProperties]
     public class LoginModel : PageModel
     {
-        public string Username { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string LoginType { get; set; } = string.Empty;
+        [BindProperty]
+        public LoginUser Login { get; set; } = default!;
 
-        public string ErrorMessage { get; set; } = string.Empty;
+        public string LoginType { get; set; } = string.Empty;
 
         private readonly LibraryContext _context;
 
@@ -21,35 +19,19 @@ namespace Library.Pages
             _context = context;
         }
 
-        public void OnGet(string message = "")
+        public void OnGet()
         {
-            ErrorMessage = message;
-
-            Username = "vboi75";
-            Password = "empassboi";
+            Login.Username = "vboi75";
+            Login.Password = "empassboi";
         }
 
-        private bool VerifyForm()
+        private IActionResult MemberLogin(int loginID)
         {
-            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
-            {
-                return false;
-            }
-            if (Username.Length > 20 || Password.Length > 10)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private IActionResult MemberLogin()
-        {
-            Member? member = _context.Member.Where(m => m.Username == Username && m.Password == Password).FirstOrDefault();
+            Member? member = _context.Members.Where(m => m.LoginID == loginID).FirstOrDefault();
 
             if (member == null)
             {
-                return RedirectToAction("Get", new { message = "Invalid Username/Password" });
+                return Page();
             }
 
             HttpContext.Session.SetString("loginType", "member");
@@ -59,41 +41,50 @@ namespace Library.Pages
             return RedirectToPage("/Members/Profile");
         }
 
-        private IActionResult EmployeeLogin()
+        private IActionResult EmployeeLogin(int loginID)
         {
-            Employee? employee = _context.Employee.Where(e => e.Username == Username && e.Password == Password).FirstOrDefault();
+            Employee? employee = _context.Employees.Where(e => e.LoginID == loginID).FirstOrDefault();
 
             if (employee == null)
             {
-                return RedirectToAction("Get", new { message = "Invalid Username/Password" });
+                return Page();
             }
 
             HttpContext.Session.SetString("loginType", "employee");
             HttpContext.Session.SetInt32("loginID", employee.ID);
             HttpContext.Session.SetString("userFullName", $"{employee.FirstName} {employee.LastName}");
+            HttpContext.Session.SetString("employeeRole", employee.JobRole.ToString());
 
             return RedirectToPage("/Employees/Profile");
         }
 
         public IActionResult OnPost()
         {
-            if (!VerifyForm())
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("Get", new { message = "Username & Password Required" });
+                return Page();
             }
 
-            if (_context.Member.Where(m => m.Username == Username).Any())
+            LoginUser? login = _context.Logins.Where(l => l.Username == Login.Username && l.Password == Login.Password).FirstOrDefault();
+            if (login == null)
             {
-                return MemberLogin();
+                return Page();
             }
-            else if (_context.Employee.Where(e => e.Username == Username).Any())
+
+            int loginID = login.ID;
+            // Member Login
+            if(_context.Members.Where(m => m.LoginID == loginID) != null)
             {
-                return EmployeeLogin();
+                return MemberLogin(loginID);
+            }
+            else if (_context.Employees.Where(e => e.LoginID == loginID) != null)
+            {
+                return EmployeeLogin(loginID);
             }
             else
             {
-                return RedirectToAction("Get", new { message = "Invalid Username/Password" });
-            }         
+                return RedirectToPage("/Error");
+            }
         }
     }
 }

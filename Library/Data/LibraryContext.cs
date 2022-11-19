@@ -17,6 +17,7 @@ namespace Library.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Specifying ID's as Identity Columns
             builder.Entity<Author>().Property(a => a.ID).UseIdentityColumn();
             builder.Entity<Book>().Property(b => b.ID).UseIdentityColumn();
             builder.Entity<Device>().Property(d => d.ID).UseIdentityColumn();
@@ -28,13 +29,16 @@ namespace Library.Data
             builder.Entity<Room>().Property(r => r.ID).UseIdentityColumn();
             builder.Entity<Service>().Property(s => s.ID).UseIdentityColumn();
 
-            builder.Entity<Access>().Property(a => new { a.TimeStamp, a.MemberID, a.ResourceID }).UseIdentityColumn();
             builder.Entity<CheckOut>().Property(co => co.ID).UseIdentityColumn();
             builder.Entity<Fine>().Property(f => f.ID).UseIdentityColumn();
             builder.Entity<Hold>().Property(h => h.ID).UseIdentityColumn();
-            builder.Entity<Manage>().Property(m => new { m.EmployeeID, m.ServiceID }).UseIdentityColumn();
-            builder.Entity<Use>().Property(u => new { u.TimeStamp, u.MemberID, u.ServiceID }).UseIdentityColumn();
 
+            // Specifying Composite Primary Keys
+            builder.Entity<Access>().HasKey(a => new { a.TimeStamp, a.MemberID, a.ResourceID });
+            builder.Entity<Manage>().HasKey(m => new { m.EmployeeID, m.ServiceID });
+            builder.Entity<Use>().HasKey(u => new { u.TimeStamp, u.MemberID, u.ServiceID });
+
+            // Specifiying Enum Conversions
             builder.Entity<Book>().Property(b => b.Audience).HasConversion(v => (int)v, v => (Audience)v);
             builder.Entity<Book>().Property(b => b.Genre).HasConversion(v => (int)v, v => (Genre)v);
             builder.Entity<Device>().Property(d => d.Type).HasConversion(v => (int)v, v => (DeviceType)v);
@@ -79,5 +83,7 @@ namespace Library.Data
         public DbSet<Manage> Manages { get; set; } = default!;
 
         public DbSet<Use> Uses { get; set; } = default!;
+
+        public DbSet<Library.Models.Course> Course { get; set; }
     }
 }

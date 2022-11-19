@@ -9,7 +9,10 @@ namespace Library.Pages.Employees
     public class AddModel : PageModel
     {
         [BindProperty]
-        public Employee NewEmployee { get; set; } = default!;
+        public Employee Employee { get; set; } = default!;
+
+        [BindProperty]
+        public LoginUser Login { get; set; } = default!;
 
         public int Error { get; set; }
  
@@ -34,20 +37,20 @@ namespace Library.Pages.Employees
         private bool VerifyForm()
         {
             // Check if username exists in member or employee table
-            if (_context.Member.Where(m => m.Username == NewEmployee.Username).Any() || _context.Employee.Where(e => e.Username == NewEmployee.Username).Any())
+            if (_context.Logins.Where(l => l.Username == Login.Username).Any())
             {
                 Error = 1;
                 return false;
             }
 
-            if (NewEmployee.BirthDate > DateTime.Today)
+            if (Employee.BirthDate > DateTime.Today)
             {
                 Error = 2;
                 return false;
             }
 
             // Check that Hire Date occurs after Birth Date
-            if (NewEmployee.BirthDate.AddYears(-18) >= NewEmployee.HireDate)
+            if (Employee.BirthDate.AddYears(-18) >= Employee.HireDate)
             {
                 Error = 3;
                 return false;
@@ -60,7 +63,11 @@ namespace Library.Pages.Employees
         {
             if(ModelState.IsValid && VerifyForm())
             {
-                _context.Employee.Add(NewEmployee);
+                _context.Logins.Add(Login);
+                _context.SaveChanges();
+
+                Employee.LoginID = Login.ID;
+                _context.Employees.Add(Employee);
                 _context.SaveChanges();
 
                 return RedirectToPage("Add");

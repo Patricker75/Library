@@ -14,7 +14,7 @@ namespace Library.Pages.Rooms
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public Room NewRoom { get; set; } = default!;
+        public Room Room { get; set; } = default!;
 
         public CreateModel(LibraryContext context)
         {
@@ -38,7 +38,7 @@ namespace Library.Pages.Rooms
         {
             if (ModelState.IsValid)
             {
-                _context.Room.Add(NewRoom);
+                _context.Rooms.Add(Room);
                 _context.SaveChanges();
 
                 return RedirectToPage("/Rooms/Create");

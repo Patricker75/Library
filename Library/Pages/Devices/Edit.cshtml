@@ -13,11 +13,11 @@
     <input type="hidden" asp-for="Device.ID" />
 
     <div class="form-group">
-        <label asp-for="Device.ItemType" class="control-label">Device Type:</label>
-        <select asp-for="Device.ItemType" asp-items="Html.GetEnumSelectList<ItemType>()">
+        <label asp-for="Device.Type" class="control-label">Device Type:</label>
+        <select asp-for="Device.Type" asp-items="Html.GetEnumSelectList<ItemType>()">
             <option hidden="hidden" selected="selected">Select A Device Type</option>
         </select>
-        <span asp-validation-for="Device.ItemType" class="text-danger"></span>
+        <span asp-validation-for="Device.Type" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -26,13 +26,7 @@
         <span asp-validation-for="Device.Name" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Device.Condition" class="control-label">Condition:</label>
-        <select asp-for="Device.Condition" asp-items="Html.GetEnumSelectList<Condition>()">
-            <option hidden="hidden" selected="selected">Select A Device Condition</option>
-        </select>
-        <span asp-validation-for="Device.Condition" class="text-danger"></span>
-    </div>
+    <br />
 
     <input type="submit" value="Save Edit" class="btn btn-primary" />
 </form>

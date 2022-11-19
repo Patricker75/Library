@@ -8,7 +8,7 @@ namespace Library.Pages.Services
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public Service NewService { get; set; } = default!;
+        public Service Service { get; set; } = default!;
 
         private readonly LibraryContext _context;
 
@@ -30,9 +30,11 @@ namespace Library.Pages.Services
 
         public IActionResult OnPost()
         {
+            Service.Availability = true;
+
             if (ModelState.IsValid)
             {
-               _context.Service.Add(NewService);
+               _context.Services.Add(Service);
                _context.SaveChanges();
 
                 return RedirectToPage("Create");
