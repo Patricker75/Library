@@ -1,0 +1,37 @@
+﻿@page
+@model Library.Pages.Devices.IndexModel
+@{
+    ViewData["Title"] = "Devices";
+    string? loginType = HttpContext.Session.GetString("loginType");
+    string? role = HttpContext.Session.GetString("employeeRole");
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var d in Model.Devices)
+        {
+            <tr>
+                <td>@d.Name</td>
+                <td>@d.Type.ToString()</td>
+                
+                @if (loginType != null && loginType == "member")
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="deviceID" value="@d.ID" />
+                            <input type="submit" value="Check Out" />
+                        </form>
+                    </td>   
+                }
+            </tr>
+        }
+    </tbody>
+</table>

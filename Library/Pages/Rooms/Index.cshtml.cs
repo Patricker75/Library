@@ -26,5 +26,34 @@ namespace Library.Pages.Rooms
 
             return Page();
         }
+
+        public IActionResult OnPost(string location)
+        {
+            int? id = HttpContext.Session.GetInt32("loginID");
+            if (id == null)
+            {
+                return Page();
+            }
+
+            Room? r = _context.Rooms.FirstOrDefault(r => r.Location == location);
+            if (r == null)
+            {
+                return Page();
+            }
+
+            // Check if member has reserved another room
+            if (_context.Rooms.FirstOrDefault(r => r.MemberID == id) != null) 
+            {
+                return Page();
+            }
+
+            r.MemberID = id;
+            r.IsAvailable = false;
+
+            _context.Attach(r).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return RedirectToPage("/Rooms/Index");
+        }
     }
 }

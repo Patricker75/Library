@@ -2,6 +2,8 @@
 @model Library.Pages.Rooms.IndexModel
 @{
     ViewData["Title"] = "Rooms";
+    string? loginType = HttpContext.Session.GetString("loginType");
+    string? role = HttpContext.Session.GetString("employeeRole");
 }
 
 <table class="table">
@@ -21,6 +23,16 @@
                 <td>@room.Location</td>
                 <td>@Html.DisplayFor(model => room.Type)</td>
                 <td>@Html.DisplayFor(model => room.IsAvailable)</td>
+
+                @if (loginType != null && loginType == "member" && room.IsAvailable)
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="location" value="@room.Location" />
+                            <input type="submit" value="Reserve" />
+                        </form>
+                    </td>
+                }
             </tr>
         }
     </tbody>

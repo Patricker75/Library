@@ -26,5 +26,34 @@ namespace Library.Pages.Resources
 
             return Page();
         }
+
+        public IActionResult OnPost(int resourceID)
+        {            
+            Resource? r = _context.Resources.FirstOrDefault(r => r.ID == resourceID);
+            if (r == null)
+            {
+                return Page();
+            }
+
+            int? id = HttpContext.Session.GetInt32("loginID");
+            string? loginType = HttpContext.Session.GetString("loginType");
+
+            if (loginType != null && loginType == "member")
+            {
+                if (id != null)
+                {
+                    _context.Accesses.Add(new Models.Relationships.Access()
+                    {
+                        MemberID = (int)id,
+                        ResourceID = resourceID,
+                        TimeStamp = DateTime.Now
+                    });
+
+                    _context.SaveChanges();
+                }
+            }
+
+            return Redirect(r.Url);
+        }
     }
 }

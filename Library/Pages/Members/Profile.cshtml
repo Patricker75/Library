@@ -1,0 +1,84 @@
+﻿@page
+@model Library.Pages.Members.ProfileModel
+@{
+}
+
+@if (Model.ReservedRoom != null)
+{
+    <table class="table">
+        <tr>
+            <th>Room</th>
+            <td>@Model.ReservedRoom.Location</td>
+            <td>@Model.ReservedRoom.Type.ToString()</td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="location" asp-for="ReservedRoom.Location" />
+                    <input type="submit" value="Relinquish Room" asp-page-handler="relinquish"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+}
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Check Out Date</th>
+        <th></th>
+    </tr>
+
+    @foreach (var checkOutID in Model.CheckedOutBookID)
+    {
+        var co = Model.Context.CheckOuts.Where(co => co.ID == checkOutID).First();
+        var book = Model.Context.Books.Where(b => b.ID == co.ItemID).First();
+        <tr>
+            <td>@book.Title</td>
+            <td>@co.CheckOutDate</td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="checkOutID" value="@co.ID" />
+                    <input type="submit" value="Return" asp-page-handler="return" />
+                </form>
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <th>Device</th>
+        <th>Check Out Date</th>
+        <th></th>
+    </tr>
+
+    @foreach (var checkOutID in Model.CheckedOutDeviceID)
+    {
+        var co = Model.Context.CheckOuts.Where(co => co.ID == checkOutID).First();
+        var device = Model.Context.Devices.Where(d => d.ID == co.ItemID).First();
+
+        <tr>
+            <td>@device.Name</td>
+            <td>@co.CheckOutDate</td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="checkOutID" value="@co.ID" />
+                    <input type="submit" value="Return" asp-page-handler="return" />
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Hold Date</th>
+    </tr>
+
+    @foreach (var hold in Model.Holds)
+    {
+        var book = Model.Context.Books.Where(b => b.ID == hold.BookID).First();
+        <tr>
+            <td>@book.Title</td>
+            <td>@hold.HoldDate</td>
+        </tr>
+    }
+</table>

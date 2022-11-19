@@ -1,5 +1,6 @@
 using Library.Data;
 using Library.Models;
+using Library.Models.Relationships;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -56,9 +57,84 @@ namespace Library.Pages.Books
             return Page();
         }
         
+        private void CheckOutBook(Book book, Member member)
+        {
+            book.Quantity--;
+            _context.Attach(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            _context.CheckOuts.Add(new CheckOut()
+            {
+                MemberID = member.ID,
+                Type = ItemType.Book,
+                ItemID = book.ID,
+                CheckOutDate = DateTime.Now,
+                IsReturned = false
+            });
+
+            _context.SaveChanges();
+        }
+
+        private void HoldBook(Book book, Member member)
+        {
+            // Check if member has a current hold on the book
+            if (_context.Holds.Where(h => h.IsWaiting && h.MemberID == member.ID && h.BookID == book.ID).Any())
+            {
+                return;
+            }
+
+            _context.Holds.Add(new Hold()
+            {
+                BookID = book.ID,
+                MemberID = member.ID,
+                HoldDate = DateTime.Now,
+                IsWaiting = true
+            });
+
+            _context.SaveChanges();
+        }
+
         public IActionResult OnPostCheckOut()
         {
-            return RedirectToPage("/Books/Checkout", new { bookID = Book.ID });
+            int? id = HttpContext.Session.GetInt32("loginID");
+            if (id == null)
+            {
+                return Page();
+            }
+            
+            Member? m = _context.Members.FirstOrDefault(m => m.ID == id);
+            if (m == null)
+            {
+                return Page();
+            }
+
+            Book? b = _context.Books.FirstOrDefault(b => b.ID == Book.ID);
+            if (b == null)
+            {
+                return Page();
+            }
+
+            // Check if member will exceed their checkout limit
+            if (_context.CheckOuts.Where(co => co.MemberID == m.ID && !co.IsReturned).Count() + 1 > m.CheckOutLimit) 
+            {
+                return Page();
+            }
+
+            // Check if member has the book already checked out
+            if (_context.CheckOuts.Where(co => co.MemberID == m.ID && co.ItemID == Book.ID && co.Type == ItemType.Book && !co.IsReturned).Any())
+            {
+                return Page();
+            }
+
+            if (b.Quantity == 0)
+            {
+                HoldBook(b, m);
+            }
+            else
+            {
+                CheckOutBook(b, m);
+            }
+
+            return Page();
         }
 
         public IActionResult OnPostEdit()

@@ -2,6 +2,8 @@
 @model Library.Pages.Services.IndexModel
 @{
     ViewData["Title"] = "Services";
+    string? loginType = HttpContext.Session.GetString("loginType");
+    string? role = HttpContext.Session.GetString("employeeRole");
 }
 
 <table class="table">
@@ -10,19 +12,28 @@
             <th>Service Location</th>
             <th>Service Name</th>
             <th>Availability?</th>
-            <th>Date Added</th>
+            <th></th>
         </tr>
     </thead>
 
     <tbody>
         @foreach (var service in Model.Services)
         {
-        <tr>
-            <td>@service.Location</td>
-            <td>@service.Name</td>
-            <td>@service.Availability</td>
-            <td>@service.DateAdded</td>
-        </tr>
+            <tr>
+                <td>@service.Location</td>
+                <td>@service.Name</td>
+                    <td>@Html.DisplayFor(model => service.Availability)</td>
+                
+                @if (loginType != null && loginType == "member")
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="serviceID" value="@service.ID" />
+                            <input type="submit" value="Use Service" />
+                        </form>
+                    </td>
+                }
+            </tr>
         }
     </tbody>
 </table>

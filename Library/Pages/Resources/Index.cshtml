@@ -8,8 +8,8 @@
     <thead>
         <tr>
             <th>Resource Name</th>
-            <th>Resource Url</th>
             <th>Resource Description</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -18,8 +18,13 @@
         {
             <tr>
                 <td>@resource.Name</td>
-                <td>@resource.Url.ToString()</td>
                 <td>@resource.Description</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="resourceID" value="@resource.ID" />
+                        <input type="submit" value="Visit" />
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
