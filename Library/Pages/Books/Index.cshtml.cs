@@ -8,9 +8,7 @@ namespace Library.Pages.Books
     public enum SearchOption
     {
         Title = 0,
-        Author = 1,
-        Publisher = 2,
-        Genre = 3
+        Author = 1
     }
 
     public class IndexModel : PageModel
@@ -46,10 +44,12 @@ namespace Library.Pages.Books
                 {
                     case SearchOption.Title:
                         Books = Context.Books.Where(b => b.Title.Contains(SearchString)).ToList();
-                        return Page();
-                    case SearchOption.Genre:
-                        Books = Context.Books.Where(b => b.Genre.ToString().Contains(SearchString)).ToList();
-                        return Page();
+                        break;
+
+                    case SearchOption.Author:
+                        IQueryable<Author> authors = Context.Authors.Where(a => a.FirstName.Contains(SearchString) || a.LastName.Contains(SearchString));
+                        Books = Context.Books.Where(b => authors.Where(a => a.ID == b.AuthorID).Any()).ToList();
+                        break;
                 }
 
                 return Page();

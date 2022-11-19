@@ -5,13 +5,21 @@
     ViewData["Title"] = "Books";
 }
 
+<form method="get">
+    <input asp-for="SearchString" />
+    <select asp-for="SearchOption" asp-items="Html.GetEnumSelectList<SearchOption>()">
+    </select>
+
+    <input type="submit" value="Search" />
+</form>
+
 <table class="table">
     <thead>
         <tr>
-            <td>Title</td>
-            <td>Author</td>
-            <td>Genre</td>
-            <td>Dewey Decimal Number</td>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Dewey Decimal Number</th>
         </tr>
     </thead>
 
