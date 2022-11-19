@@ -43,8 +43,8 @@
 
     public enum ItemType
     {
-        Book = 1,
-        Device = 2
+        Book = 0,
+        Device = 1
     }
 
     public enum Genre

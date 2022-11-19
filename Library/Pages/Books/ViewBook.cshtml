@@ -1,0 +1,47 @@
+﻿@page
+@model Library.Pages.Books.ViewBookModel
+@{
+    ViewData["Title"] = "Viewing Book";
+    string? loginType = HttpContext.Session.GetString("loginType");
+    string? role = HttpContext.Session.GetString("employeeRole");
+}
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Title</th>
+            <td>@Model.Book.Title</td>
+        </tr>
+
+        <tr>
+            <th>Author</th>
+            <td>@Model.Author.FirstName @Model.Author.LastName</td>
+        </tr>
+
+        <tr>
+            <th>Summary</th>
+            <td>@Model.Book.Summary</td>
+        </tr>
+
+        <tr>
+            <th>Genre</th>
+            <td>@Model.Book.Genre</td>
+        </tr>
+    </tbody>
+</table>
+
+@if (loginType != null && loginType == "member")
+{
+    <form method="post">
+        <input type="hidden" asp-for="Book.ID" />
+        <input type="submit" value="Check Out" asp-page-handler="checkout" />
+    </form>
+}
+
+@if (loginType != null && role != null && loginType == "employee" && (role == "Librarian" || role == "Admin"))
+{
+    <form method="post">
+        <input type="hidden" asp-for="Book.ID" />
+        <input type="submit" value="Edit Book" asp-page-handler="edit" />
+    </form>
+}

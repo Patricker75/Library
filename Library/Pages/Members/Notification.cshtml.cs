@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Library.Pages.Members
 {
-    public class ProfileModel : PageModel
+    public class NotificationModel : PageModel
     {
         public void OnGet()
         {

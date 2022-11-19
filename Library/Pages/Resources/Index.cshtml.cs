@@ -8,7 +8,7 @@ namespace Library.Pages.Resources
     public class IndexModel : PageModel
     {
         [BindProperty]
-        public IList<Resource> Resources { get; set; }
+        public IList<Resource> Resources { get; set; } = default!;
 
         private readonly LibraryContext _context;
 

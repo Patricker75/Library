@@ -39,7 +39,7 @@ namespace Library.Pages.Books
         
         private int SearchAuthor()
         {
-            Author? author = _context.Authors.First(a => a.FirstName == Author.FirstName && a.LastName == Author.LastName);
+            Author? author = _context.Authors.FirstOrDefault(a => a.FirstName == Author.FirstName && a.LastName == Author.LastName);
             if (author == null)
             {
                 _context.Authors.Add(Author);
@@ -53,7 +53,7 @@ namespace Library.Pages.Books
 
         private int SearchPublisher()
         {
-            Publisher? publisher = _context.Publishers.First(p => p.Name == Publisher.Name);
+            Publisher? publisher = _context.Publishers.FirstOrDefault(p => p.Name == Publisher.Name);
             if (publisher == null)
             {
                 _context.Publishers.Add(Publisher);

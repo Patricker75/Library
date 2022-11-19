@@ -15,12 +15,15 @@ namespace Library.Models.Relationships
         public DateTime FineDate { get; set; }
 
         [DataType(DataType.Date)]
+        [Column("paid_date")]
         public DateTime? PaidDate { get; set; }
 
         [Required]
+        [Column("item_type")]
         public ItemType Type { get; set; }
 
         [Required]
+        [Column("item_id")]
         public int ItemID { get; set; }
 
         [ForeignKey("member")]

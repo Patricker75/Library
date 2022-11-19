@@ -10,9 +10,11 @@ namespace Library.Models.Relationships
 
         [Required]
         [DataType(DataType.Date)]
+        [Column("hold_date")]
         public DateTime HoldDate { get; set; }
 
         [DataType(DataType.Date)]
+        [Column("pick_up_date")]
         public DateTime? PickUpDate { get; set; }
 
         [Required]

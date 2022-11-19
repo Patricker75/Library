@@ -15,15 +15,19 @@ namespace Library.Models.Relationships
         public DateTime CheckOutDate { get; set; }
 
         [DataType(DataType.Date)]
+        [Column("return_date")]
         public DateTime? ReturnDate { get; set; }
 
         [Required]
+        [Column("returned")]
         public bool IsReturned { get; set; }
 
         [Required]
+        [Column("item_type")]
         public ItemType Type { get; set; }
 
         [Required]
+        [Column("item_id")]
         public int ItemID { get; set; }
 
         [ForeignKey("member")]

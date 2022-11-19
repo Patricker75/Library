@@ -51,6 +51,9 @@ namespace Library.Data
             builder.Entity<Member>().Property(m => m.Status).HasConversion(v => (short)v, v => (MemberStatus)v);
             builder.Entity<Member>().Property(m => m.Type).HasConversion(v => (short)v, v => (MemberType)v);
             builder.Entity<Room>().Property(r => r.Type).HasConversion(v => (short)v, v => (RoomType)v);
+
+            builder.Entity<CheckOut>().Property(co => co.Type).HasConversion(v => (short)v, v => (ItemType)v);
+            builder.Entity<Fine>().Property(f => f.Type).HasConversion(v => (short)v, v => (ItemType)v);
         }
 
         public DbSet<Author> Authors { get; set; } = default!;
