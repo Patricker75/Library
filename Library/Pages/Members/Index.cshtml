@@ -1,0 +1,26 @@
+﻿@page
+@model Library.Pages.Members.IndexModel
+@{
+    ViewData["Title"] = "Members";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Birthday</th>
+            <th>Membership Type</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var member in Model.Members)
+        {
+            <tr>
+                <td>@member.FirstName @member.LastName</td>
+                <td>@Html.DisplayFor(m => member.BirthDate)</td>
+                <td>@Html.DisplayFor(m => member.Status)</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,30 @@
+﻿@page
+@model Library.Pages.Employees.IndexModel
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Birthday</th>
+            <th>Hire Date</th>
+            <th>Job</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var employee in Model.Employees)
+        {
+            <tr>
+                <td>@employee.FirstName @employee.LastName</td>
+                <td>@Html.DisplayFor(m => employee.PhoneNumber)</td>
+                <td>@Html.DisplayFor(m => employee.BirthDate)</td>
+                <td>@Html.DisplayFor(m => employee.HireDate)</td>
+                <td>@Html.DisplayFor(m => employee.JobRole)</td>
+            </tr>
+        }
+    </tbody>
+</table>
