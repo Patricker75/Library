@@ -3,10 +3,11 @@
 
 @{
     @using Library.Data;
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add New Room";
 }
 
-<h4>Create Room</h4>
+<h4>Add A Room</h4>
+<hr />
 <form method="post">
     <div asp-validation-summary="ModelOnly"></div>
     
@@ -24,7 +25,7 @@
         <span asp-validation-for="Room.Type" class="text-danger"></span>
     </div>
 
-    <input type="submit" value="Create" class="btn btn-primary" />
+    <input type="submit" value="Add Room" class="btn btn-primary" />
 
 </form>
 

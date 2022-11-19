@@ -2,10 +2,11 @@
 @model Library.Pages.Services.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add New Service";
 }
 
-<h1>Add Service</h1>
+<h4>Add A Service</h4>
+<hr />
 <form method="post">
     <div asp-validation-summary="ModelOnly"></div>
 
@@ -21,7 +22,7 @@
         <span asp-validation-for="Service.Location" class="text-danger"></span>
     </div>
 
-    <input type="submit" value="Create" class="btn btn-primary" />
+    <input type="submit" value="Add Service" class="btn btn-primary" />
 </form>
 
 <div>
