@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.Pages.Employees
+namespace Library.Pages.Members
 {
     public class AddModel : PageModel
     {
         [BindProperty]
-        public Employee Employee { get; set; } = default!;
+        public Member Member { get; set; } = default!;
 
         [BindProperty]
         public LoginUser Login { get; set; } = default!;
@@ -26,13 +26,6 @@ namespace Library.Pages.Employees
         public IActionResult OnGet()
         {
             return Page();
-            string? roles = HttpContext.Session.GetString("roles");
-            if (roles == null || !roles.Contains("admin"))
-            {
-                return RedirectToPage("/Index");
-            }
-
-            return Page();
         }
 
         private bool VerifyForm()
@@ -44,16 +37,9 @@ namespace Library.Pages.Employees
                 return false;
             }
 
-            if (Employee.BirthDate > DateTime.Today)
+            if (Member.BirthDate > DateTime.Today)
             {
                 Error = 2;
-                return false;
-            }
-
-            // Check that Hire Date occurs after Birth Date
-            if (Employee.BirthDate.AddYears(-18) >= Employee.HireDate)
-            {
-                Error = 3;
                 return false;
             }
 
@@ -67,11 +53,25 @@ namespace Library.Pages.Employees
                 _context.Logins.Add(Login);
                 _context.SaveChanges();
 
-                Employee.LoginID = Login.ID;
-                _context.Employees.Add(Employee);
+                Member.LoginID = Login.ID;
+                Member.Balance = 0;
+                Member.Status = MemberStatus.Active;
+                Member.JoinDate = DateTime.Today;
+
+                switch (Member.Type)
+                {
+                    case MemberType.Student:
+                        Member.CheckOutLimit = 3;
+                        break;
+                    case MemberType.Professional:
+                        Member.CheckOutLimit = 10;
+                        break;
+                }
+
+                _context.Members.Add(Member);
                 _context.SaveChanges();
 
-                return RedirectToPage("Add");
+                return RedirectToPage("/Login");
             }
 
             return Page();

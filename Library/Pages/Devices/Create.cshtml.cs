@@ -30,6 +30,8 @@ namespace Library.Pages.Devices
 
         public IActionResult OnPost()
         {
+            Device.DateAdded = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 _context.Devices.Add(Device);

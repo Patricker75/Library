@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
-
-	public partial class Member
+    [Table("member")]
+    public partial class Member
 	{
 		public int ID { get; set; }
 

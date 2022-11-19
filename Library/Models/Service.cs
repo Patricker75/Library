@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
-	public partial class Service
+    [Table("service")]
+    public partial class Service
 	{
 		public int ID { get; set; }
 
@@ -18,9 +19,10 @@ namespace Library.Models
 		public string Name { get; set; }
 
 		[Required]
-		[Column("availability")]
+		[Column("available")]
 		public bool Availability { get; set; }
 
+		[Column("date_added")]
         [DataType(DataType.Date)]
         public DateTime DateAdded { get; set; }
     }

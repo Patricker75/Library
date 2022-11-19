@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
+    [Table("notification")]
     public class Notification
     {
         public int ID { get; set; }

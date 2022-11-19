@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
-	public partial class Book
+    [Table("book")]
+    public partial class Book
 	{
 		public int ID { get; set; }
 
@@ -32,7 +33,8 @@ namespace Library.Models
 		[Required]
 		public int Quantity { get; set; }
 
-		[DataType(DataType.Date)]
+        [Column("date_added")]
+        [DataType(DataType.Date)]
 		public DateTime DateAdded { get; set; }
 
 		[ForeignKey("author")]

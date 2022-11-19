@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
-	public partial class Room
+    [Table("room")]
+    public partial class Room
 	{
 		public int ID { get; set; }
 
@@ -19,6 +20,7 @@ namespace Library.Models
 		[Column("available")]
 		public bool IsAvailable { get; set; }
 
+        [Column("date_added")]
         [DataType(DataType.Date)]
         public DateTime DateAdded { get; set; }
 

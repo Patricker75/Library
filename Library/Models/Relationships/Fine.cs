@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Library.Models.Relationships
 {
+    [Table("fine")]
     public class Fine
     {
         public int ID { get; set; }

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models.Relationships
 {
+    [Table("access")]
     public class Access
     {
         [Required]

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models.Relationships
 {
+    [Table("check_out")]
     public class CheckOut
     {
         public int ID { get; set; }

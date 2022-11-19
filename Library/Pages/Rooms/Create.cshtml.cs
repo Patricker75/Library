@@ -36,6 +36,9 @@ namespace Library.Pages.Rooms
         
         public IActionResult OnPost()
         {
+            Room.IsAvailable = true;
+            Room.DateAdded = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 _context.Rooms.Add(Room);

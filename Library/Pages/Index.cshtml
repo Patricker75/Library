@@ -13,19 +13,19 @@
     }
 }
 
-<a href="/Members/CheckoutHistory">Report 1</a>
-<a href="/Employees/MembersRecord">Report 2</a>
+<a asp-page="/Members/CheckoutHistory">Report 1</a>
+<a asp-page="/Employees/MembersRecord">Report 2</a>
 
 <table class="table">
     <tr>
         <th>Books</th>
         <td>
-            <a href="/Books">Book Catalog</a>
+            <a asp-page="/Books">Book Catalog</a>
             
             @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
             {
                 <br />
-                <a href="/Books/Add">Add Book</a>
+                <a asp-page="/Books/Add">Add Book</a>
             }
         </td>
     </tr>
@@ -33,9 +33,9 @@
     <tr>
         <th>Members</th>
         <td>
-            <a href="/Members">Library Members</a>
+            <a asp-page="/Members">Library Members</a>
             <br />
-            <a href="/Members/Add">Register New Member</a>
+            <a asp-page="/Members/Add">Register New Member</a>
         </td>
     </tr>
 
@@ -44,12 +44,12 @@
         <tr>
             <th>Employees</th>
             <td>
-                <a href="/Employees">Library Employees</a>
+                <a asp-page="/Employees">Library Employees</a>
 
                 @if (loginRoles != null && (loginRoles.Contains("admin")))
                 {
                     <br />
-                    <a href="/Employees/Add">Register New Employee</a>
+                    <a asp-page="/Employees/Add">Register New Employee</a>
                 }
             </td>
         </tr>
@@ -58,12 +58,12 @@
     <tr>
         <th>Rooms</th>
         <td>
-            <a href="/Rooms">Library Rooms</a>
+            <a asp-page="/Rooms">Library Rooms</a>
 
             @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
             {
                 <br />
-                <a href="/Rooms/Create">Add Room</a>
+                <a asp-page="/Rooms/Create">Add Room</a>
             }
         </td>
     </tr>
@@ -71,12 +71,12 @@
     <tr>
         <th>Devices</th>
         <td>
-            <a href="/Devices">Device Catalog</a>
+            <a asp-page="/Devices">Device Catalog</a>
 
             @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
             {
                 <br />
-                <a href="/Devices/Create">Add New Device</a>
+                <a asp-page="/Devices/Create">Add New Device</a>
             }
         </td>
     </tr>
@@ -84,12 +84,12 @@
     <tr>
         <th>Services</th>
         <td>
-            <a href="/Services">Offered Services</a>
+            <a asp-page="/Services">Offered Services</a>
 
             @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
             {
                 <br />
-                <a href="/Services/Create">Add New Services</a>
+                <a asp-page="/Services/Create">Add New Services</a>
             }
         </td>
     </tr>

@@ -31,6 +31,7 @@ namespace Library.Pages.Services
         public IActionResult OnPost()
         {
             Service.Availability = true;
+            Service.DateAdded = DateTime.Now;
 
             if (ModelState.IsValid)
             {

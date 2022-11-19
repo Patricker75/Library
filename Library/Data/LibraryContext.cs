@@ -17,6 +17,8 @@ namespace Library.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             // Specifying ID's as Identity Columns
             builder.Entity<Author>().Property(a => a.ID).UseIdentityColumn();
             builder.Entity<Book>().Property(b => b.ID).UseIdentityColumn();
@@ -83,7 +85,5 @@ namespace Library.Data
         public DbSet<Manage> Manages { get; set; } = default!;
 
         public DbSet<Use> Uses { get; set; } = default!;
-
-        public DbSet<Library.Models.Course> Course { get; set; }
     }
 }

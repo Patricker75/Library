@@ -2,6 +2,7 @@
 
 namespace Library.Models.Relationships
 {
+    [Table("manage")]
     public class Manage
     {
         [ForeignKey("employee")]

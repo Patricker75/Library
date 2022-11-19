@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
+    [Table("resource")]
     public class Resource
     {
         public int ID { get; set; }
@@ -20,6 +21,7 @@ namespace Library.Models
         [MaxLength(200)]
         public string Description { get; set; }
 
+        [Column("date_added")]
         [DataType(DataType.Date)]
         public DateTime DateAdded { get; set; }
     }

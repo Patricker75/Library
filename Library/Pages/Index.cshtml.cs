@@ -19,6 +19,8 @@ namespace Library.Pages
 
         public IActionResult OnGet()
         {
+            List<Employee> e = _context.Employees.ToList();
+
             return Page();
         }
     }

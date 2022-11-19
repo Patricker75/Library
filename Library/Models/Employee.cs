@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
-	public partial class Employee
+    [Table("employee")]
+    public partial class Employee
 	{
 		public int ID { get; set; }
 
@@ -56,12 +57,12 @@ namespace Library.Models
 		[Column("hours_worked")]
 		public decimal HoursWorked { get; set; }
 
-		[ForeignKey("loginuser")]
+		[ForeignKey("login_user")]
 		[Column("login_id")]
 		public int LoginID { get; set; }
 
 		[ForeignKey("employee")]
 		[Column("supervisor_id")]
-		public int SupervisorID { get; set; }
+		public int? SupervisorID { get; set; }
 	}
 }

@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
-	public partial class Device
+    [Table("device")]
+    public partial class Device
 	{
 		public int ID { get; set; }
 
@@ -15,6 +16,7 @@ namespace Library.Models
 		[MaxLength(50)]
 		public string Name { get; set; }
 
+        [Column("date_added")]
         [DataType(DataType.Date)]
         public DateTime DateAdded { get; set; }
     }

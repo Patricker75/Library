@@ -39,7 +39,7 @@ namespace Library.Pages.Books
         
         public IActionResult OnPost()
         {
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            Book.DateAdded = DateTime.Now;
 
             if (ModelState.IsValid)
             {

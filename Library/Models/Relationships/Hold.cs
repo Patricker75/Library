@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models.Relationships
 {
+    [Table("hold")]
     public class Hold
     {
         public int ID { get; set; }

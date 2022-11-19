@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Library.Models.Relationships
 {
+    [Table("uses")]
     public class Use
     {
         [Required]

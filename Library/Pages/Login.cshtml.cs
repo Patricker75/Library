@@ -17,17 +17,18 @@ namespace Library.Pages
         public LoginModel(LibraryContext context)
         {
             _context = context;
+            Login = new LoginUser();
         }
 
         public void OnGet()
         {
-            Login.Username = "vboi75";
+            Login.Username = "admin";
             Login.Password = "empassboi";
         }
 
-        private IActionResult MemberLogin(int loginID)
+        private IActionResult MemberLogin(Int32 loginID)
         {
-            Member? member = _context.Members.Where(m => m.LoginID == loginID).FirstOrDefault();
+            Member? member = _context.Members.Where(m => m.LoginID == loginID).First();
 
             if (member == null)
             {
@@ -41,9 +42,11 @@ namespace Library.Pages
             return RedirectToPage("/Members/Profile");
         }
 
-        private IActionResult EmployeeLogin(int loginID)
+        private IActionResult EmployeeLogin(Int32 loginID)
         {
-            Employee? employee = _context.Employees.Where(e => e.LoginID == loginID).FirstOrDefault();
+            Employee t = _context.Employees.ToList().First();
+
+            Employee? employee = _context.Employees.Where(e => e.LoginID == loginID).First();
 
             if (employee == null)
             {
@@ -73,11 +76,11 @@ namespace Library.Pages
 
             int loginID = login.ID;
             // Member Login
-            if(_context.Members.Where(m => m.LoginID == loginID) != null)
+            if(_context.Members.Where(m => m.LoginID == loginID).Any())
             {
                 return MemberLogin(loginID);
             }
-            else if (_context.Employees.Where(e => e.LoginID == loginID) != null)
+            else if (_context.Employees.Where(e => e.LoginID == loginID).Any())
             {
                 return EmployeeLogin(loginID);
             }

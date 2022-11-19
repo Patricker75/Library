@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models
 {
-	public partial class Publisher
+    [Table("publisher")]
+    public partial class Publisher
 	{
 		public int ID { get; set; }
 
