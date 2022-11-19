@@ -15,7 +15,7 @@
     <tr>
         <th>Books</th>
         <td>
-            <a asp-page="/Books">Book Catalog</a>
+            <a asp-page="/Books/Index">Book Catalog</a>
             
             @if (role != null && (role == "Admin" || role == "Librarian"))
             {
@@ -28,7 +28,7 @@
     <tr>
         <th>Members</th>
         <td>
-            <a asp-page="/Members">Library Members</a>
+            <a asp-page="/Members/Index">Library Members</a>
             <br />
             <a asp-page="/Members/Add">Register New Member</a>
         </td>
@@ -39,7 +39,7 @@
         <tr>
             <th>Employees</th>
             <td>
-                <a asp-page="/Employees">Library Employees</a>
+                <a asp-page="/Employees/Index">Library Employees</a>
 
                 @if (role != null && role == "Admin")
                 {
@@ -53,7 +53,7 @@
     <tr>
         <th>Rooms</th>
         <td>
-            <a asp-page="/Rooms">Library Rooms</a>
+            <a asp-page="/Rooms/Index">Library Rooms</a>
 
             @if (role != null && (role == "Admin" || role == "Technician"))
             {
@@ -66,7 +66,7 @@
     <tr>
         <th>Devices</th>
         <td>
-            <a asp-page="/Devices">Device Catalog</a>
+            <a asp-page="/Devices/Index">Device Catalog</a>
 
             @if (role != null && (role == "Admin" || role == "Librarian"))
             {
@@ -79,7 +79,7 @@
     <tr>
         <th>Services</th>
         <td>
-            <a asp-page="/Services">Offered Services</a>
+            <a asp-page="/Services/Index">Offered Services</a>
 
             @if (role != null && (role == "Admin" || role == "Technician"))
             {
@@ -92,7 +92,7 @@
     <tr>
         <th>Resources</th>
         <td>
-            <a asp-page="/Resources">Library Resources</a>
+            <a asp-page="/Resources/Index">Library Resources</a>
 
             @if (role != null && (role == "Admin" || role == "Technician"))
             {

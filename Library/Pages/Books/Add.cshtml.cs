@@ -37,16 +37,50 @@ namespace Library.Pages.Books
             return Page();
         }
         
+        private int SearchAuthor()
+        {
+            Author? author = _context.Authors.First(a => a.FirstName == Author.FirstName && a.LastName == Author.LastName);
+            if (author == null)
+            {
+                _context.Authors.Add(Author);
+                _context.SaveChanges();
+
+                return Author.ID;
+            }
+
+            return author.ID;
+        }
+
+        private int SearchPublisher()
+        {
+            Publisher? publisher = _context.Publishers.First(p => p.Name == Publisher.Name);
+            if (publisher == null)
+            {
+                _context.Publishers.Add(Publisher);
+                _context.SaveChanges();
+
+                return Publisher.ID;
+            }
+
+            return publisher.ID;
+        }
+
         public IActionResult OnPost()
         {
             Book.DateAdded = DateTime.Now;
 
             if (ModelState.IsValid)
             {
+                int authorID = SearchAuthor();
+                int publisherID = SearchPublisher();
+
+                Book.AuthorID = authorID;
+                Book.PublisherID = publisherID;
+
                 _context.Books.Add(Book);
                 _context.SaveChanges();
 
-                return RedirectToPage("/Books/Create");
+                return RedirectToPage("/Books/Add");
             }
 
             return Page();

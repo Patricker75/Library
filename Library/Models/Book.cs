@@ -37,9 +37,11 @@ namespace Library.Models
         [DataType(DataType.Date)]
 		public DateTime DateAdded { get; set; }
 
+		[Column("author_id")]
 		[ForeignKey("author")]
 		public int AuthorID { get; set; }
 
+		[Column("publisher_id")]
 		[ForeignKey("publisher")]
 		public int PublisherID { get; set; }
 	}

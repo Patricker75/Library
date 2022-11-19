@@ -46,30 +46,47 @@ namespace Library.Pages.Books
             }
             Book = book;
 
-            Publisher? publisher = _context.Publishers.FirstOrDefault(p => p.ID == Book.PublisherID);
-            if (publisher == null)
-            {
-                return RedirectToPage("/Books/Index");
-            }
+            return Page();
+        }
 
-            Author? author = _context.Authors.FirstOrDefault(a => a.ID == book.AuthorID);
+        private int SearchAuthor()
+        {
+            Author? author = _context.Authors.First(a => a.FirstName == Author.FirstName && a.LastName == Author.LastName);
             if (author == null)
             {
-                return RedirectToPage("/Books/Index");
+                _context.Authors.Add(Author);
+                _context.SaveChanges();
+
+                return Author.ID;
             }
 
-            Author = author;
-            Publisher = publisher;
+            return author.ID;
+        }
 
-            return Page();
+        private int SearchPublisher()
+        {
+            Publisher? publisher = _context.Publishers.First(p => p.Name == Publisher.Name);
+            if (publisher == null)
+            {
+                _context.Publishers.Add(Publisher);
+                _context.SaveChanges();
+
+                return Publisher.ID;
+            }
+
+            return publisher.ID;
         }
 
         public IActionResult OnPost()
         {
             if (ModelState.IsValid)
             {
-                _context.Attach(Author).State = EntityState.Modified;
-                _context.Attach(Publisher).State = EntityState.Modified;
+                int authorID = SearchAuthor();
+                int publisherID = SearchPublisher();
+
+                Book.AuthorID = authorID;
+                Book.PublisherID = publisherID;
+
                 _context.Attach(Book).State = EntityState.Modified;
 
                 _context.SaveChanges();

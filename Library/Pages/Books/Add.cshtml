@@ -80,6 +80,12 @@
         <span asp-validation-for="Book.Audience" class="text-danger"></span>
     </div>
 
+    <div class="form-control">
+        <label asp-for="Book.Quantity" class="control-label">Quantity:</label>
+        <input asp-for="Book.Quantity" class="form-control"/>
+        <span asp-validation-for="Book.Quantity" class="text-danger"></span>
+    </div>
+
     <br />
 
     <input type="submit" value="Add Book" class="btn btn-primary"/>
