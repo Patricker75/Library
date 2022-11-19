@@ -62,12 +62,25 @@ namespace Library.Pages.Books
             book.Quantity--;
             _context.Attach(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
+            // Days after for due date
+            int interval = 0;
+            switch (member.Type)
+            {
+                case MemberType.Student:
+                    interval = 14;
+                    break;
+                case MemberType.Professional:
+                    interval = 28;
+                    break;
+            }
+
             _context.CheckOuts.Add(new CheckOut()
             {
                 MemberID = member.ID,
                 Type = ItemType.Book,
                 ItemID = book.ID,
                 CheckOutDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(interval),
                 IsReturned = false
             });
 

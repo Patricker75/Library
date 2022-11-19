@@ -3,6 +3,7 @@ using Library.Models;
 using Library.Models.Relationships;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Diagnostics.Metrics;
 
 namespace Library.Pages.Devices
 {
@@ -55,12 +56,31 @@ namespace Library.Pages.Devices
                 return Page();
             }
 
+            Member? m = _context.Members.FirstOrDefault(m => m.ID == m.ID);
+            if (m == null)
+            {
+                return Page();
+            }
+
+            // Days after for due date
+            int interval = 0;
+            switch (m.Type)
+            {
+                case MemberType.Student:
+                    interval = 14;
+                    break;
+                case MemberType.Professional:
+                    interval = 28;
+                    break;
+            }
+
             _context.CheckOuts.Add(new CheckOut()
             {
                 MemberID = (int)id,
                 Type = ItemType.Device,
                 ItemID = deviceID,
                 CheckOutDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(interval),
                 IsReturned = false
             });
 
