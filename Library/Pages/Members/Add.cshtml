@@ -4,7 +4,8 @@
     @using Library.Data;
     ViewData["Title"] = "Add New Member";
 }
-
+<h4>Register A New Member</h4>
+<hr />
 <form method="post">
     <div asp-validation-summary="ModelOnly"></div>
 
@@ -72,7 +73,7 @@
         <span asp-validation-for="Member.Type" class="text-danger"></span>
     </div>
 
-    <input type="submit" class="btn btn-primary" value="Add Member" />
+    <input type="submit" class="btn btn-primary" value="Register Member" />
 </form>
 
 <a href="/Index">Go Home</a>
