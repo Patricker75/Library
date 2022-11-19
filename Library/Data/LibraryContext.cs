@@ -28,12 +28,13 @@ namespace Library.Data
             builder.Entity<Notification>().Property(n => n.ID).UseIdentityColumn();
             builder.Entity<Publisher>().Property(p => p.ID).UseIdentityColumn();
             builder.Entity<Resource>().Property(r => r.ID).UseIdentityColumn();
-            builder.Entity<Room>().Property(r => r.ID).UseIdentityColumn();
             builder.Entity<Service>().Property(s => s.ID).UseIdentityColumn();
 
             builder.Entity<CheckOut>().Property(co => co.ID).UseIdentityColumn();
             builder.Entity<Fine>().Property(f => f.ID).UseIdentityColumn();
             builder.Entity<Hold>().Property(h => h.ID).UseIdentityColumn();
+
+            builder.Entity<Room>().HasKey(r => r.Location);
 
             // Specifying Composite Primary Keys
             builder.Entity<Access>().HasKey(a => new { a.TimeStamp, a.MemberID, a.ResourceID });

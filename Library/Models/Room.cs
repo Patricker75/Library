@@ -7,8 +7,7 @@ namespace Library.Models
     [Table("room")]
     public partial class Room
 	{
-		public int ID { get; set; }
-
+		[Key]
 		[Required]
 		[MaxLength(15)]
 		public string Location { get; set; }
