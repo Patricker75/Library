@@ -41,15 +41,15 @@ namespace Library.Data
             builder.Entity<Use>().HasKey(u => new { u.TimeStamp, u.MemberID, u.ServiceID });
 
             // Specifiying Enum Conversions
-            builder.Entity<Book>().Property(b => b.Audience).HasConversion(v => (int)v, v => (Audience)v);
-            builder.Entity<Book>().Property(b => b.Genre).HasConversion(v => (int)v, v => (Genre)v);
-            builder.Entity<Device>().Property(d => d.Type).HasConversion(v => (int)v, v => (DeviceType)v);
-            builder.Entity<Employee>().Property(e => e.Gender).HasConversion(v => (int)v, v => (Gender)v);
-            builder.Entity<Employee>().Property(e => e.JobRole).HasConversion(v => (int)v, v => (JobRole)v);
-            builder.Entity<Member>().Property(m => m.Gender).HasConversion(v => (int)v, v => (Gender)v);
-            builder.Entity<Member>().Property(m => m.Status).HasConversion(v => (int)v, v => (MemberStatus)v);
-            builder.Entity<Member>().Property(m => m.Type).HasConversion(v => (int)v, v => (MemberType)v);
-            builder.Entity<Room>().Property(r => r.Type).HasConversion(v => (int)v, v => (RoomType)v);
+            builder.Entity<Book>().Property(b => b.Audience).HasConversion(v => (short)v, v => (Audience)v);
+            builder.Entity<Book>().Property(b => b.Genre).HasConversion(v => (short)v, v => (Genre)v);
+            builder.Entity<Device>().Property(d => d.Type).HasConversion(v => (short)v, v => (DeviceType)v);
+            builder.Entity<Employee>().Property(e => e.Gender).HasConversion(v => (short)v, v => (Gender)v);
+            builder.Entity<Employee>().Property(e => e.JobRole).HasConversion(v => (short)v, v => (JobRole)v);
+            builder.Entity<Member>().Property(m => m.Gender).HasConversion(v => (short)v, v => (Gender)v);
+            builder.Entity<Member>().Property(m => m.Status).HasConversion(v => (short)v, v => (MemberStatus)v);
+            builder.Entity<Member>().Property(m => m.Type).HasConversion(v => (short)v, v => (MemberType)v);
+            builder.Entity<Room>().Property(r => r.Type).HasConversion(v => (short)v, v => (RoomType)v);
         }
 
         public DbSet<Author> Authors { get; set; } = default!;
