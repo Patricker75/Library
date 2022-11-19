@@ -13,6 +13,11 @@ namespace Library.Models.Relationships
         [Column("check_out_date")]
         public DateTime CheckOutDate { get; set; }
 
+        [Required]
+        [DataType(DataType.Date)]
+        [Column("due_date")]
+        public DateTime DueDate { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime? ReturnDate { get; set; }
 
