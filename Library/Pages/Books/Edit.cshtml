@@ -1,9 +1,8 @@
 ﻿@page
-@model Library.Pages.Books.AddModel
-
+@model Library.Pages.Books.EditModel
 @using Library.Data;
-@{    
-    ViewData["Title"] = "Add Book";
+@{
+    ViewData["Title"] = "Edit Book";
 }
 
 <form method="post">
@@ -63,7 +62,7 @@
         <span asp-validation-for="Book.Summary" class="text-danger"></span>
     </div>
 
-    
+
     <div class="form-control">
         <label asp-for="Book.Genre" class="control-label">Genre:</label>
         <select asp-for="Book.Genre" asp-items="Html.GetEnumSelectList<Genre>()">
@@ -82,5 +81,7 @@
 
     <br />
 
-    <input type="submit" value="Add Book" class="btn btn-primary"/>
+    <input type="submit" value="Save Changes" class="btn btn-primary"/>
+    <input type="submit" value="Discard Changes" class="btn btn-primary" asp-page-handler="discard" />
 </form>
+

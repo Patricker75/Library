@@ -1,0 +1,83 @@
+﻿@page
+@model Library.Pages.Members.EditModel
+@using Library.Data;
+@{
+    ViewData["Title"] = "Edit Member Info";
+
+    string? role = HttpContext.Session.GetString("employeeRole");
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="Member.FirstName" class="control-label">First Name:</label>
+        <input asp-for="Member.FirstName" class="form-control"/>
+        <span asp-validation-for="Member.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Member.MiddleName" class="control-label">Middle Name:</label>
+        <input asp-for="Member.MiddleName" class="form-control"/>
+        <span asp-validation-for="Member.MiddleName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Member.LastName" class="control-label">Last Name:</label>
+        <input asp-for="Member.LastName" class="form-control"/>
+        <span asp-validation-for="Member.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Member.PhoneNumber" class="control-label">Phone Number:</label>
+        <input asp-for="Member.PhoneNumber" class="form-control"/>
+        <span asp-validation-for="Member.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Member.Address" class="control-label">Address:</label>
+        <input asp-for="Member.Address" class="form-control"/>
+        <span asp-validation-for="Member.Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Member.Gender">Gender:</label>
+        <select asp-for="Member.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control">
+            <option selected="selected" hidden="hidden">Select Gender</option>
+        </select>
+        <span asp-validation-for="Member.Gender" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Member.BirthDate" class="control-label">Birthday:</label>
+        <input asp-for="Member.BirthDate" class="form-control"/>
+        <span asp-validation-for="Member.BirthDate" class="text-danger"></span>
+    </div>
+
+    @if (role != null && (role == "Admin" || role == "Librarian"))
+    {
+        <div class="form-group">
+            <label asp-for="Member.Type" class="control-label">Member Type:</label>
+            <select asp-for="Member.Type" asp-items="Html.GetEnumSelectList<MemberType>()" class="form-control">
+                <option selected="selected" hidden="hidden">Select Member Type</option>
+            </select>
+            <span asp-validation-for="Member.Type" class="text-danger"></span>
+        </div>
+    }
+
+    <input type="submit" class="btn btn-primary" value="Save Changes" />
+    <input type="submit" class="btn btn-primary" value="Discard Changes" asp-page-handler="discard"/>
+</form>
+
+<a href="/Index">Go Home</a>
+
+@switch (Model.Error)
+{
+    case 1:
+    <h3 class="text-danger">Username Already Taken</h3>
+    break;
+
+    case 2:
+    <h3 class="text-danger">Birthday Can Not Be In the Future</h3>
+    break;
+}

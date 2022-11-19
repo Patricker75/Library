@@ -1,0 +1,23 @@
+﻿@page
+@model Library.Pages.Services.EditModel
+@{
+    ViewData["Title"] = "Edit Service";
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="Service.Name" class="control-label">Service Name:</label>
+        <input asp-for="Service.Name" class="form-control" />
+        <span asp-validation-for="Service.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Service.Location" class="control-label">Location:</label>
+        <input asp-for="Service.Location" class="form-control" />
+        <span asp-validation-for="Service.Location" class="text-danger"></span>
+    </div>
+
+    <input type="submit" value="Create" class="btn btn-primary" />
+</form>

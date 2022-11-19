@@ -59,8 +59,7 @@
     public enum JobRole
     {
         Admin = 0,
-        Manager = 1,
-        Librarian = 2,
-        Technician = 3
+        Librarian = 1,
+        Technician = 2
     }
 }

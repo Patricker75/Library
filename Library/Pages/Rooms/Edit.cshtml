@@ -1,0 +1,28 @@
+﻿@page
+@model Library.Pages.Rooms.EditModel
+@using Library.Data;
+@{
+    ViewData["Title"] = "Edit Room";
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="Room.Location" class="control-label">Location:</label>
+        <input asp-for="Room.Location" class="form-control"/>
+        <span asp-validation-for="Room.Location" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Room.Type">NewRoom Type :</label>
+        <select asp-for="Room.Type" asp-items="Html.GetEnumSelectList<RoomType>()" class="form-control">
+            <option selected="selected" hidden="hidden">Select Room Type</option>
+        </select>
+        <span asp-validation-for="Room.Type" class="text-danger"></span>
+    </div>
+
+    <input type="submit" value="Save Changes" class="btn btn-primary" />
+    <input type="submit" value="Discard Changes" class="btn btn-primary" asp-page-handler="discard" />
+
+</form>

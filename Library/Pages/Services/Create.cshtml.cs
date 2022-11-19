@@ -19,8 +19,8 @@ namespace Library.Pages.Services
 
         public IActionResult OnGet()
         {
-            string? loginType = HttpContext.Session.GetString("loginType");
-            if (loginType == null || loginType != "employee")
+            string? role = HttpContext.Session.GetString("employeeRole");
+            if (role == null || (role != "Admin" && role != "Technician"))
             {
                 return RedirectToPage("/Index");
             }

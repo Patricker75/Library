@@ -1,16 +1,11 @@
 ﻿@page
 @model IndexModel
+@using Library.Data;
 @{
     ViewData["Title"] = "Home page";
 
     string? loginType = HttpContext.Session.GetString("loginType");
-    string? roles = HttpContext.Session.GetString("roles");
-
-    List<string> loginRoles = default!;
-    if (roles != null)
-    {
-        loginRoles = roles.Split(",").ToList();
-    }
+    string? role = HttpContext.Session.GetString("employeeRole");
 }
 
 <a asp-page="/Members/CheckoutHistory">Report 1</a>
@@ -22,7 +17,7 @@
         <td>
             <a asp-page="/Books">Book Catalog</a>
             
-            @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
+            @if (role != null && (role == "Admin" || role == "Librarian"))
             {
                 <br />
                 <a asp-page="/Books/Add">Add Book</a>
@@ -46,7 +41,7 @@
             <td>
                 <a asp-page="/Employees">Library Employees</a>
 
-                @if (loginRoles != null && (loginRoles.Contains("admin")))
+                @if (role != null && role == "Admin")
                 {
                     <br />
                     <a asp-page="/Employees/Add">Register New Employee</a>
@@ -60,7 +55,7 @@
         <td>
             <a asp-page="/Rooms">Library Rooms</a>
 
-            @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
+            @if (role != null && (role == "Admin" || role == "Technician"))
             {
                 <br />
                 <a asp-page="/Rooms/Create">Add Room</a>
@@ -73,7 +68,7 @@
         <td>
             <a asp-page="/Devices">Device Catalog</a>
 
-            @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
+            @if (role != null && (role == "Admin" || role == "Librarian"))
             {
                 <br />
                 <a asp-page="/Devices/Create">Add New Device</a>
@@ -86,10 +81,23 @@
         <td>
             <a asp-page="/Services">Offered Services</a>
 
-            @if (loginRoles != null && (loginRoles.Contains("librarian") || loginRoles.Contains("admin")))
+            @if (role != null && (role == "Admin" || role == "Technician"))
             {
                 <br />
                 <a asp-page="/Services/Create">Add New Services</a>
+            }
+        </td>
+    </tr>
+
+    <tr>
+        <th>Resources</th>
+        <td>
+            <a asp-page="/Resources">Library Resources</a>
+
+            @if (role != null && (role == "Admin" || role == "Technician"))
+            {
+                <br />
+                <a asp-page="/Resources/Create">Add New Resources</a>
             }
         </td>
     </tr>

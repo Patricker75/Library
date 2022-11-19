@@ -2,47 +2,50 @@ using Library.Data;
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Pages.Employees
 {
-    public class AddModel : PageModel
+    public class EditModel : PageModel
     {
         [BindProperty]
         public Employee Employee { get; set; } = default!;
 
-        [BindProperty]
-        public LoginUser Login { get; set; } = default!;
-
         public int Error { get; set; }
- 
+
         private readonly LibraryContext _context;
 
-        public AddModel(LibraryContext library)
+        public EditModel(LibraryContext library)
         {
             _context = library;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? employeeID)
         {
             string? role = HttpContext.Session.GetString("employeeRole");
             if (role == null || role != "Admin")
             {
-                return RedirectToPage("/Index");
+                return RedirectToPage("/Employees/Index");
             }
+
+            if (employeeID == null)
+            {
+                return RedirectToPage("/Employees/Index");
+            }
+
+            Employee? employee = _context.Employees.FirstOrDefault(e => e.ID == employeeID);
+            if (employee == null)
+            {
+                return RedirectToPage("/Employees/Index");
+            }
+
+            Employee = employee;
 
             return Page();
         }
 
         private bool VerifyForm()
         {
-            // Check if username exists in logins table
-            if (_context.Logins.Where(l => l.Username == Login.Username).Any())
-            {
-                Error = 1;
-                return false;
-            }
-
             if (Employee.BirthDate > DateTime.Today)
             {
                 Error = 2;
@@ -61,13 +64,9 @@ namespace Library.Pages.Employees
 
         public IActionResult OnPost()
         {
-            if(ModelState.IsValid && VerifyForm())
+            if (ModelState.IsValid && VerifyForm())
             {
-                _context.Logins.Add(Login);
-                _context.SaveChanges();
-
-                Employee.LoginID = Login.ID;
-                _context.Employees.Add(Employee);
+                _context.Attach(Employee).State = EntityState.Modified;
                 _context.SaveChanges();
 
                 return RedirectToPage("Add");

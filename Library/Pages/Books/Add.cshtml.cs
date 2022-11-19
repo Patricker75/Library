@@ -28,8 +28,8 @@ namespace Library.Pages.Books
 
         public IActionResult OnGet()
         {
-            string? loginType = HttpContext.Session.GetString("loginType");
-            if (loginType == null || loginType != "employee")
+            string? role = HttpContext.Session.GetString("employeeRole");
+            if (role == null || (role != "Admin" && role != "Librarian"))
             {
                 return RedirectToPage("/Index");
             }
@@ -43,6 +43,7 @@ namespace Library.Pages.Books
 
             if (ModelState.IsValid)
             {
+                _context.Books.Add(Book);
                 _context.SaveChanges();
 
                 return RedirectToPage("/Books/Create");

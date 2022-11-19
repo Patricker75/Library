@@ -1,0 +1,99 @@
+﻿@page
+@model Library.Pages.Employees.EditModel
+@using Library.Data;
+@{
+    ViewData["Title"] = "Edit Employee Info";
+
+    string? role = HttpContext.Session.GetString("employeeRole");
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="Employee.FirstName" class="control-label">First Name:</label>
+        <input asp-for="Employee.FirstName" class="form-control"/>
+        <span asp-validation-for="Employee.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.MiddleName" class="control-label">Middle Name:</label>
+        <input asp-for="Employee.MiddleName" class="form-control"/>
+        <span asp-validation-for="Employee.MiddleName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.LastName" class="control-label">Last Name:</label>
+        <input asp-for="Employee.LastName" class="form-control"/>
+        <span asp-validation-for="Employee.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.PhoneNumber" class="control-label">Phone Number:</label>
+        <input asp-for="Employee.PhoneNumber" class="form-control"/>
+        <span asp-validation-for="Employee.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.Address" class="control-label">Address:</label>
+        <input asp-for="Employee.Address" class="form-control"/>
+        <span asp-validation-for="Employee.Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.Gender">Gender:</label>
+        <select asp-for="Employee.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control">
+            <option selected="selected" hidden="hidden">Select Gender</option>
+        </select>
+        <span asp-validation-for="Employee.Gender" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.BirthDate" class="control-label">Birthday:</label>
+        <input asp-for="Employee.BirthDate" class="form-control"/>
+        <span asp-validation-for="Employee.BirthDate" class="text-danger"></span>
+    </div>
+
+    @if (role != null && role == "Admin")
+    {
+        <div class="form-group">
+            <label asp-for="Employee.HireDate" class="control-label">Hire Date:</label>
+            <input asp-for="Employee.HireDate" class="form-control"/>
+            <span asp-validation-for="Employee.HireDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Employee.JobRole" class="control-label">Job Title:</label>
+            <select asp-for="Employee.JobRole" asp-items="Html.GetEnumSelectList<JobRole>()" class="form-control">
+                <option selected="selected" hidden="hidden">Select a Role</option>
+            </select>
+            <span asp-validation-for="Employee.JobRole" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Employee.Salary" class="control-label">Salary:</label>
+            <input asp-for="Employee.Salary" class="form-control"/>
+            <span asp-validation-for="Employee.Salary" class="text-danger"></span>
+        </div>
+    }
+
+    <input type="submit" class="btn btn-primary" value="Save Changes" />
+    <input type="submit" class="btn btn-primary" value="Discard Changes" asp-page-handler="discard" />
+</form>
+
+<a href="/Index">Go Home</a>
+
+@switch (Model.Error)
+{
+    case 1:
+    <h3 class="text-danger">Username Already Taken</h3>
+    break;
+
+    case 2:
+    <h3 class="text-danger">Birthday Can Not Be In the Future</h3>
+    break;
+
+    case 3:
+    <h3 class="text-danger">Not Allowed to Hire Anyone Under Age 18</h3>
+    break;
+}

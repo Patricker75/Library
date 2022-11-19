@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace Library.Pages.Devices
+namespace Library.Pages.Services
 {
     public class EditModel : PageModel
     {
         [BindProperty]
-        public Device Device { get; set; } = default!;
+        public Service Service { get; set; } = default!;
 
         private readonly LibraryContext _context;
 
@@ -18,22 +18,26 @@ namespace Library.Pages.Devices
             _context = context;
         }
 
-        public IActionResult OnGet(int? deviceID)
+        public IActionResult OnGet(int? serviceID)
         {
-            string? loginType = HttpContext.Session.GetString("loginType");
-            if (loginType == null || loginType != "employee")
+            string? role = HttpContext.Session.GetString("employeeRole");
+            if (role == null || (role != "Admin" && role != "Technician"))
             {
                 return RedirectToPage("/Index");
             }
 
-            Device? d = _context.Devices.Find(deviceID);
-
-            if (d == null)
+            if (serviceID == null)
             {
-                return RedirectToPage("/Devices/Index");
+                return RedirectToPage("/Services/Index");
             }
 
-            Device = d;
+            Service? s = _context.Services.FirstOrDefault(s => s.ID == serviceID);
+            if (s == null)
+            {
+                return RedirectToPage("/Services/Index");
+            }
+
+            Service = s;
 
             return Page();
         }
@@ -42,10 +46,10 @@ namespace Library.Pages.Devices
         {
             if (ModelState.IsValid)
             {
-                _context.Attach(Device).State = EntityState.Modified;                
+                _context.Attach(Service).State = EntityState.Modified;
                 _context.SaveChanges();
 
-                return RedirectToPage("/Devices/Index");
+                return RedirectToPage("/Services/Index");
             }
 
             return Page();
@@ -53,7 +57,7 @@ namespace Library.Pages.Devices
 
         public IActionResult OnPostDiscard()
         {
-            return RedirectToPage("/Devices/Index");
+            return RedirectToPage("/Services/Index");
         }
     }
 }

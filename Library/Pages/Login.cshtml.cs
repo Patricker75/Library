@@ -26,7 +26,7 @@ namespace Library.Pages
             Login.Password = "empassboi";
         }
 
-        private IActionResult MemberLogin(Int32 loginID)
+        private IActionResult MemberLogin(int loginID)
         {
             Member? member = _context.Members.Where(m => m.LoginID == loginID).First();
 
@@ -42,10 +42,8 @@ namespace Library.Pages
             return RedirectToPage("/Members/Profile");
         }
 
-        private IActionResult EmployeeLogin(Int32 loginID)
+        private IActionResult EmployeeLogin(int loginID)
         {
-            Employee t = _context.Employees.ToList().First();
-
             Employee? employee = _context.Employees.Where(e => e.LoginID == loginID).First();
 
             if (employee == null)
@@ -80,6 +78,7 @@ namespace Library.Pages
             {
                 return MemberLogin(loginID);
             }
+            // Employee Login
             else if (_context.Employees.Where(e => e.LoginID == loginID).Any())
             {
                 return EmployeeLogin(loginID);

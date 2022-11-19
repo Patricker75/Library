@@ -1,0 +1,30 @@
+﻿@page
+@model Library.Pages.Resources.EditModel
+@{
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="Resource.Name" class="control-label">Name:</label>
+        <input asp-for="Resource.Name" class="form-control"/>
+        <span asp-validation-for="Resource.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Resource.Url" class="control-label">URL:</label>
+        <input asp-for="Resource.Url" class="form-control"/>
+        <span asp-validation-for="Resource.Url" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Resource.Description" class="control-label">Description:</label>
+        <textarea asp-for="Resource.Description" class="form-control"/>
+        <span asp-validation-for="Resource.Description" class="text-danger"></span>
+    </div>
+
+    <input type="submit" value="Save Changes" class="btn btn-primary" />
+    <input type="submit" value="Discard Changes" class="btn btn-primary" asp-page-handler="discard" />
+
+</form>
