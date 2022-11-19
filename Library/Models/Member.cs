@@ -57,8 +57,8 @@ namespace Library.Models
 
         [Required]
 		[DataType(DataType.Currency)]
-        [Column("amount_owed")]
-		public decimal AmountOwed { get; set; }
+        [Column("balance")]
+		public decimal Balance { get; set; }
 
         [Required]
         [ForeignKey("loginuser")]
