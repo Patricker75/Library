@@ -15,8 +15,10 @@
     <tbody>
         @foreach (var device in Model.Devices)
         {
+        <tr>
             <td>@device.Name</td>
             <td>@device.Type.ToString()</td>
+        </tr>
         }
     </tbody>
 </table>

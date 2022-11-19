@@ -16,9 +16,11 @@
     <tbody>
         @foreach (var resource in Model.Resources)
         {
-        <td>@resource.Name</td>
-        <td>@resource.Url.ToString()</td>
-        <td>@resource.Description</td>
+        <tr>
+            <td>@resource.Name</td>
+            <td>@resource.Url.ToString()</td>
+            <td>@resource.Description</td>
+        </tr>
         }
     </tbody>
 </table>

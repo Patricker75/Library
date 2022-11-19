@@ -1,0 +1,29 @@
+﻿@page
+@model Library.Pages.Services.IndexModel
+@{
+    ViewData["Title"] = "Services";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Service Location</th>
+            <th>Service Name</th>
+            <th>Availability?</th>
+            <th>Date Added</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var service in Model.Services)
+        {
+        <tr>
+            <td>@service.Location</td>
+            <td>@service.Name</td>
+            <td>@service.Availability</td>
+            <td>@service.DateAdded</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
