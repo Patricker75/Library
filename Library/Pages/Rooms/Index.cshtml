@@ -1,0 +1,27 @@
+﻿@page
+@model Library.Pages.Rooms.IndexModel
+@{
+    ViewData["Title"] = "Rooms";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Location</th>
+            <th>Room Type</th>
+            <th>Available</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var room in Model.Rooms)
+        {
+            <tr>
+                <td>@room.Location</td>
+                <td>@Html.DisplayFor(model => room.Type)</td>
+                <td>@Html.DisplayFor(model => room.IsAvailable)</td>
+            </tr>
+        }
+    </tbody>
+</table>

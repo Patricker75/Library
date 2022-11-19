@@ -18,7 +18,7 @@ namespace Library.Pages.Rooms
 
         private readonly LibraryContext _context;
 
-        public IActionResult OnGet(int? roomID)
+        public IActionResult OnGet(string? location)
         {
             string? role = HttpContext.Session.GetString("employeeRole");
             if (role == null || (role != "Admin" && role != "Technician"))
@@ -26,12 +26,12 @@ namespace Library.Pages.Rooms
                 return RedirectToPage("/Index");
             }
 
-            if (roomID == null)
+            if (location == null)
             {
                 return RedirectToPage("/Rooms/Index");
             }
 
-            Room? r = _context.Rooms.FirstOrDefault(r => r.ID == roomID);
+            Room? r = _context.Rooms.FirstOrDefault(r => r.Location == location);
             if (r == null)
             {
                 return RedirectToPage("/Rooms/Index");
