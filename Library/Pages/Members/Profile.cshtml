@@ -1,7 +1,10 @@
 ﻿@page
 @model Library.Pages.Members.ProfileModel
 @{
+    ViewData["Title"] = "Member Profile";
 }
+
+<a asp-page="/Members/Notifications"><h3>Notifications</h3></a>
 
 @if (Model.ReservedRoom != null)
 {

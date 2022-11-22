@@ -1,0 +1,29 @@
+﻿@page
+@model Library.Pages.Members.NotificationsModel
+@{
+    ViewData["Title"] = "User's Notifications";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th></th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @foreach (var notif in Model.Notifications)
+        {
+            <tr>
+                <td>@notif.Message</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="notifID" value="@notif.ID" />
+                        <input type="submit" value="Dismiss" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

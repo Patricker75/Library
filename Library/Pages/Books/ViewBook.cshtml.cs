@@ -108,6 +108,14 @@ namespace Library.Pages.Books
 
         public IActionResult OnPostCheckOut()
         {
+            Book? b = _context.Books.FirstOrDefault(b => b.ID == Book.ID);
+            if (b == null)
+            {
+                return Page();
+            }
+
+            Book = b;
+
             int? id = HttpContext.Session.GetInt32("loginID");
             if (id == null)
             {
@@ -120,8 +128,9 @@ namespace Library.Pages.Books
                 return Page();
             }
 
-            Book? b = _context.Books.FirstOrDefault(b => b.ID == Book.ID);
-            if (b == null)
+            
+
+            if (m.Status != MemberStatus.Active)
             {
                 return Page();
             }

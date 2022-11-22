@@ -1,5 +1,5 @@
-﻿Member: Checkout Suspensions, Pay Fines
-Employee: Supervisors & Service Management
+﻿Member: Notifications
+Employee: Supervisors
 Queries/Reports: REDO REPORTS
 
 
