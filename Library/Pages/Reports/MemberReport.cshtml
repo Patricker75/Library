@@ -1,0 +1,61 @@
+﻿@page
+@model Library.Pages.Reports.MemberReportModel
+@{
+}
+
+
+<h4>Select Date Range For Members Joined</h4>
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+
+
+    <div class="form-group">
+        <label asp-for="Start" class="control-label">Start Date:</label>
+        <input asp-for="Start" class="form-control" />
+        <span asp-validation-for="Start" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="End" class="control-label">End Date:</label>
+        <input asp-for="End" class="form-control" />
+        <span asp-validation-for="End" class="text-danger"></span>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Generate Report" />
+</form>
+
+@if (Model.GenerateReport)
+{
+    int memberCount = Model.Members.Count();
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Members</th>
+        </tr>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+        </thead>
+    
+
+ <tbody>
+    @foreach (var member in Model.Members)
+    { 
+        <tr>
+            <td>@member.FirstName</td>
+            <td>@member.LastName</td>
+        </tr>
+
+
+    }
+
+    <tr>
+        <th>Total Members Added: @memberCount</th>
+    </tr>
+    </tbody>
+
+    </table>
+}
