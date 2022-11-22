@@ -26,13 +26,20 @@
     @if (Model.GenerateReport)
     {
         int bookCount = Model.Books.Count();
-        int deviceCount = Model.Devices.Count();
+    int bookTotal = 0;
+    @for (int i = 0; i < bookCount; i++)
+    {
+        bookTotal += Model.Books[i].Quantity;
+    }
+    int deviceCount = Model.Devices.Count();
         int resourceCount = Model.Resources.Count();
         int roomCount = Model.Rooms.Count();
         int serviceCount = Model.Services.Count();
 
         int total = bookCount + deviceCount + resourceCount + roomCount + serviceCount;
-    int maxrows = 0;
+        int maxrows = 0;
+    int Qty;
+    int dC = 1;
 
     @if (bookCount > maxrows)
     {
@@ -58,14 +65,30 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Books</th>                    
+                    <th>Books</th> 
+                    <th></th>
                     <th>Devices</th>
+                <th></th>
                     <th>Resources</th>
+                <th></th>
                     <th>Rooms</th>
+                <th></th>
                     <th>Services</th>
-
-
+                <th></th>
                 </tr>
+
+                <tr>
+                <th>Title</th>
+                <th>Qty</th>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Location</th>
+                <th>Qty</th>
+                <th>Name</th>
+                <th>Qty</th>
+            </tr>
 
                
             </thead>
@@ -74,47 +97,77 @@
 
                 @for(int i=0;i<maxrows;i++)
                 {
+                    
                 <tr>    
                     @if (bookCount > i)
                     {
+                        Qty = 1;
                         <td>@Model.Books[i].Title</td>
+                        <td>@Model.Books[i].Quantity</td>
                     }
                     else
                     {
                     <td></td>
+                        <td></td>
                     }
                     @if (deviceCount > i)
                     {
+                        @*
+                        @if (i+1 != deviceCount && Model.Devices[i].Name == Model.Devices[i+1].Name)
+                        {
+                            dC++;
+                            Model.Devices[i + 1].Name = null;
+
+                        }
+                        @if (Model.Devices[i].Name == null)
+                        {
+                            dC = 1;
+                            <td>@Model.Devices[i+1].Name</td>
+                            <td>@dC</td>
+                            //continue;
+                        }
+                        *@
                         <td>@Model.Devices[i].Name</td>
+                        <td>@dC</td>
                     }
                     else
                     {
                     <td></td>
+                        <td></td>
                     }
                     @if (resourceCount > i)
                     {
+                        Qty = 1;
                         <td>@Model.Resources[i].Name</td>
+                        <td>@Qty</td>
                     }
                     else
                     {
                     <td></td>
+                        <td></td>
                     }
 
                     @if (roomCount >i)
                     {
+                        Qty = 1;
                         <td>@Model.Rooms[i].Location</td>
+                        <td>@Qty</td>
                     }
                     else
                     {
                     <td></td>
+                        <td></td>
                     }
                     @if (serviceCount > i)
                     {
+                        Qty = 1;
                         <td>@Model.Services[i].Name</td>
+                        <td>@Qty</td>
                     }
                     else
                     {
                     <td></td>
+                        <td></td>
                     }
                 </tr>
                     
@@ -122,12 +175,18 @@
 
 
                     <tr>
-                        <th>Total Books Added: @bookCount</th>
-                        <th>Total Devices Added: @deviceCount</th>
-                        <th>Total Resources Added: @resourceCount</th>
-                        <th>Total Rooms Added: @roomCount</th>
-                        <th>Total Services Added: @serviceCount</th>
-                        <th>Total Items Added: @total</th>
+                        <th>Total Books Added:</th>
+                        <th>@bookTotal</th>
+                        <th>Total Devices Added: </th>
+                        <th>@deviceCount</th>
+                        <th>Total Resources Added: </th>
+                        <th>@resourceCount</th>
+                        <th>Total Rooms Added: </th>
+                        <th>@roomCount</th>
+                        <th>Total Services Added: </th>
+                        <th>@serviceCount</th>
+                        <th>Total Items Added: </th>
+                        <th>@total</th>
                     </tr>
 
                    
