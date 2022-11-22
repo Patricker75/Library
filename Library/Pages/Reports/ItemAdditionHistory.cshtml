@@ -1,170 +1,140 @@
-﻿@page
-@model Library.Pages.Reports.ItemAdditionHistory
-@{
-}
+﻿    @page
+    @model Library.Pages.Reports.ItemAdditionHistory
+    @{
+    }
 
-<form method="post">
-    <div asp-validation-summary="ModelOnly"></div>
 
-    <div class="form-group">
-        <label asp-for="Start" class="control-label">Start Date:</label>
-        <input asp-for="Start" class="form-control"/>
-        <span asp-validation-for="Start" class="text-danger"></span>
-    </div>
 
-    <div class="form-group">
-        <label asp-for="End" class="control-label">End Date:</label>
-        <input asp-for="End" class="form-control"/>
-        <span asp-validation-for="End" class="text-danger"></span>
-    </div>
+    <form method="post">
+        <div asp-validation-summary="ModelOnly"></div>
 
-    <input type="submit" class="btn btn-primary" value="Generate Report"/>
-</form>
+        <div class="form-group">
+            <label asp-for="Start" class="control-label">Start Date:</label>
+            <input asp-for="Start" class="form-control"/>
+            <span asp-validation-for="Start" class="text-danger"></span>
+        </div>
 
-@if (Model.GenerateReport)
-{
-    int bookCount = Model.Books.Count();
-    int deviceCount = Model.Devices.Count();
-    int resourceCount = Model.Resources.Count();
-    int roomCount = Model.Rooms.Count();
-    int serviceCount = Model.Services.Count();
+        <div class="form-group">
+            <label asp-for="End" class="control-label">End Date:</label>
+            <input asp-for="End" class="form-control"/>
+            <span asp-validation-for="End" class="text-danger"></span>
+        </div>
 
-    int total = bookCount + deviceCount + resourceCount + roomCount + serviceCount;
+        <input type="submit" class="btn btn-primary" value="Generate Report"/>
+    </form>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Book</th>
-            </tr>
-            
-            <tr>
-                <th>Title</th>
-                <th>Date Added</th>
-            </tr>
-        </thead>
+    @if (Model.GenerateReport)
+    {
+        int bookCount = Model.Books.Count();
+        int deviceCount = Model.Devices.Count();
+        int resourceCount = Model.Resources.Count();
+        int roomCount = Model.Rooms.Count();
+        int serviceCount = Model.Services.Count();
 
-        <tbody>
-            @foreach (var book in Model.Books)
-            {
+        int total = bookCount + deviceCount + resourceCount + roomCount + serviceCount;
+    int maxrows = 0;
+
+    @if (bookCount > maxrows)
+    {
+        maxrows = bookCount;
+    }
+    @if (deviceCount > maxrows)
+    {
+        maxrows = deviceCount;
+    }
+    @if (resourceCount > maxrows)
+    {
+        maxrows = resourceCount;
+    }
+    @if (roomCount > maxrows)
+    {
+        maxrows = roomCount;
+    }
+    @if (serviceCount > maxrows)
+    {
+        maxrows = serviceCount;
+    }
+
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@book.Title</td>
-                    <td>@book.DateAdded</td>
+                    <th>Books</th>                    
+                    <th>Devices</th>
+                    <th>Resources</th>
+                    <th>Rooms</th>
+                    <th>Services</th>
+
+
                 </tr>
-            }
-        
-            <tr>
-                <th>Total Books Added:</th>
-                <td>@bookCount</td>
-            </tr>
-        </tbody>
 
-        <thead>
-            <tr>
-                <th>Devices</th>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <th>Date Added</th>
-            </tr>
-        </thead>
+               
+            </thead>
 
-        <tbody>
-            @foreach (var device in Model.Devices)
-            {
-                <tr>
-                    <td>@device.Name</td>
-                    <td>@device.DateAdded</td>
+            <tbody>
+
+                @for(int i=0;i<maxrows;i++)
+                {
+                <tr>    
+                    @if (bookCount > i)
+                    {
+                        <td>@Model.Books[i].Title</td>
+                    }
+                    else
+                    {
+                    <td></td>
+                    }
+                    @if (deviceCount > i)
+                    {
+                        <td>@Model.Devices[i].Name</td>
+                    }
+                    else
+                    {
+                    <td></td>
+                    }
+                    @if (resourceCount > i)
+                    {
+                        <td>@Model.Resources[i].Name</td>
+                    }
+                    else
+                    {
+                    <td></td>
+                    }
+
+                    @if (roomCount >i)
+                    {
+                        <td>@Model.Rooms[i].Location</td>
+                    }
+                    else
+                    {
+                    <td></td>
+                    }
+                    @if (serviceCount > i)
+                    {
+                        <td>@Model.Services[i].Name</td>
+                    }
+                    else
+                    {
+                    <td></td>
+                    }
                 </tr>
-            }
-        
-            <tr>
-                <th>Total Devices Added:</th>
-                <td>@deviceCount</td>
-            </tr>
-        </tbody>
+                    
+                }             
 
-        <thead>
-            <tr>
-                <th>Resources</th>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <th>Date Added</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            @foreach (var resource in Model.Resources)
-            {
-                <tr>
-                    <td>@resource.Name</td>
-                    <td>@resource.DateAdded</td>
-                </tr>
-            }
-        
-            <tr>
-                <th>Total Resources Added:</th>
-                <td>@resourceCount</td>
-            </tr>
-        </tbody>
+                    <tr>
+                        <th>Total Books Added: @bookCount</th>
+                        <th>Total Devices Added: @deviceCount</th>
+                        <th>Total Resources Added: @resourceCount</th>
+                        <th>Total Rooms Added: @roomCount</th>
+                        <th>Total Services Added: @serviceCount</th>
+                        <th>Total Items Added: @total</th>
+                    </tr>
 
-        <thead>
-            <tr>
-                <th>Rooms</th>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <th>Date Added</th>
-            </tr>
-        </thead>
+                   
 
-        <tbody>
-            @foreach (var room in Model.Rooms)
-            {
-                <tr>
-                    <td>@room.Location</td>
-                    <td>@room.DateAdded</td>
-                </tr>
-            }
-        
-            <tr>
-                <th>Total Resources Added:</th>
-                <td>@roomCount</td>
-            </tr>
-        </tbody>
+            </tbody>          
 
-        <thead>
-            <tr>
-                <th>Services</th>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <th>Date Added</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var service in Model.Services)
-            {
-                <tr>
-                    <td>@service.Name</td>
-                    <td>@service.DateAdded</td>
-                </tr>
-            }
-        
-            <tr>
-                <th>Total Services Added:</th>
-                <td>@serviceCount</td>
-            </tr>
-        </tbody>
-
-        <tr>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>Total Items Added:</th>
-            <td>@total</td>
-        </tr>
-    </table>
-}
+          
+           
+        </table>
+    }
