@@ -112,7 +112,7 @@
                     }
                     @if (deviceCount > i)
                     {
-                        
+                        @*
                         @if (i+1 != deviceCount && Model.Devices[i].Name == Model.Devices[i+1].Name)
                         {
                             dC++;
@@ -126,7 +126,7 @@
                             <td>@dC</td>
                             //continue;
                         }
-
+                        *@
                         <td>@Model.Devices[i].Name</td>
                         <td>@dC</td>
                     }
