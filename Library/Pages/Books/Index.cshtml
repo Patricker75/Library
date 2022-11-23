@@ -18,8 +18,10 @@
         <tr>
             <th>Title</th>
             <th>Author</th>
+            <th>Summary</th>
             <th>Genre</th>
             <th>Dewey Decimal Number</th>
+            <th>Publisher</th>
         </tr>
     </thead>
 
@@ -27,12 +29,15 @@
         @foreach (var book in Model.Books)
         {
             Author author = Model.Context.Authors.First(a => a.ID == book.AuthorID);
-            
+            Publisher publisher = Model.Context.Publishers.First(p => p.ID == book.PublisherID);
+
             <tr>
                 <td><a asp-page="/Books/ViewBook" asp-route-bookID="@book.ID">@book.Title</a></td>
                 <td>@author.FirstName @author.LastName</td>
+                <td>@book.Summary</td>
                 <td>@book.Genre</td>
                 <td>@book.DeweyNumber</td>
+                <td>@publisher.Name</td>
             </tr>
         }
     </tbody>
