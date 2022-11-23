@@ -1,0 +1,26 @@
+﻿@page
+@model Library.Pages.Devices.IndexModel
+@{
+    ViewData["Title"] = "Devices";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Device Type</th>
+            <th>Device Name</th>
+            <th>Date Added</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var device in Model.Devices)
+        {
+            <tr>
+                <td>@device.Type</td>
+                <td>@device.Name</td>
+                <td>@device.DateAdded</td>
+            </tr>
+        }
+    </tbody>
+</table>
