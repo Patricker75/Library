@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Library.Models;
 using Library.Models.Relationships;
+using Library.Models.Views;
 
 namespace Library.Data
 {
@@ -55,43 +56,36 @@ namespace Library.Data
 
             builder.Entity<CheckOut>().Property(co => co.Type).HasConversion(v => (short)v, v => (ItemType)v);
             builder.Entity<Fine>().Property(f => f.Type).HasConversion(v => (short)v, v => (ItemType)v);
+
+            HandleViews(builder);
+        }
+
+        private void HandleViews(ModelBuilder builder)
+        {
+            builder.Entity<MemberReport>().ToView("member_report").HasNoKey();
         }
 
         public DbSet<Author> Authors { get; set; } = default!;
-
         public DbSet<Book> Books { get; set; } = default!;
-
         public DbSet<Device> Devices { get; set; } = default!;
-
         public DbSet<Employee> Employees { get; set; } = default!;
-
         public DbSet<LoginUser> Logins { get; set; } = default!;
-
         public DbSet<Member> Members { get; set; } = default!;
-
         public DbSet<Notification> Notifications { get; set; } = default!;
-
         public DbSet<Publisher> Publishers { get; set; } = default!;
-
         public DbSet<Resource> Resources { get; set; } = default!;
-
-        public DbSet<Report> Reports { get; set; } = default!;
-
-
         public DbSet<Room> Rooms { get; set; } = default!;
-
         public DbSet<Service> Services { get; set; } = default!;
 
+
         public DbSet<Access> Accesses { get; set; } = default!;
-
         public DbSet<CheckOut> CheckOuts { get; set; } = default!;
-
         public DbSet<Fine> Fines { get; set; } = default!;
-
         public DbSet<Hold> Holds { get; set; } = default!;
-
         public DbSet<Manage> Manages { get; set; } = default!;
-
         public DbSet<Use> Uses { get; set; } = default!;
+
+
+        public DbSet<MemberReport> MemberReports { get; set; } = default!;
     }
 }

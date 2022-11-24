@@ -1,73 +1,30 @@
 ﻿@page
 @model Library.Pages.Reports.MemberReportModel
 @{
+    ViewData["Title"] = "Members Report";
 }
 
-
-<h4>Select Date Range For Members Joined</h4>
-<form method="post">
-    <div asp-validation-summary="ModelOnly"></div>
-
-
-
-    <div class="form-group">
-        <label asp-for="Start" class="control-label">Start Date:</label>
-        <input asp-for="Start" class="form-control" />
-        <span asp-validation-for="Start" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="End" class="control-label">End Date:</label>
-        <input asp-for="End" class="form-control" />
-        <span asp-validation-for="End" class="text-danger"></span>
-    </div>
-
-    <input type="submit" class="btn btn-primary" value="Generate Report" />
-</form>
-
-@if (Model.GenerateReport)
-{
-   // int memberCount = Model.Members.Count();
-    int memberCount = Model.Reports.Count();
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Members</th>
-        </tr>
+<table class="table">
+    <thead>
         <tr>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Date Joined</th>
+            <th>Join Date</th>
+            <th>Check Out Date</th>
+            <th>Returned</th>
         </tr>
-        </thead>
-    
+    </thead>
 
- <tbody>
-     @foreach (var report in Model.Reports)
-     {
-        <tr>
-            <td>@report.FirstName</td>
-        </tr>
-     }
-
-    @*
-     @foreach (var member in Model.Members)
-    { 
-        <tr>
-            <td>@member.FirstName</td>
-            <td>@member.LastName</td>
-            <td>@member.JoinDate</td>
-        </tr>
-
-
-    }
-    *@
-
-    <tr>
-        <th>Total Members Added: @memberCount</th>
-    </tr>
+    <tbody>
+        @foreach (var row in Model.Reports)
+        {
+            <tr>
+                <td>@row.FirstName</td>
+                <td>@row.LastName</td>
+                <td>@row.JoinDate</td>
+                <td>@row.CheckOutDate</td>
+                <td>@Html.DisplayFor(m => row.IsReturned)</td>
+            </tr>
+        }
     </tbody>
-
-    </table>
-}
+</table>
