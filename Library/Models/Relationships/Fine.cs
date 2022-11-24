@@ -9,6 +9,9 @@ namespace Library.Models.Relationships
     {
         public int ID { get; set; }
 
+        [DataType(DataType.Currency)]
+        public decimal Amount { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         [Column("fine_date")]

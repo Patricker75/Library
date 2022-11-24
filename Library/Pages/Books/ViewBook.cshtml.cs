@@ -59,9 +59,6 @@ namespace Library.Pages.Books
         
         private void CheckOutBook(Book book, Member member)
         {
-            book.Quantity--;
-            _context.Attach(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
             // Days after for due date
             int interval = 0;
             switch (member.Type)

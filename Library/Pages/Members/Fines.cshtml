@@ -1,0 +1,32 @@
+﻿@page
+@model Library.Pages.Members.FinesModel
+@using Library.Data;
+@{
+    ViewData["Title"] = "Fines";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Late Item</th>
+            <th>Amount</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var fine in Model.Fines)
+        {
+            <tr>
+                <td>Late @fine.Type.ToString(): @Model.GetItem(fine.Type, fine.ID)</td>
+                <td>$@Model.CalculateFine(fine.Amount, fine.FineDate, fine.PaidDate).ToString("#.##")</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="fineID" value="@fine.ID" />
+                        <input type="submit" value="Pay Fine" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
