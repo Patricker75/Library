@@ -2,6 +2,7 @@
 @model Library.Pages.Employees.IndexModel
 @{
     ViewData["Title"] = "Employees";
+    string? role = HttpContext.Session.GetString("employeeRole");
 }
 
 <table class="table">
@@ -12,6 +13,7 @@
             <th>Birthday</th>
             <th>Hire Date</th>
             <th>Job</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -24,6 +26,16 @@
                 <td>@Html.DisplayFor(m => employee.BirthDate)</td>
                 <td>@Html.DisplayFor(m => employee.HireDate)</td>
                 <td>@Html.DisplayFor(m => employee.JobRole)</td>
+
+                @if (role != null && role == "Admin")
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="employeeID" value="@employee.ID" />
+                            <input type="submit" value="Assign Supervisor" asp-page-handler="Assign"/>
+                        </form>
+                    </td>
+                }
             </tr>
         }
     </tbody>

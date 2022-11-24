@@ -1,7 +1,24 @@
 ﻿@page
 @model Library.Pages.Employees.AssignSupervisorModel
 @{
-
+    ViewData["Title"] = "Assigning Supervisor";
 }
 
-<h3>Assign Supervisor to</h3>
+<h3>Assign Supervisor to @Model.Employee.FirstName @Model.Employee.LastName</h3>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <input type="hidden" name="employeeID" value="@Model.Employee.ID" />
+
+    <div class="form-group">
+        <label asp-for="SupervisorID" class="control-label">Supervisor:</label>
+        <select asp-for="SupervisorID" asp-items="Model.SupervisorList" class="form-control">
+
+        </select>
+        <span asp-validation-for="Employee.SupervisorID" class="text-danger"></span>
+    </div>
+
+    <input type="submit" value="Assign Supervisor" asp-page-handler="Assign" class="btn btn-primary"/>
+    <input type="submit" value="Remove Supervisor" asp-page-handler="Remove" class="btn btn-primary"/>
+</form>
