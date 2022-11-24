@@ -23,12 +23,9 @@ namespace Library.Pages.Employees
         public IActionResult OnGet(int? employeeID)
         {
             string? role = HttpContext.Session.GetString("employeeRole");
-            if (role == null || role != "Admin")
-            {
-                return RedirectToPage("/Employees/Index");
-            }
+            int? id = HttpContext.Session.GetInt32("loginID");
 
-            if (employeeID == null)
+            if (id != employeeID && role != "Admin")
             {
                 return RedirectToPage("/Employees/Index");
             }
@@ -69,10 +66,15 @@ namespace Library.Pages.Employees
                 _context.Attach(Employee).State = EntityState.Modified;
                 _context.SaveChanges();
 
-                return RedirectToPage("Add");
+                return RedirectToPage("/Employeees/Index");
             }
 
             return Page();
+        }
+
+        public IActionResult OnPostDiscard()
+        {
+            return RedirectToPage("/Employeees/Index");
         }
     }
 }

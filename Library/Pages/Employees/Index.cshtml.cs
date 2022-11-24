@@ -37,5 +37,10 @@ namespace Library.Pages.Employees
         {
             return RedirectToPage("/Employees/AssignSupervisor", new { employeeID = employeeID });
         }
+
+        public IActionResult OnPostEdit(int employeeID)
+        {
+            return RedirectToPage("/Employees/Edit", new { employeeID = employeeID });
+        }
     }
 }
