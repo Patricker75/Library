@@ -9,6 +9,8 @@ namespace Library.Pages.Reports
 {
     public class MemberReportModel : PageModel
     {
+        //public Report Report { get; set; } = default!;
+
         [BindProperty]
         [DataType(DataType.Date)]
         public DateTime Start { get; set; }
@@ -20,16 +22,28 @@ namespace Library.Pages.Reports
         public bool GenerateReport = false;
         public IList<Member> Members { get; set; } = default!;
 
+        public IList<Report> Reports { get; set; } = default!;
+
         private LibraryContext _context;
         public MemberReportModel(LibraryContext context)
         {
             _context = context;
         }
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            Start = DateTime.Today.AddDays(-30);
-            End = DateTime.Today;
+            if (_context.Reports != null)
+            {
+                Reports = _context.Reports.ToList();
+            }
+
+            return Page();
         }
+        //public void OnGet()
+        //{
+         //   Start = DateTime.Today.AddDays(-30);
+          //  End = DateTime.Today;
+
+       // }
 
         public IActionResult OnPost()
         {
@@ -39,7 +53,8 @@ namespace Library.Pages.Reports
             {
                 return Page();
             }
-            Members = _context.Members.Where(b => Start <= b.JoinDate && b.JoinDate <= End).ToList();
+            //Members = _context.Members.Where(b => Start <= b.JoinDate && b.JoinDate <= End).ToList();
+            //Reports = _context.Reports.Where(b => Start <= b.JoinDate && b.JoinDate <= End).ToList();
             GenerateReport = true;
             return Page();
         }

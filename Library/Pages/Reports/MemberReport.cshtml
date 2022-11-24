@@ -27,7 +27,8 @@
 
 @if (Model.GenerateReport)
 {
-    int memberCount = Model.Members.Count();
+   // int memberCount = Model.Members.Count();
+    int memberCount = Model.Reports.Count();
 
     <table class="table">
         <thead>
@@ -43,7 +44,15 @@
     
 
  <tbody>
-    @foreach (var member in Model.Members)
+     @foreach (var report in Model.Reports)
+     {
+        <tr>
+            <td>@report.FirstName</td>
+        </tr>
+     }
+
+    @*
+     @foreach (var member in Model.Members)
     { 
         <tr>
             <td>@member.FirstName</td>
@@ -53,6 +62,7 @@
 
 
     }
+    *@
 
     <tr>
         <th>Total Members Added: @memberCount</th>

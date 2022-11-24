@@ -29,6 +29,7 @@ namespace Library.Data
             builder.Entity<Publisher>().Property(p => p.ID).UseIdentityColumn();
             builder.Entity<Resource>().Property(r => r.ID).UseIdentityColumn();
             builder.Entity<Service>().Property(s => s.ID).UseIdentityColumn();
+            builder.Entity<Report>().Property(v => v.ID).UseIdentityColumn();
 
             builder.Entity<CheckOut>().Property(co => co.ID).UseIdentityColumn();
             builder.Entity<Fine>().Property(f => f.ID).UseIdentityColumn();
@@ -73,6 +74,9 @@ namespace Library.Data
         public DbSet<Publisher> Publishers { get; set; } = default!;
 
         public DbSet<Resource> Resources { get; set; } = default!;
+
+        public DbSet<Report> Reports { get; set; } = default!;
+
 
         public DbSet<Room> Rooms { get; set; } = default!;
 
