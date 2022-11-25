@@ -23,9 +23,10 @@
 </form>
 
 
+
 @if(Model.GenerateReport == true)
 {
-    int totalcount = Model.Reports.Count();
+    int totalcount = Model.Reporting.Count();
     //var arr = []; 
     for (int i = 0; i < totalcount; i++)
     { 
@@ -36,29 +37,32 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
+            
             <th>First Name</th>
             <th>Last Name</th>
             <th>Join Date</th>
-           @* <th>Check Out Date</th>*@
-            <th>Returned</th>
+            <th>Total Items Checked Out</th>
+           @* <th>Check Out Date</th>
+            <th>Returned</th>*@
         </tr>
     </thead>
 
     <tbody>
-        @foreach (var row in Model.Reports)
+        @foreach (var row in Model.Reporting)
         {
             <tr>
-                <td>@row.ID</td>
-                <td>@row.FirstName</td>
+                
+                <td>@rep.FirstName</td>
                 <td>@row.LastName</td>
                 <td>@row.JoinDate</td>
-                @*td>@row.CheckOutDate</td>*@
-                <td>@Html.DisplayFor(m => row.IsReturned)</td>
+                <td>@row.CheckedOut</td>
+                @*td>@row.CheckOutDate</td>
+                <td>@Html.DisplayFor(m => row.IsReturned)</td>*@
             </tr>
         }
     </tbody>
 
-    <h4>Total Members Joined @totalcount</h4>
+   
 </table>
+    <h4>Total Members Joined @totalcount</h4>
 }
