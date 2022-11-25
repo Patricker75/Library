@@ -23,7 +23,7 @@
     public enum Audience
     {
         Children = 0,
-        Young_Adult = 1,
+        Teen = 1,
         Adult = 2,
         Researcher = 3
     }
