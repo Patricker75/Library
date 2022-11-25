@@ -20,7 +20,7 @@ namespace Library.Pages.Resources
         public IActionResult OnGet()
         {
             string? role = HttpContext.Session.GetString("employeeRole");
-            if (role == null || (role != "Admin" && role != "Librarian"))
+            if (role == null || (role != "Admin" && role != "Technician"))
             {
                 return RedirectToPage("/Index");
             }

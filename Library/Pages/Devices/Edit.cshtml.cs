@@ -40,9 +40,18 @@ namespace Library.Pages.Devices
 
         public IActionResult OnPost()
         {
+            Device? device = _context.Devices.FirstOrDefault(d => d.ID == Device.ID);
+            if (device == null)
+            {
+                return Page();
+            }
+
+            device.Type = Device.Type;
+            device.Name = Device.Name;
+
             if (ModelState.IsValid)
             {
-                _context.Attach(Device).State = EntityState.Modified;                
+                _context.Attach(device).State = EntityState.Modified;                
                 _context.SaveChanges();
 
                 return RedirectToPage("/Devices/Index");

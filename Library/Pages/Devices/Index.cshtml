@@ -31,12 +31,12 @@
                         </form>
                     </td>
                 }
-                else if (loginType != null && loginType == "employee")
+                else if (loginType != null && loginType == "employee" && (role == "Admin" || role == "Librarian"))
                 {
                     <td>
                         <form method="post">
                             <input type="hidden" name="deviceID" value="@d.ID" />
-                            <input type="submit" value="Check Out" asp-page-handler="edit"/>
+                            <input type="submit" value="Edit Device" asp-page-handler="edit"/>
                         </form>
                     </td>
                 }

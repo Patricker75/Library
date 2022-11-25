@@ -60,10 +60,10 @@ namespace Library.Pages.Employees
 
             if (SupervisorID == -1)
             {
-                return RedirectToAction("Get", new { employeeID = employeeID});
+                return RedirectToAction("Get", new { employeeID = employeeID });
             }
 
-            Employee.SupervisorID = SupervisorID;
+            e.SupervisorID = SupervisorID;
             
             _context.Attach(e).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();

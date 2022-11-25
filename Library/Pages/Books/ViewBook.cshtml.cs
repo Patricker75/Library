@@ -17,6 +17,8 @@ namespace Library.Pages.Books
         [BindProperty]
         public Publisher Publisher { get; set; } = default!;
 
+        public string Message { get; set; } = string.Empty;
+
         private readonly LibraryContext _context;
 
         public ViewBookModel(LibraryContext context)
@@ -24,8 +26,10 @@ namespace Library.Pages.Books
             _context = context;
         }
 
-        public IActionResult OnGet(int? bookID)
+        public IActionResult OnGet(int? bookID, string message)
         {
+            Message = message;
+
             if (bookID == null)
             {
                 return RedirectToPage("/Books/Index");
@@ -125,8 +129,6 @@ namespace Library.Pages.Books
                 return Page();
             }
 
-            
-
             if (m.Status != MemberStatus.Active)
             {
                 return Page();
@@ -147,13 +149,15 @@ namespace Library.Pages.Books
             if (b.Quantity == 0)
             {
                 HoldBook(b, m);
+
+                return RedirectToAction("Get", new { bookID = b.ID, message = "Hold Request Sucessful" });
             }
             else
             {
                 CheckOutBook(b, m);
-            }
 
-            return Page();
+                return RedirectToAction("Get", new { bookID = b.ID, message = "Checked Out Book" });
+            }
         }
 
         public IActionResult OnPostEdit()

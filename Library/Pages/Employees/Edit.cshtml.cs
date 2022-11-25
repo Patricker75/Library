@@ -61,12 +61,32 @@ namespace Library.Pages.Employees
 
         public IActionResult OnPost()
         {
+            Employee? employee = _context.Employees.FirstOrDefault(e => e.ID == Employee.ID);
+            if (employee == null)
+            {
+                return Page();
+            }
+
+            employee.FirstName = Employee.FirstName;
+            employee.MiddleName = Employee.MiddleName;
+            employee.LastName = Employee.LastName;
+
+            employee.PhoneNumber = Employee.PhoneNumber;
+            employee.Address = Employee.Address;
+
+            employee.Gender = Employee.Gender;
+            employee.BirthDate = Employee.BirthDate;
+
+            employee.HireDate = Employee.HireDate;
+            employee.JobRole = Employee.JobRole;
+            employee.Salary = Employee.Salary;
+
             if (ModelState.IsValid && VerifyForm())
             {
-                _context.Attach(Employee).State = EntityState.Modified;
+                _context.Attach(employee).State = EntityState.Modified;
                 _context.SaveChanges();
 
-                return RedirectToPage("/Employeees/Index");
+                return RedirectToPage("/Employees/Index");
             }
 
             return Page();
@@ -74,7 +94,7 @@ namespace Library.Pages.Employees
 
         public IActionResult OnPostDiscard()
         {
-            return RedirectToPage("/Employeees/Index");
+            return RedirectToPage("/Employees/Index");
         }
     }
 }

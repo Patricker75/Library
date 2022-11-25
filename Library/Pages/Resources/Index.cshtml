@@ -21,12 +21,12 @@
             <tr>
                 <td>@resource.Name</td>
                 <td>@resource.Description</td>
-                @if (loginType != null && loginType == "employee")
+                @if (loginType != null && loginType == "employee" && (role == "Admin" || role == "Technician"))
                 {
                     <td>
                         <form method="post">
                             <input type="hidden" name="resourceID" value="@resource.ID" />
-                            <input type="submit" value="Visit" asp-page-handler="Edit"/>
+                            <input type="submit" value="Edit" asp-page-handler="Edit"/>
                         </form>
                     </td>
                 }
@@ -35,7 +35,7 @@
                     <td>
                         <form method="post">
                             <input type="hidden" name="resourceID" value="@resource.ID" />
-                            <input type="submit" value="Edit" />
+                            <input type="submit" value="Visit" />
                         </form>
                     </td>
                 }

@@ -21,7 +21,7 @@ namespace Library.Pages.Resources
         public IActionResult OnGet(int? resourceID)
         {
             string? role = HttpContext.Session.GetString("employeeRole");
-            if (role == null || (role != "Admin" && role != "Librarian"))
+            if (role == null || (role != "Admin" && role != "Technician"))
             {
                 return RedirectToPage("/Index");
             }
@@ -44,9 +44,20 @@ namespace Library.Pages.Resources
 
         public IActionResult OnPost()
         {
+            Resource? resource = _context.Resources.FirstOrDefault(rs => rs.ID == Resource.ID);
+            if (resource == null)
+            {
+                return Page();
+            }
+
+            resource.Name = Resource.Name;
+            resource.Url = Resource.Url;
+            resource.Description = Resource.Description;
+
             if (ModelState.IsValid)
             {
-                _context.Attach(Resource).State = EntityState.Modified;
+                _context.Attach(resource).State = EntityState.Modified;
+                _context.SaveChanges();
 
                 return RedirectToPage("/Resources/Index");
             }

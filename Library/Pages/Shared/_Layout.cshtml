@@ -32,7 +32,6 @@
 
                             if (type == null)
                             {
-                                </ul>
                                 //PROFILE AND LOGIN/LOGOUT FIXED TO THE RIGHT END.
                                 <ul class="navbar-nav ml-auto">
                                     <li class="nav-item">
@@ -44,7 +43,6 @@
                             }
                             else if (type == "member")
                             {
-                                </ul>
                                 <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-page="/Members/Profile">@Context.Session.GetString("userFullName")</a>
@@ -57,7 +55,6 @@
                             }
                             else if (type == "employee")
                             {
-                                </ul>
                                 <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-page="/Employees/Profile">@Context.Session.GetString("userFullName")</a>
@@ -68,9 +65,10 @@
                                 </li>
                                 </ul>
                             }
-                            else{</ul>}
+                            else
+                            {
+                            }
                         }
-                    //</ul>
                 </div>
             </div>
         </nav>

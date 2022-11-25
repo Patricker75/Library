@@ -33,6 +33,15 @@
                         </form>
                     </td>
                 }
+                else if (loginType != null && loginType == "employee" && (role == "Admin" || role == "Technician"))
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="serviceID" value="@service.ID" />
+                            <input type="submit" value="Edit Service" asp-page-handler="Edit" />
+                        </form>
+                    </td>
+                }
             </tr>
         }
     </tbody>
