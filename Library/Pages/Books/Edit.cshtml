@@ -65,7 +65,7 @@
 
     <div class="form-control">
         <label asp-for="Book.Genre" class="control-label">Genre:</label>
-        <select asp-for="Book.Genre" asp-items="Html.GetEnumSelectList<Genre>()">
+        <select asp-for="Book.Genre" asp-items="Html.GetEnumSelectList<Genre>()" class="form-control">
             <option selected="selected" hidden="hidden">Select a Genre</option>
         </select>
         <span asp-validation-for="Book.Genre" class="text-danger"></span>
@@ -73,7 +73,7 @@
 
     <div class="form-control">
         <label asp-for="Book.Audience" class="control-label">Target Audience:</label>
-        <select asp-for="Book.Audience" asp-items="Html.GetEnumSelectList<Audience>()">
+        <select asp-for="Book.Audience" asp-items="Html.GetEnumSelectList<Audience>()" class="form-control">
             <option selected="selected" hidden="hidden">Select An Audience</option>
         </select>
         <span asp-validation-for="Book.Audience" class="text-danger"></span>

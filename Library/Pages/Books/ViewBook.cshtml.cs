@@ -156,9 +156,9 @@ namespace Library.Pages.Books
             return Page();
         }
 
-        public IActionResult OnPostEdit(int bookID)
+        public IActionResult OnPostEdit()
         {
-            return RedirectToPage("/Books/Edit", new { bookID = bookID });
+            return RedirectToPage("/Books/Edit", new { bookID = Book.ID });
         }
     }
 }
