@@ -11,7 +11,11 @@
         <tr>
             <th>Resource Name</th>
             <th>Resource Description</th>
-            <th></th>
+            <th>Resource Link</th>
+            @if (loginType != null && loginType == "employee")
+                {
+                  <th>Edit Resource</th>
+                }
         </tr>
     </thead>
 
@@ -24,19 +28,22 @@
                 @if (loginType != null && loginType == "employee")
                 {
                     <td>
+
+                        <a href="@resource.Url" target="_blank"> @resource.Url</a>
+                    </td>
+
+                    <td>
                         <form method="post">
                             <input type="hidden" name="resourceID" value="@resource.ID" />
-                            <input type="submit" value="Visit" asp-page-handler="Edit"/>
+                            <input type="submit" value="Edit" asp-page-handler="Edit"/>
                         </form>
                     </td>
                 }
                 else
                 {
                     <td>
-                        <form method="post">
-                            <input type="hidden" name="resourceID" value="@resource.ID" />
-                            <input type="submit" value="Edit" />
-                        </form>
+
+                        <a href="@resource.Url" target="_blank"> @resource.Url</a>
                     </td>
                 }
             </tr>
