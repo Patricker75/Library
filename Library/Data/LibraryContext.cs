@@ -62,9 +62,10 @@ namespace Library.Data
 
         private void HandleViews(ModelBuilder builder)
         {
-            builder.Entity<MemberReport>().ToView("member_report").HasNoKey();
+            //builder.Entity<MemberReport>().ToView("member_report").HasNoKey();
+            builder.Entity<MemberReport>().ToView("memberreport").HasNoKey();
             builder.Entity<CheckoutReport>().ToView("check_out_report").HasNoKey();
-
+            builder.Entity<MemberReport>().Property(vr => vr.ID).UseIdentityColumn();
             builder.Entity<CheckoutReport>().Property(co => co.ItemType).HasConversion(v => (short)v, v => (ItemType)v);
         }
 
