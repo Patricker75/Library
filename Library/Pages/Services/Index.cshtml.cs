@@ -10,6 +10,8 @@ namespace Library.Pages.Services
         [BindProperty]
         public IList<Service> Services { get; set; }
 
+        public string Message { get; set; } = string.Empty;
+
         private readonly LibraryContext _context;
 
         public IndexModel(LibraryContext context)
@@ -17,9 +19,11 @@ namespace Library.Pages.Services
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(string message = "")
         {
-            if (_context.Devices != null)
+            Message = message;
+
+            if (_context.Services != null)
             {
                 Services = _context.Services.ToList();
             }
@@ -50,7 +54,7 @@ namespace Library.Pages.Services
 
             _context.SaveChanges();
 
-            return RedirectToPage("/Services/Index");
+            return RedirectToPage("/Services/Index", new { message = $"Used {s.Name} Service" });
         }
 
         public IActionResult OnPostEdit(int serviceID)

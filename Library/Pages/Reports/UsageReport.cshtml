@@ -1,0 +1,78 @@
+﻿@page
+@model Library.Pages.Reports.UsageReportModel
+@{
+    ViewData["Title"] = "Report for Usages";
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label">Start Date:</label>
+        <input asp-for="StartDate" class="form-control" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label">Start Date:</label>
+        <input asp-for="EndDate" class="form-control" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ReportType">Report Request:</label>
+        <select asp-for="ReportType" class="form-control">
+            <option value="0">Services</option>
+            <option value="1">Resources</option>
+        </select>
+    </div>
+
+    <input type="submit" value="Generate Report" class="btn btn-primary"/>
+</form>
+
+<h3>@Model.Header</h3>
+
+@if (Model.ReportType == 0 && Model.ServiceReport != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Count</th>
+                <th>Name</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var report in Model.ServiceReport)
+            {
+                <tr>
+                    <td>@report.Count()</td>
+                    <td>@report.Key</td>
+                    <td>@report.First().Location</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Model.ReportType == 1 && Model.ResourceReport != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Count</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var report in Model.ResourceReport)
+            {
+                <tr>
+                    <td>@report.Count()</td>
+                    <td>@report.Key</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

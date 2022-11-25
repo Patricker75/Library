@@ -65,7 +65,11 @@ namespace Library.Data
             //builder.Entity<MemberReport>().ToView("member_report").HasNoKey();
             builder.Entity<MemberReport>().ToView("memberreport").HasNoKey();
             builder.Entity<CheckoutReport>().ToView("check_out_report").HasNoKey();
+            builder.Entity<ServiceUsageReport>().ToView("service_usage_report").HasNoKey();
+            builder.Entity<ResourceUsageReport>().ToView("resource_usage_report").HasNoKey();
+            
             builder.Entity<MemberReport>().Property(vr => vr.ID).UseIdentityColumn();
+
             builder.Entity<CheckoutReport>().Property(co => co.ItemType).HasConversion(v => (short)v, v => (ItemType)v);
         }
 
@@ -92,5 +96,7 @@ namespace Library.Data
 
         public DbSet<MemberReport> MemberReports { get; set; } = default!;
         public DbSet<CheckoutReport> CheckoutReports { get; set; } = default!;
+        public DbSet<ServiceUsageReport> ServiceUsageReports { get; set; } = default!;
+        public DbSet<ResourceUsageReport> ResourceUsageReports { get; set; } = default!;
     }
 }
