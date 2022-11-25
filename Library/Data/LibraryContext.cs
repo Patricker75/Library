@@ -63,13 +63,13 @@ namespace Library.Data
         private void HandleViews(ModelBuilder builder)
         {
             //builder.Entity<MemberReport>().ToView("member_report").HasNoKey();
-            builder.Entity<MemberReport>().ToView("memberreport").HasNoKey();
+            builder.Entity<MemberReport>().ToView("new_member_report").HasNoKey();
             builder.Entity<CheckoutReport>().ToView("check_out_report").HasNoKey();
             builder.Entity<ServiceUsageReport>().ToView("service_usage_report").HasNoKey();
             builder.Entity<ResourceUsageReport>().ToView("resource_usage_report").HasNoKey();
             builder.Entity<UnpaidFine>().ToView("unpaid_fines").HasNoKey();
             
-            builder.Entity<MemberReport>().Property(vr => vr.ID).UseIdentityColumn();
+            builder.Entity<MemberReport>().Property(vr => vr.CheckedOut).UseIdentityColumn();
 
             builder.Entity<CheckoutReport>().Property(co => co.ItemType).HasConversion(v => (short)v, v => (ItemType)v);
             builder.Entity<UnpaidFine>().Property(uf => uf.ItemType).HasConversion(v => (short)v, v => (ItemType)v);
