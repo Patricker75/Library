@@ -4,9 +4,33 @@
     ViewData["Title"] = "Checkout Report";
 }
 
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="Start" class="control-label">Start Date:</label>
+        <input asp-for="Start" class="form-control" />
+        <span asp-validation-for="Start" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="End" class="control-label">End Date:</label>
+        <input asp-for="End" class="form-control" />
+        <span asp-validation-for="End" class="text-danger"></span>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Generate Report" />
+</form>
+
+@if(Model.GenerateReport == true)
+{
+    <h4>Checked Out from @Model.Start.ToString("MM/dd/yyyy") to @Model.End.ToString("MM/dd/yyyy")</h4>
 <table class="table">
+    
     <thead>
         <tr>
+               
+
             <th>Name</th>
             <th>Check Out Date</th>
             <th>Return Date</th>
@@ -21,10 +45,19 @@
             <tr>
                 <td>@row.Name</td>
                 <td>@row.CheckoutDate</td>
+                @if(row.ReturnDate == null)
+                {
+                    <td>Not Yet Returned</td>
+                }
+                else{
                 <td>@row.ReturnDate</td>
+                }
                 <td>@row.ItemType.ToString()</td>
                 <td>@row.ItemName</td>
             </tr>
         }
     </tbody>
 </table>
+<h4>Total Check Outs: @Model.Reports.Count()</h4>
+
+}
