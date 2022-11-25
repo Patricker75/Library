@@ -21,6 +21,12 @@
         <span asp-validation-for="Service.Location" class="text-danger"></span>
     </div>
 
+    <div class="form-group">
+        <label asp-for="Service.Availability" class="control-label">Available:</label>
+        <input asp-for="Service.Availability" />
+        <span asp-validation-for="Service.Availability" class="text-danger"></span>
+    </div>
+
     <input type="submit" value="Save Changes" class="btn btn-primary" />
     <input type="submit" value="Discard Changes" class="btn btn-primary" asp-page-handler="Discard"/>
 </form>

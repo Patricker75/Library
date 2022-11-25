@@ -52,6 +52,7 @@ namespace Library.Pages.Services
 
             service.Name = Service.Name;
             service.Location = Service.Location;
+            service.Availability = Service.Availability;
 
             if (ModelState.IsValid)
             {
