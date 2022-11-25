@@ -20,7 +20,7 @@ namespace Library.Pages.Reports
         public bool GenerateReport = false;
         //public IList<MemberReport> Reports { get; set; } = default!;
 
-        public IEnumerable<IGrouping<string, MemberReport>> Reporting { get; set; } = default!;
+        public IOrderedEnumerable<MemberReport> Reporting { get; set; } = default!;
 
         private LibraryContext _context;
         
@@ -34,15 +34,6 @@ namespace Library.Pages.Reports
         {
             Start = DateTime.Today.AddDays(-30);
             End = DateTime.Today;
-           // if (_context.MemberReports != null)
-            //{
-             //  var Reportss = from rep in Reports
-              //            orderby rep.JoinDate
-               //           select rep;
-                         
-            //}
-            //foreach(var std in Reportss)
-           // Reports = Reportss;
         }
 
         public IActionResult OnPost()
@@ -52,11 +43,11 @@ namespace Library.Pages.Reports
             {
                 return Page();
             }
-            Reporting = from rep in _context.MemberReports.ToList()
-                      where rep.JoinDate >= Start && rep.JoinDate <= End
-                      group rep by rep.FirstName;
-            // Reports = Reportss;
-            //Reports = _context.MemberReports.Where(vr => Start <= vr.JoinDate && vr.JoinDate <= End).ToList();
+
+            Reporting = from report in _context.MemberReports.ToList()
+                        where report.JoinDate >= Start && report.JoinDate <= End
+                        orderby report.JoinDate
+                        select report;
 
             GenerateReport = true;
             return Page();

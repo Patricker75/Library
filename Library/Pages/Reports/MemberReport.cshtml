@@ -26,43 +26,32 @@
 
 @if(Model.GenerateReport == true)
 {
-    int totalcount = Model.Reporting.Count();
-    //var arr = []; 
-    for (int i = 0; i < totalcount; i++)
-    { 
-        
-    }
-
-
-<table class="table">
-    <thead>
-        <tr>
-            
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Join Date</th>
-            <th>Total Items Checked Out</th>
-           @* <th>Check Out Date</th>
-            <th>Returned</th>*@
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var row in Model.Reporting)
-        {
+    <h4>Members Joined from @Model.Start.ToString("MM/dd/yyyy") to @Model.End.ToString("MM/dd/yyyy")</h4>
+    <table class="table">
+        <thead>
             <tr>
-                
-                <td>@rep.FirstName</td>
-                <td>@row.LastName</td>
-                <td>@row.JoinDate</td>
-                <td>@row.CheckedOut</td>
-                @*td>@row.CheckOutDate</td>
-                <td>@Html.DisplayFor(m => row.IsReturned)</td>*@
+            
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Join Date</th>
+                <th>Total Items Checked Out</th>
             </tr>
-        }
-    </tbody>
+        </thead>
+
+        <tbody>
+            @foreach (var row in Model.Reporting)
+            {
+                <tr>
+                
+                    <td>@row.FirstName</td>
+                    <td>@row.LastName</td>
+                    <td>@row.JoinDate.ToString("MM/dd/yyyy")</td>
+                    <td>@row.CheckedOut</td>
+                 </tr>
+            }
+        </tbody>
 
    
-</table>
-    <h4>Total Members Joined @totalcount</h4>
+    </table>
+    <h4>Total Members Joined: @Model.Reporting.Count()</h4>
 }
