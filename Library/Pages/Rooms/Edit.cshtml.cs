@@ -44,9 +44,18 @@ namespace Library.Pages.Rooms
 
         public IActionResult OnPost()
         {
+            Room? room = _context.Rooms.FirstOrDefault(r => r.Location == Room.Location);
+            if (room == null)
+            {
+                return Page();
+            }
+
+            room.Type = Room.Type;
+            room.IsAvailable = Room.IsAvailable;
+
             if (ModelState.IsValid)
             {
-                _context.Attach(Room).State = EntityState.Modified;
+                _context.Attach(room).State = EntityState.Modified;
                 _context.SaveChanges();
 
                 return RedirectToPage("/Rooms/Index");

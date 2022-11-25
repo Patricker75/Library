@@ -1,5 +1,6 @@
 using Library.Data;
 using Library.Models;
+using Library.Models.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,6 +9,11 @@ namespace Library.Pages.Employees
     public class ProfileModel : PageModel
     {
         public Employee Employee { get; set; } = default!;
+
+        public IList<UnpaidFine> UnpaidFines { get; set; } = default!;
+        public IList<Room> ReservedRooms { get; set; } = default!;
+        public IList<Room> UnavailableRooms { get; set; } = default!;
+        public IList<Service> UnavailableServices { get; set; } = default!;
 
         private readonly LibraryContext _context;
         
@@ -39,6 +45,48 @@ namespace Library.Pages.Employees
             Employee = _context.Employees.Where(e => e.ID == employeeID).First();
 
             return Page();
+        }
+
+        public Employee? GetSupervisor(int? supervisorID)
+        {
+            return _context.Employees.FirstOrDefault(e => e.ID == supervisorID);
+        }
+
+        public void GetUnpaidFines()
+        {
+            if (_context.UnpaidFines != null)
+            {
+                UnpaidFines = _context.UnpaidFines.ToList();
+            }
+        }
+
+        public void GetReservedRooms()
+        {
+            if (_context.Rooms != null)
+            {
+                ReservedRooms = _context.Rooms.Where(r => r.MemberID != null).ToList();
+            }
+        }
+
+        public Member? GetMember(int? memberID)
+        {
+            return _context.Members.FirstOrDefault(m => m.ID == memberID);
+        }
+
+        public void GetUnavailableRooms()
+        {
+            if (_context.Rooms != null)
+            {
+                UnavailableRooms = _context.Rooms.Where(r => !r.IsAvailable).ToList();
+            }
+        }
+
+        public void GetUnavailableServices()
+        {
+            if (_context.Services != null)
+            {
+                UnavailableServices = _context.Services.Where(s => !s.Availability).ToList();
+            }
         }
     }
 }

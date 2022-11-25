@@ -8,18 +8,20 @@
 <form method="post">
     <div asp-validation-summary="ModelOnly"></div>
 
-    <div class="form-group">
-        <label asp-for="Room.Location" class="control-label">Location:</label>
-        <input asp-for="Room.Location" class="form-control"/>
-        <span asp-validation-for="Room.Location" class="text-danger"></span>
-    </div>
+    <input type="hidden" asp-for="Room.Location" />
 
     <div class="form-group">
-        <label asp-for="Room.Type">NewRoom Type :</label>
+        <label asp-for="Room.Type" class="control-label">Room Type:</label>
         <select asp-for="Room.Type" asp-items="Html.GetEnumSelectList<RoomType>()" class="form-control">
             <option selected="selected" hidden="hidden">Select Room Type</option>
         </select>
         <span asp-validation-for="Room.Type" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Room.IsAvailable" class="control-label">Available:</label>
+        <input asp-for="Room.IsAvailable" />
+        <span asp-validation-for="Room.IsAvailable" class="text-danger"></span>
     </div>
 
     <input type="submit" value="Save Changes" class="btn btn-primary" />

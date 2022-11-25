@@ -1,4 +1,135 @@
 ﻿@page
 @model Library.Pages.Employees.ProfileModel
 @{
+    ViewData["Title"] = "Employee Profile";
+    string? role = HttpContext.Session.GetString("employeeRole");
+}
+
+<h3>Hello, @Model.Employee.JobRole @Model.Employee.FirstName @Model.Employee.LastName!</h3>
+
+<a asp-page="/Employees/Edit" asp-route-employeeID="@Model.Employee.ID">Edit Profile</a>
+
+@if (Model.Employee.SupervisorID != null)
+{
+    var supervisor = Model.GetSupervisor(Model.Employee.SupervisorID);
+    if (supervisor != null)
+    {
+        <h4>Supervisor: @supervisor.FirstName @supervisor.LastName</h4>    
+    }
+}
+
+@if (role != null && (role == "Admin" || role == "Librarian"))
+{
+    Model.GetUnpaidFines();
+    <h4>Unpaid Fines</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Member Name</th>
+                <th>Amount</th>
+                <th>Fine Date</th>
+                <th>Item Fined</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var fine in Model.UnpaidFines)
+            {
+                <tr>
+                    <td>@fine.MemberName</td>
+                    <td>$@fine.Amount.ToString("#.##")</td>
+                    <td>@fine.FineDate</td>
+                    <td>@fine.ItemType: @fine.ItemName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (role != null && (role == "Admin" || role == "Technician"))
+{
+    Model.GetReservedRooms();
+    if (Model.ReservedRooms.Count > 0)
+    {
+        <h4>Reserved Rooms</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Member Name</th>
+                    <th>Room</th>
+                    <th>Room Type</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach(var room in Model.ReservedRooms)
+                {
+                    var member = Model.GetMember(room.MemberID);
+                    if (member != null)
+                    {
+                        <tr>
+                            <td>@member.FirstName @member.LastName</td>
+                            <td>@room.Location</td>
+                            <td>@room.Type.ToString()</td>
+                        </tr>
+                    }   
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@if (role != null && (role == "Admin" || role == "Technician"))
+{
+    Model.GetUnavailableRooms();
+    if (Model.UnavailableRooms.Count > 0)
+    {
+        <h4>Unavailable Rooms</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Room</th>
+                    <th>Room Type</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var room in Model.UnavailableRooms)
+                {
+                    <tr>
+                        <td>@room.Location</td>
+                        <td>@room.Type.ToString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@if (role != null && (role == "Admin" || role == "Technician"))
+{
+    Model.GetUnavailableServices();
+
+    if (Model.UnavailableServices.Count > 0)
+    {
+        <h4>Unavailable Services</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Service Name</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach(var service in Model.UnavailableServices)
+                {
+                    <tr>
+                        <td>@service.Name</td>
+                        <td>@service.Location</td>
+                    </tr>   
+                }
+            </tbody>
+        </table>
+    }
 }

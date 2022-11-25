@@ -20,10 +20,6 @@ namespace Library.Pages.Members
 
         public IActionResult OnGet()
         {
-            Fines = _context.Fines.Where(f => f.MemberID == 2 && f.PaidDate == null).ToList();
-
-            return Page();
-
             if (HttpContext.Session.GetString("loginType") != "member")
             {
                 return RedirectToPage("/Index");

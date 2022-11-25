@@ -6,6 +6,8 @@
     string? role = HttpContext.Session.GetString("employeeRole");
 }
 
+<h4>@Model.Message</h4>
+
 <table class="table">
     <thead>
         <tr>
@@ -30,6 +32,15 @@
                         <form method="post">
                             <input type="hidden" name="serviceID" value="@service.ID" />
                             <input type="submit" value="Use Service" />
+                        </form>
+                    </td>
+                }
+                else if (loginType != null && loginType == "employee" && (role == "Admin" || role == "Technician"))
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="serviceID" value="@service.ID" />
+                            <input type="submit" value="Edit Service" asp-page-handler="Edit" />
                         </form>
                     </td>
                 }

@@ -44,9 +44,19 @@ namespace Library.Pages.Services
 
         public IActionResult OnPost()
         {
+            Service? service = _context.Services.FirstOrDefault(s => s.ID == Service.ID);
+            if (service == null)
+            {
+                return Page();
+            }
+
+            service.Name = Service.Name;
+            service.Location = Service.Location;
+            service.Availability = Service.Availability;
+
             if (ModelState.IsValid)
             {
-                _context.Attach(Service).State = EntityState.Modified;
+                _context.Attach(service).State = EntityState.Modified;
                 _context.SaveChanges();
 
                 return RedirectToPage("/Services/Index");
