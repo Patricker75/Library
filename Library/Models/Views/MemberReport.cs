@@ -5,6 +5,9 @@ namespace Library.Models.Views
 {
     public class MemberReport
     {
+        [Column("id")]
+        public int ID { get; set; }
+
         [Column("first_name")]
         public string FirstName { get; set; }
 

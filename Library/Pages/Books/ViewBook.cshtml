@@ -15,7 +15,10 @@
 
         <tr>
             <th>Author</th>
-            <td>@Model.Author.FirstName @Model.Author.LastName</td>
+            <td>@Model.Author.FirstName @if (Model.Author.MiddleName != null)
+                {
+                    @Model.Author.MiddleName
+                } @Model.Author.LastName</td>
         </tr>
 
         <tr>
@@ -26,6 +29,31 @@
         <tr>
             <th>Genre</th>
             <td>@Model.Book.Genre</td>
+        </tr>
+
+        <tr>
+            <th>Audience</th>
+            <td>@Model.Book.Audience</td>
+        </tr>
+
+        <tr>
+            <th>Dewey Decimel Number</th>
+            <td>@Model.Book.DeweyNumber</td>
+        </tr>
+
+        <tr>
+            <th>Publisher</th>
+            <td>@Model.Publisher.Name</td>
+        </tr>
+
+        <tr>
+            <th>Date Added To Catalong</th>
+            <td>@Model.Book.DateAdded</td>
+        </tr>
+
+        <tr>
+            <th>Number of Books Available</th>
+            <td>@Model.Book.Quantity</td>
         </tr>
     </tbody>
 </table>

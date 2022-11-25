@@ -11,7 +11,11 @@
         <tr>
             <th>Resource Name</th>
             <th>Resource Description</th>
-            <th></th>
+            <th>Resource Link</th>
+            @if (loginType != null && loginType == "employee")
+                {
+                  <th>Edit Resource</th>
+                }
         </tr>
     </thead>
 
@@ -23,6 +27,11 @@
                 <td>@resource.Description</td>
                 @if (loginType != null && loginType == "employee" && (role == "Admin" || role == "Technician"))
                 {
+                    <td>
+
+                        <a href="@resource.Url" target="_blank"> @resource.Url</a>
+                    </td>
+
                     <td>
                         <form method="post">
                             <input type="hidden" name="resourceID" value="@resource.ID" />
