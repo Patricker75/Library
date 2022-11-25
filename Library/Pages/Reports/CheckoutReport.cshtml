@@ -1,0 +1,30 @@
+﻿@page
+@model Library.Pages.Reports.CheckoutReportModel
+@{
+    ViewData["Title"] = "Checkout Report";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Check Out Date</th>
+            <th>Return Date</th>
+            <th>Item</th>
+            <th>Name of Item</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var row in Model.Reports)
+        {
+            <tr>
+                <td>@row.Name</td>
+                <td>@row.CheckoutDate</td>
+                <td>@row.ReturnDate</td>
+                <td>@row.ItemType.ToString()</td>
+                <td>@row.ItemName</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -63,6 +63,9 @@ namespace Library.Data
         private void HandleViews(ModelBuilder builder)
         {
             builder.Entity<MemberReport>().ToView("member_report").HasNoKey();
+            builder.Entity<CheckoutReport>().ToView("check_out_report").HasNoKey();
+
+            builder.Entity<CheckoutReport>().Property(co => co.ItemType).HasConversion(v => (short)v, v => (ItemType)v);
         }
 
         public DbSet<Author> Authors { get; set; } = default!;
@@ -87,5 +90,6 @@ namespace Library.Data
 
 
         public DbSet<MemberReport> MemberReports { get; set; } = default!;
+        public DbSet<CheckoutReport> CheckoutReports { get; set; } = default!;
     }
 }
