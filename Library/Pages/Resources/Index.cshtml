@@ -28,8 +28,7 @@
                 @if (loginType != null && loginType == "employee" && (role == "Admin" || role == "Technician"))
                 {
                     <td>
-
-                        <a href="@resource.Url" target="_blank"> @resource.Url</a>
+                         <a href="@resource.Url" target="_blank"> @resource.Url</a>
                     </td>
 
                     <td>
@@ -42,10 +41,7 @@
                 else
                 {
                     <td>
-                        <form method="post">
-                            <input type="hidden" name="resourceID" value="@resource.ID" />
-                            <input type="submit" value="Visit" />
-                        </form>
+                        <a href="@resource.Url" target="_blank"> @resource.Url</a>
                     </td>
                 }
             </tr>
