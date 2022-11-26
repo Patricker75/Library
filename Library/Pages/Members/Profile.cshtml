@@ -24,53 +24,67 @@
     </table>
 }
 
+
+@if (Model.CheckedOutBookID == null)
+
+{
 <table class="table">
-    <tr>
-        <th>Title</th>
-        <th>Check Out Date</th>
-        <th></th>
-    </tr>
-
-    @foreach (var checkOutID in Model.CheckedOutBookID)
-    {
-        var co = Model.Context.CheckOuts.Where(co => co.ID == checkOutID).First();
-        var book = Model.Context.Books.Where(b => b.ID == co.ItemID).First();
+    
         <tr>
-            <td>@book.Title</td>
-            <td>@co.CheckOutDate</td>
-            <td>
-                <form method="post">
-                    <input type="hidden" name="checkOutID" value="@co.ID" />
-                    <input type="submit" value="Return" asp-page-handler="return" />
-                </form>
-            </td>
+            <th>Title</th>
+            <th>Check Out Date</th>
+            <th></th>
         </tr>
+
+        @foreach (var checkOutID in Model.CheckedOutBookID)
+        {
+            var co = Model.Context.CheckOuts.Where(co => co.ID == checkOutID).First();
+            var book = Model.Context.Books.Where(b => b.ID == co.ItemID).First();
+            <tr>
+                <td>@book.Title</td>
+                <td>@co.CheckOutDate.ToString("MM/dd/yyyy")</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="checkOutID" value="@co.ID" />
+                        <input type="submit" value="Return" asp-page-handler="return" />
+                    </form>
+                </td>
+            </tr>
+        }
+ </table>
+ }
+
+    @if (Model.CheckedOutDeviceID == null)
+    {
+    <table class="table">
+        <tr>
+            <th>Device</th>
+            <th>Check Out Date</th>
+            <th></th>
+        </tr>
+
+        @foreach (var checkOutID in Model.CheckedOutDeviceID)
+        {
+            var co = Model.Context.CheckOuts.Where(co => co.ID == checkOutID).First();
+            var device = Model.Context.Devices.Where(d => d.ID == co.ItemID).First();
+
+            <tr>
+                <td>@device.Name</td>
+                <td>@co.CheckOutDate.ToString("MM/dd/yyyy")</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="checkOutID" value="@co.ID" />
+                        <input type="submit" value="Return" asp-page-handler="return" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
     }
 
-    <tr>
-        <th>Device</th>
-        <th>Check Out Date</th>
-        <th></th>
-    </tr>
 
-    @foreach (var checkOutID in Model.CheckedOutDeviceID)
-    {
-        var co = Model.Context.CheckOuts.Where(co => co.ID == checkOutID).First();
-        var device = Model.Context.Devices.Where(d => d.ID == co.ItemID).First();
-
-        <tr>
-            <td>@device.Name</td>
-            <td>@co.CheckOutDate</td>
-            <td>
-                <form method="post">
-                    <input type="hidden" name="checkOutID" value="@co.ID" />
-                    <input type="submit" value="Return" asp-page-handler="return" />
-                </form>
-            </td>
-        </tr>
-    }
-</table>
-
+@if(Model.Holds == null)
+{
 <table class="table">
     <tr>
         <th>Title of Book</th>
@@ -82,7 +96,9 @@
         var book = Model.Context.Books.Where(b => b.ID == hold.BookID).First();
         <tr>
             <td>@book.Title</td>
-            <td>@hold.HoldDate</td>
+            <td>@hold.HoldDate.ToString("MM/dd/yyyy")</td>
         </tr>
     }
 </table>
+
+}
