@@ -84,7 +84,7 @@ namespace Library.Pages.Books
                 DueDate = DateTime.Now.AddDays(interval),
                 IsReturned = false
             });
-
+           
             _context.SaveChanges();
         }
 
@@ -158,6 +158,7 @@ namespace Library.Pages.Books
 
                 return RedirectToAction("Get", new { bookID = b.ID, message = "Checked Out Book" });
             }
+           
         }
 
         public IActionResult OnPostEdit()
