@@ -76,8 +76,10 @@ namespace Library.Pages.Books
                     break;
             }
 
+            var coDate = DateTime.Now;
+
             _context.Database.ExecuteSqlRaw("INSERT INTO check_out (check_out_date, due_date, item_type, item_id, member_id, returned)\r\nVALUES ({0},{1},{2},{3},{4},{5})",
-                DateTime.Now, DateTime.Now.AddDays(interval), ItemType.Book, Book.ID, member.ID, 0);
+                coDate, DateTime.Now.AddDays(interval), ItemType.Book, Book.ID, member.ID, 0);
 
             _context.SaveChanges();
         }
@@ -125,19 +127,19 @@ namespace Library.Pages.Books
 
             if (m.Status != MemberStatus.Active)
             {
-                return Page();
+                return RedirectToAction("Get", new { bookID = b.ID, message = "Your Account is Supsended" });
             }
 
             // Check if member will exceed their checkout limit
             if (_context.CheckOuts.Where(co => co.MemberID == m.ID && !co.IsReturned).Count() + 1 > m.CheckOutLimit) 
             {
-                return Page();
+                return RedirectToAction("Get", new { bookID = b.ID, message = "You Have Reached Your Checkout Limit" });
             }
 
             // Check if member has the book already checked out
             if (_context.CheckOuts.Where(co => co.MemberID == m.ID && co.ItemID == Book.ID && co.Type == ItemType.Book && !co.IsReturned).Any())
             {
-                return Page();
+                return RedirectToAction("Get", new { bookID = b.ID, message = "You Already Have the Book Checked Out" });
             }
 
             if (b.Quantity == 0)

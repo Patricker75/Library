@@ -1,0 +1,23 @@
+﻿@page
+@model Library.Pages.Members.DeactivateAccountModel
+@{
+    ViewData["Title"] = "Deactivate Account";
+}
+
+<h2>@Model.Message</h2>
+@if (!Model.Confirmation) {
+    <form method="post">
+        <input type="hidden" asp-for="MemberID" />
+    
+        <input type="submit" value="Yes" class="btn btn-primary" />
+        <input type="submit" value="No" asp-page-handler="Abort" class="btn btn-primary" />
+    </form>
+}
+else {
+    <form method="post">
+        <input type="hidden" asp-for="MemberID" />
+
+        <input type="submit" value="Yes" asp-page-handler="Deactivate" class="btn btn-primary" />
+        <input type="submit" value="No" asp-page-handler="Abort" class="btn btn-primary" />
+    </form>
+}

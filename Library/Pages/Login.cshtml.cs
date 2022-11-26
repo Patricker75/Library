@@ -12,6 +12,8 @@ namespace Library.Pages
 
         public string LoginType { get; set; } = string.Empty;
 
+        public string Message { get; set; } = string.Empty;
+
         private readonly LibraryContext _context;
 
         public LoginModel(LibraryContext context)
@@ -20,10 +22,9 @@ namespace Library.Pages
             Login = new LoginUser();
         }
 
-        public void OnGet()
+        public void OnGet(string message)
         {
-            Login.Username = "admin";
-            Login.Password = "empassboi";
+            Message = message;
         }
 
         private IActionResult MemberLogin(int loginID)
@@ -33,6 +34,11 @@ namespace Library.Pages
             if (member == null)
             {
                 return Page();
+            }
+            
+            if (member.Status == MemberStatus.Inactive)
+            {
+                return RedirectToAction("Get", new { message = "Invalid Login" });
             }
 
             HttpContext.Session.SetString("loginType", "member");
@@ -69,7 +75,7 @@ namespace Library.Pages
             LoginUser? login = _context.Logins.Where(l => l.Username == Login.Username && l.Password == Login.Password).FirstOrDefault();
             if (login == null)
             {
-                return Page();
+                return RedirectToAction("Get", new { message = "Invalid Username/Password" });
             }
 
             int loginID = login.ID;
