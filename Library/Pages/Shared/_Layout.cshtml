@@ -1,13 +1,19 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+    @{
+    string? loginType = Context.Session.GetString("loginType");
+    string? role = Context.Session.GetString("employeeRole");
+}
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Library</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Library.styles.css" asp-append-version="true" />
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -26,35 +32,40 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Books/Index">Books Catalog</a>
                         </li>
-
+                        @if (role != null && role == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Reports/ViewReports">Reports</a>
+                            </li>
+                        }
                         @{
                             string? type = Context.Session.GetString("loginType");
 
                             if (type == null)
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-page="/Login">Login</a>
-                                </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-page="/Login">Login</a>
+                                        </li>
                             }
                             else if (type == "member")
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-page="/Members/Profile">@Context.Session.GetString("userFullName")</a>
-                                </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-page="/Members/Profile">@Context.Session.GetString("userFullName")</a>
+                                        </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link test-dark" asp-page="/Logout">Logout</a>
-                                </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link test-dark" asp-page="/Logout">Logout</a>
+                                        </li>
                             }
                             else if (type == "employee")
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-page="/Employees/Profile">@Context.Session.GetString("userFullName")</a>
-                                </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-page="/Employees/Profile">@Context.Session.GetString("userFullName")</a>
+                                        </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link test-dark" asp-page="/Logout">Logout</a>
-                                </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link test-dark" asp-page="/Logout">Logout</a>
+                                        </li>
                             }
                         }
                     </ul>

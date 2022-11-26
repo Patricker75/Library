@@ -1,0 +1,30 @@
+﻿@page
+@model Library.Pages.Reports.ViewReportsModel
+@{
+    ViewData["Title"] = "ViewReports";
+
+}
+
+
+<table class="table">
+    
+    <tr>
+    <th>Member Report</th>
+    <td><a asp-page="/Reports/MemberReport">View</a></td>
+    </tr>
+
+    <tr>
+    <th>Checkout Report</th>
+    <td> <a asp-page="/Reports/CheckoutReport">View</a></td>
+    </tr>
+
+    <tr>
+        <th>Usage Report</th>
+        <td> <a asp-page="/Reports/UsageReport">View</a></td>
+    </tr>
+
+    <tr>
+        <th>Items Added Report</th>
+        <td> <a asp-page="/Reports/ItemAdditionHistory">View</a></td>
+    </tr>
+</table>
