@@ -18,7 +18,6 @@ namespace Library.Pages.Reports
         public DateTime End { get; set; }
 
         public bool GenerateReport = false;
-        //public IList<MemberReport> Reports { get; set; } = default!;
 
         public IOrderedEnumerable<MemberReport> Reporting { get; set; } = default!;
 

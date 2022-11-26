@@ -17,9 +17,5 @@ namespace Library.Models.Views
         [DataType(DataType.Date)]
         [Column("join_date")]
         public DateTime JoinDate { get; set; }
-
-        
-
-        
     }
 }

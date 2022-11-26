@@ -3,6 +3,7 @@ using Library.Models;
 using Library.Models.Relationships;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Metrics;
 
 namespace Library.Pages.Devices
@@ -74,15 +75,8 @@ namespace Library.Pages.Devices
                     break;
             }
 
-            _context.CheckOuts.Add(new CheckOut()
-            {
-                MemberID = (int)id,
-                Type = ItemType.Device,
-                ItemID = deviceID,
-                CheckOutDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(interval),
-                IsReturned = false
-            });
+            _context.Database.ExecuteSqlRaw("INSERT INTO check_out (check_out_date, due_date, item_type, item_id, member_id, returned)\r\nVALUES ({0},{1},{2},{3},{4},{5})",
+                DateTime.Now, DateTime.Now.AddDays(interval), ItemType.Device, device.ID, m.ID, 0);
 
             _context.SaveChanges();
 

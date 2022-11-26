@@ -25,37 +25,36 @@
 }
 
 
-@if (Model.CheckedOutBookID == null)
-
+@if (Model.CheckedOutBookID != null)
 {
-<table class="table">
+    <table class="table">
     
-        <tr>
-            <th>Title</th>
-            <th>Check Out Date</th>
-            <th></th>
-        </tr>
-
-        @foreach (var checkOutID in Model.CheckedOutBookID)
-        {
-            var co = Model.Context.CheckOuts.Where(co => co.ID == checkOutID).First();
-            var book = Model.Context.Books.Where(b => b.ID == co.ItemID).First();
             <tr>
-                <td>@book.Title</td>
-                <td>@co.CheckOutDate.ToString("MM/dd/yyyy")</td>
-                <td>
-                    <form method="post">
-                        <input type="hidden" name="checkOutID" value="@co.ID" />
-                        <input type="submit" value="Return" asp-page-handler="return" />
-                    </form>
-                </td>
+                <th>Title</th>
+                <th>Check Out Date</th>
+                <th></th>
             </tr>
-        }
- </table>
+
+            @foreach (var checkOutID in Model.CheckedOutBookID)
+            {
+                var co = Model.Context.CheckOuts.Where(co => co.ID == checkOutID).First();
+                var book = Model.Context.Books.Where(b => b.ID == co.ItemID).First();
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@co.CheckOutDate.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="checkOutID" value="@co.ID" />
+                            <input type="submit" value="Return" asp-page-handler="return" />
+                        </form>
+                    </td>
+                </tr>
+            }
+     </table>
  }
 
-    @if (Model.CheckedOutDeviceID == null)
-    {
+@if (Model.CheckedOutDeviceID != null)
+{
     <table class="table">
         <tr>
             <th>Device</th>
@@ -80,25 +79,24 @@
             </tr>
         }
     </table>
-    }
+}
 
 
-@if(Model.Holds == null)
+@if(Model.Holds != null)
 {
-<table class="table">
-    <tr>
-        <th>Title of Book</th>
-        <th>Date the Hold Order Was Made</th>
-    </tr>
-
-    @foreach (var hold in Model.Holds)
-    {
-        var book = Model.Context.Books.Where(b => b.ID == hold.BookID).First();
+    <table class="table">
         <tr>
-            <td>@book.Title</td>
-            <td>@hold.HoldDate.ToString("MM/dd/yyyy")</td>
+            <th>Title of Book</th>
+            <th>Date the Hold Order Was Made</th>
         </tr>
-    }
-</table>
 
+        @foreach (var hold in Model.Holds)
+        {
+            var book = Model.Context.Books.Where(b => b.ID == hold.BookID).First();
+            <tr>
+                <td>@book.Title</td>
+                <td>@hold.HoldDate.ToString("MM/dd/yyyy")</td>
+            </tr>
+        }
+    </table>
 }
