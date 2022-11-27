@@ -57,7 +57,7 @@ namespace Library.Pages.Devices
                 return Page();
             }
 
-            Member? m = _context.Members.FirstOrDefault(m => m.ID == m.ID);
+            Member? m = _context.Members.FirstOrDefault(m => m.ID == id);
             if (m == null)
             {
                 return Page();
