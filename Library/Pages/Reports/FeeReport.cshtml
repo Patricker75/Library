@@ -3,4 +3,55 @@
 @{
     ViewData["Title"] = "Fee Report";
 }
-FEE REPORT
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="Start" class="control-label">Start Date:</label>
+        <input asp-for="Start" class="form-control" />
+        <span asp-validation-for="Start" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="End" class="control-label">End Date:</label>
+        <input asp-for="End" class="form-control" />
+        <span asp-validation-for="End" class="text-danger"></span>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Generate Report" />
+</form>
+
+
+
+@if(Model.GenerateReport == true)
+{
+    decimal total = 0;
+    <h4>Fees from @Model.Start.ToString("MM/dd/yyyy") to @Model.End.ToString("MM/dd/yyyy")</h4>
+    <table class=" table">
+        <thead>
+            <tr>
+                <th>Member Name</th>
+                <th>Amount Owed</th>
+                <th>Date Fined</th>
+                <th>Item Type</th>
+                <th>Item Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var row in Model.Unpaid)
+            {
+                <tr>
+                    <td>@row.MemberName</td>
+                    <td>$@row.Amount.ToString("#.##")</td>                  
+                    <td>@row.FineDate.ToString("MM/dd/yyyy")</td>
+                    <td>@row.ItemType.ToString()</td>
+                    <td>@row.ItemName</td>
+                </tr>
+                total += row.Amount;
+            }
+        </tbody>
+    </table>
+
+    <h4>Total Fines Owed: $@total.ToString("#.##")</h4>
+}
