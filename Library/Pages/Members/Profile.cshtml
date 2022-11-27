@@ -27,7 +27,7 @@
 }
 
 
-@if (Model.CheckedOutBookID != null)
+@if (Model.CheckedOutBookID != null && Model.CheckedOutBookID.Count() > 0)
 {
     <table class="table">
     
@@ -55,7 +55,7 @@
      </table>
  }
 
-@if (Model.CheckedOutDeviceID != null)
+@if (Model.CheckedOutDeviceID != null && Model.CheckedOutDeviceID.Count() > 0)
 {
     <table class="table">
         <tr>
@@ -84,7 +84,7 @@
 }
 
 
-@if(Model.Holds != null)
+@if(Model.Holds != null && Model.Holds.Count() >0)
 {
     <table class="table">
         <tr>
