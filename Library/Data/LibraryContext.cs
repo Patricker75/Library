@@ -66,7 +66,7 @@ namespace Library.Data
             builder.Entity<ServiceUsageReport>().ToView("service_usage_report").HasNoKey();
             builder.Entity<ResourceUsageReport>().ToView("resource_usage_report").HasNoKey();
             builder.Entity<UnpaidFine>().ToView("unpaid_fine").HasNoKey();
-            builder.Entity<FeeReport>().ToView("fee_report").HasKey();
+            builder.Entity<FeeReport>().ToView("fee_report").HasNoKey();
             
             builder.Entity<MemberReport>().Property(vr => vr.CheckedOut).UseIdentityColumn();
 
