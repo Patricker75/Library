@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Library.Data;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models.Views
@@ -17,5 +18,8 @@ namespace Library.Models.Views
         [DataType(DataType.Date)]
         [Column("join_date")]
         public DateTime JoinDate { get; set; }
+
+        [Column("type")]
+        public MemberType MemberType { get; set; }
     }
 }

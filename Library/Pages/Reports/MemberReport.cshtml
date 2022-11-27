@@ -19,6 +19,13 @@
         <span asp-validation-for="End" class="text-danger"></span>
     </div>
 
+    <div class="form-group">
+        <label asp-for="FilterType" class="control-label">Checkout Type:</label>
+        <select asp-for="FilterType" asp-items="Html.GetEnumSelectList<MemberTypes>()">
+        </select>
+        <span asp-validation-for="FilterType" class="text-danger"></span>
+    </div>
+
     <input type="submit" class="btn btn-primary" value="Generate Report" />
 </form>
 
