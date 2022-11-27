@@ -25,18 +25,30 @@ namespace Library.Pages.Employees
             string? role = HttpContext.Session.GetString("employeeRole");
             int? id = HttpContext.Session.GetInt32("loginID");
 
-            if (id != employeeID && role != "Admin")
+            if (employeeID == null)
+            {
+                Employee? e = _context.Employees.FirstOrDefault(e => e.ID == id);
+                if (e == null)
+                {
+                    return RedirectToPage("/Employees/Index");
+                }
+
+                Employee = e;
+            }
+            else if (role == "Admin")
+            {
+                Employee? e = _context.Employees.FirstOrDefault(e => e.ID == employeeID);
+                if (e == null)
+                {
+                    return RedirectToPage("/Employees/Index");
+                }
+
+                Employee = e;
+            }
+            else
             {
                 return RedirectToPage("/Employees/Index");
             }
-
-            Employee? employee = _context.Employees.FirstOrDefault(e => e.ID == employeeID);
-            if (employee == null)
-            {
-                return RedirectToPage("/Employees/Index");
-            }
-
-            Employee = employee;
 
             return Page();
         }
