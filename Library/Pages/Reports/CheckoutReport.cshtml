@@ -44,14 +44,15 @@
         {
             <tr>
                 <td>@row.Name</td>
-                <td>@row.CheckoutDate</td>
+                <td>@row.CheckoutDate.ToString("MM/dd/yyyy")</td>
                 @if(row.ReturnDate == null)
                 {
                     <td>Not Yet Returned</td>
                 }
                 else{
-                <td>@row.ReturnDate</td>
+                <td>@row.ReturnDate?.ToString("MM/dd/yyyy")</td>
                 }
+
                 <td>@row.ItemType.ToString()</td>
                 <td>@row.ItemName</td>
             </tr>

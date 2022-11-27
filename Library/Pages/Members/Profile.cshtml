@@ -18,6 +18,7 @@
 @if (Model.ReservedRoom != null)
 {
     <table class="table">
+        <h4>Rooms Reserved</h4>
         <tr>
             <th>Room</th>
             <td>@Model.ReservedRoom.Location</td>
@@ -36,10 +37,11 @@
 @if (Model.CheckedOutBookID != null && Model.CheckedOutBookID.Count() > 0)
 {
     <table class="table">
-    
+            <h4>Books Checked Out </h4>
             <tr>
                 <th>Title</th>
                 <th>Check Out Date</th>
+                <th>Return By</th>
                 <th></th>
             </tr>
 
@@ -50,6 +52,7 @@
                 <tr>
                     <td>@book.Title</td>
                     <td>@co.CheckOutDate.ToString("MM/dd/yyyy")</td>
+                    <td>@co.DueDate.ToString("MM/dd/yyyy")</td>
                     <td>
                         <form method="post">
                             <input type="hidden" name="checkOutID" value="@co.ID" />
@@ -64,6 +67,7 @@
 @if (Model.CheckedOutDeviceID != null && Model.CheckedOutDeviceID.Count() > 0)
 {
     <table class="table">
+        <h4>Devices Checked Out</h4>
         <tr>
             <th>Device</th>
             <th>Check Out Date</th>
@@ -93,6 +97,7 @@
 @if(Model.Holds != null && Model.Holds.Count() >0)
 {
     <table class="table">
+        <h4>Current Holds</h4>
         <tr>
             <th>Title of Book</th>
             <th>Date the Hold Order Was Made</th>
