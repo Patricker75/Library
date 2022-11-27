@@ -18,7 +18,7 @@ namespace Library.Pages.Reports
 
         public bool GenerateReport = false;
 
-        public IOrderedEnumerable<UnpaidFine> Unpaid { get; set; } = default!;
+        public IOrderedEnumerable<FeeReport> Unpaid { get; set; } = default!;
 
         private LibraryContext _context;
 
@@ -40,9 +40,9 @@ namespace Library.Pages.Reports
                 return Page();
             }
 
-            Unpaid = from fine in _context.UnpaidFines.ToList()
-                        where fine.FineDate >= Start && fine.FineDate <= End
-                        orderby fine.FineDate
+            Unpaid = from fine in _context.FeeReports.ToList()
+                        where fine.DueDate >= Start && fine.DueDate <= End
+                        orderby fine.DueDate
                         select fine;
 
             GenerateReport = true;

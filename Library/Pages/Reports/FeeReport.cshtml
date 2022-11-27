@@ -32,21 +32,25 @@
         <thead>
             <tr>
                 <th>Member Name</th>
-                <th>Amount Owed</th>
-                <th>Date Fined</th>
-                <th>Item Type</th>
                 <th>Item Name</th>
+                <th>Date The Item Was Checked Out</th>
+                <th>Date The Item Was Due</th>
+                <th>Date The Item Was Returned</th>
+                <th>Date The Fee Was Paid</th>
+                <th>Fee Amount</th>
             </tr>
         </thead>
         <tbody>
             @foreach(var row in Model.Unpaid)
             {
                 <tr>
-                    <td>@row.MemberName</td>
-                    <td>$@row.Amount.ToString("#.##")</td>                  
-                    <td>@row.FineDate.ToString("MM/dd/yyyy")</td>
-                    <td>@row.ItemType.ToString()</td>
-                    <td>@row.ItemName</td>
+                    <td>@row.FirstName @row.LastName</td>
+                    <td>@row.Title</td>
+                    <td>@row.CheckoutDate.ToString("MM/dd/yyyy")</td>
+                    <td>@row.DueDate.ToString("MM/dd/yyyy")</td>
+                    <td>@row.ReturnDate</td>
+                    <td>@row.PaidDate</td>
+                    <td>$@row.Amount.ToString("#.##")</td>
                 </tr>
                 total += row.Amount;
             }
