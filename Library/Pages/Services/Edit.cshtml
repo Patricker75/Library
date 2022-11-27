@@ -27,27 +27,7 @@
         <span asp-validation-for="Service.Availability" class="text-danger"></span>
     </div>
 
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>JavaScript Yes/No Confirmation box</title>
-        <script>
-            const confirmAction = () => {
-                const response = confirm("Are you sure you want to do that?");  
-               
-            }
-
-           
-        </script>
-        
-    </head>
-    <body>
-        <button onclick="confirmAction()">
-            Save Changes
-        </button>
-       
-    </body>
-</html>
+   
 
     <input type="submit" value="Save Changes" class="btn btn-primary" />
     <input type="submit" value="Discard Changes" class="btn btn-primary" asp-page-handler="Discard"/>
