@@ -46,7 +46,11 @@ namespace Library.Pages.Members
             }
 
             notif.Viewed = true;
-            return Page();
+
+            _context.Attach(notif).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return RedirectToPage("/Members/Notifications");
         }
     }
 }

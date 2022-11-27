@@ -18,7 +18,7 @@
         @foreach(var fine in Model.Fines)
         {
             <tr>
-                <td>Late @fine.Type.ToString(): @Model.GetItem(fine.Type, fine.ID)</td>
+                <td>Late @Model.GetItemType(fine.CheckoutID): @Model.GetItem(fine.CheckoutID)</td>
                 <td>$@Model.CalculateFine(fine.Amount, fine.FineDate, fine.PaidDate).ToString("#.##")</td>
                 <td>
                     <form method="post">

@@ -41,7 +41,10 @@
                 else
                 {
                     <td>
-                        <a href="@resource.Url" target="_blank"> @resource.Url</a>
+                        <form method="post">
+                            <input type="hidden" name="resourceID" value="@resource.ID" />
+                            <input type="submit" value="Go To" />
+                        </form>
                     </td>
                 }
             </tr>

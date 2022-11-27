@@ -33,20 +33,37 @@ namespace Library.Pages.Members
 
             if (_context.Fines != null)
             {
-                Fines = _context.Fines.Where(f => f.MemberID == id).ToList();
+                Fines = _context.Fines.Where(f => f.MemberID == id && f.PaidDate == null).ToList();
             }
 
             return Page();
         }
 
-        public string GetItem(ItemType type, int id)
+        public string GetItemType(int checkoutID)
         {
-            switch (type)
+            CheckOut? co = _context.CheckOuts.FirstOrDefault(co => co.ID == checkoutID);
+            if (co == null)
+            {
+                return "";
+            }
+
+            return co.Type.ToString();
+        }
+
+        public string GetItem(int checkoutID)
+        {
+            CheckOut? co = _context.CheckOuts.FirstOrDefault(co => co.ID == checkoutID);
+            if (co == null)
+            {
+                return "";
+            }
+
+            switch (co.Type)
             {
                 case ItemType.Book:
-                    return _context.Books.First(b => b.ID == id).Title;
+                    return _context.Books.First(b => b.ID == co.ItemID).Title;
                 case ItemType.Device:
-                    return _context.Devices.First(d => d.ID == id).Name;
+                    return _context.Devices.First(d => d.ID == co.ItemID).Name;
                 default:
                     return "";
             }
@@ -64,7 +81,7 @@ namespace Library.Pages.Members
                 diff = (DateTime)paidDate - fineDate;
             }
 
-            return amount * (int)diff.TotalDays;
+            return amount * ((int)diff.TotalDays + 1);
         }
 
         public IActionResult OnPost(int fineID)
@@ -75,7 +92,7 @@ namespace Library.Pages.Members
                 return RedirectToPage("/Members/Fines");
             }
 
-            Member? m = _context.Members.FirstOrDefault(m => m.ID == fineID);
+            Member? m = _context.Members.FirstOrDefault(m => m.ID == id);
             if (m == null)
             {
                 return RedirectToPage("/Members/Fines");
@@ -85,6 +102,11 @@ namespace Library.Pages.Members
             paidFine.PaidDate = DateTime.Now;
 
             m.Balance -= CalculateFine(paidFine.Amount, paidFine.FineDate, paidFine.PaidDate);
+
+            if (m.Balance == 0 && m.Status == MemberStatus.Suspended)
+            {
+                m.Status = MemberStatus.Active;
+            }
 
             _context.Attach(paidFine).State = EntityState.Modified;
             _context.Attach(m).State = EntityState.Modified;

@@ -1,5 +1,6 @@
 using Library.Data;
 using Library.Models;
+using Library.Models.Relationships;
 using Library.Models.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -86,6 +87,36 @@ namespace Library.Pages.Employees
             if (_context.Services != null)
             {
                 UnavailableServices = _context.Services.Where(s => !s.Availability).ToList();
+            }
+        }
+
+        public string GetItemType(int checkoutID)
+        {
+            CheckOut? co = _context.CheckOuts.FirstOrDefault(co => co.ID == checkoutID);
+            if (co == null)
+            {
+                return "";
+            }
+
+            return co.Type.ToString();
+        }
+
+        public string GetItem(int checkoutID)
+        {
+            CheckOut? co = _context.CheckOuts.FirstOrDefault(co => co.ID == checkoutID);
+            if (co == null)
+            {
+                return "";
+            }
+
+            switch (co.Type)
+            {
+                case ItemType.Book:
+                    return _context.Books.First(b => b.ID == co.ItemID).Title;
+                case ItemType.Device:
+                    return _context.Devices.First(d => d.ID == co.ItemID).Name;
+                default:
+                    return "";
             }
         }
     }

@@ -21,16 +21,12 @@ namespace Library.Models.Relationships
         [Column("paid_date")]
         public DateTime? PaidDate { get; set; }
 
-        [Required]
-        [Column("item_type")]
-        public ItemType Type { get; set; }
-
-        [Required]
-        [Column("item_id")]
-        public int ItemID { get; set; }
-
         [ForeignKey("member")]
         [Column("member_id")]
         public int MemberID { get; set; }
+
+        [ForeignKey("checkout")]
+        [Column("checkout_id")]
+        public int CheckoutID { get; set; }
     }
 }

@@ -90,5 +90,10 @@ namespace Library.Pages.Members
 
             return Page();
         }
+
+        public IActionResult OnPostDeactivate()
+        {
+            return RedirectToPage("/Members/DeactivateAccount");
+        }
     }
 }

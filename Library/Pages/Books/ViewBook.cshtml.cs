@@ -76,10 +76,10 @@ namespace Library.Pages.Books
                     break;
             }
 
-            var coDate = DateTime.Now;
+            DateTime coDate = DateTime.Today;
 
             _context.Database.ExecuteSqlRaw("INSERT INTO check_out (check_out_date, due_date, item_type, item_id, member_id, returned)\r\nVALUES ({0},{1},{2},{3},{4},{5})",
-                coDate, DateTime.Now.AddDays(interval), ItemType.Book, Book.ID, member.ID, 0);
+                coDate.ToString(), coDate.AddDays(interval).ToString(), ItemType.Book, Book.ID, member.ID, 0);
 
             _context.SaveChanges();
         }

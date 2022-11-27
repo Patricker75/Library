@@ -7,6 +7,9 @@ namespace Library.Pages.Members
 {
     public class IndexModel : PageModel
     {
+        [BindProperty(SupportsGet = true)]
+        public MemberStatus FilteredStatus { get; set; }
+
         public IList<Member> Members { get; set; } = default!;
 
         private readonly LibraryContext _context;
@@ -14,14 +17,40 @@ namespace Library.Pages.Members
         public IndexModel(LibraryContext context)
         {
             _context = context;
+
+            FilteredStatus = MemberStatus.Active;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            string? loginRole = HttpContext.Session.GetString("employeeRole");
+            if (loginRole != "Admin")
+            {
+                return RedirectToPage("/Index");
+            }
+
             if (_context.Members != null)
             {
-                Members = _context.Members.Where(m => m.Status == MemberStatus.Active).ToList();
+                Members = _context.Members.Where(m => m.Status == FilteredStatus).ToList();
             }
+
+            return Page();
+        }
+
+        public IActionResult OnPostReactivate(int memberID)
+        {
+            Member? member = _context.Members.FirstOrDefault(m => m.ID == memberID);
+            if (member == null)
+            {
+                return RedirectToAction("Get");
+            }
+
+            member.Status = MemberStatus.Active;
+            
+            _context.Attach(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return RedirectToAction("Get");
         }
     }
 }
