@@ -6,6 +6,9 @@ namespace Library.Models.Views
 {
     public class UnpaidFine
     {
+        [Column("member_id")]
+        public int MemberID { get; set; }
+
         [Column("member_name")]
         public string MemberName { get; set; }
 
@@ -15,6 +18,9 @@ namespace Library.Models.Views
         [DataType(DataType.Date)]
         [Column("fine_date")]
         public DateTime FineDate { get; set; }
+
+        [Column("checkout_id")]
+        public int CheckoutID { get; set; }
 
         [Column("item_type")]
         public ItemType ItemType { get; set; }

@@ -7,8 +7,6 @@
 
 <h3>Hello, @Model.Employee.JobRole @Model.Employee.FirstName @Model.Employee.LastName!</h3>
 
-<a asp-page="/Employees/Edit" asp-route-employeeID="@Model.Employee.ID">Edit Profile</a>
-
 @if (Model.Employee.SupervisorID != null)
 {
     var supervisor = Model.GetSupervisor(Model.Employee.SupervisorID);

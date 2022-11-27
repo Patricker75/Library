@@ -18,11 +18,12 @@
         @foreach(var fine in Model.Fines)
         {
             <tr>
-                <td>Late @Model.GetItemType(fine.CheckoutID): @Model.GetItem(fine.CheckoutID)</td>
-                <td>$@Model.CalculateFine(fine.Amount, fine.FineDate, fine.PaidDate).ToString("#.##")</td>
+                <td>Late @fine.ItemType: @fine.ItemName</td>
+                <td>$@fine.Amount.ToString("#.##")</td>
                 <td>
                     <form method="post">
-                        <input type="hidden" name="fineID" value="@fine.ID" />
+                        <input type="hidden" name="checkoutID" value="@fine.CheckoutID" />
+                        <input type="hidden" name="fineAmount" value="@fine.Amount" />
                         <input type="submit" value="Pay Fine" />
                     </form>
                 </td>

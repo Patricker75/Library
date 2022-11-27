@@ -1,6 +1,7 @@
 using Library.Data;
 using Library.Models;
 using Library.Models.Relationships;
+using Library.Models.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace Library.Pages.Members
 {
     public class FinesModel : PageModel
     {
-        public IList<Fine> Fines { get; set; } = default!;
+        public IList<UnpaidFine> Fines { get; set; } = default!;
 
         private readonly LibraryContext _context;
 
@@ -33,7 +34,7 @@ namespace Library.Pages.Members
 
             if (_context.Fines != null)
             {
-                Fines = _context.Fines.Where(f => f.MemberID == id && f.PaidDate == null).ToList();
+                Fines = _context.UnpaidFines.Where(uf => uf.MemberID == id).ToList();
             }
 
             return Page();
@@ -69,22 +70,7 @@ namespace Library.Pages.Members
             }
         }
 
-        public decimal CalculateFine(decimal amount, DateTime fineDate, DateTime? paidDate) 
-        {
-            TimeSpan diff;
-            if (paidDate == null)
-            {
-                diff = (DateTime.Today - fineDate);
-            }
-            else
-            {
-                diff = (DateTime)paidDate - fineDate;
-            }
-
-            return amount * ((int)diff.TotalDays + 1);
-        }
-
-        public IActionResult OnPost(int fineID)
+        public IActionResult OnPost(int checkoutID, decimal fineAmount)
         {
             int? id = HttpContext.Session.GetInt32("loginID");
             if (id == null)
@@ -98,17 +84,20 @@ namespace Library.Pages.Members
                 return RedirectToPage("/Members/Fines");
             }
 
-            Fine paidFine = _context.Fines.First(f => f.ID == fineID);
-            paidFine.PaidDate = DateTime.Now;
+            IList<Fine> paidFines = _context.Fines.Where(f => f.CheckoutID == checkoutID && f.MemberID == m.ID).ToList();
+            foreach (var f in paidFines)
+            {
+                f.PaidDate = DateTime.Now;
+            }
 
-            m.Balance -= CalculateFine(paidFine.Amount, paidFine.FineDate, paidFine.PaidDate);
+            m.Balance -= fineAmount;
 
             if (m.Balance == 0 && m.Status == MemberStatus.Suspended)
             {
                 m.Status = MemberStatus.Active;
             }
 
-            _context.Attach(paidFine).State = EntityState.Modified;
+            _context.AttachRange(paidFines);
             _context.Attach(m).State = EntityState.Modified;
 
             _context.SaveChanges();

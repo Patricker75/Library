@@ -16,6 +16,9 @@ namespace Library.Pages.Members
         public IList<Hold> Holds { get; set; } = default!;
         public Room? ReservedRoom { get; set; } = default!;
 
+        public bool IsAccountSuspended { get; set; }
+        public bool NewNotifications { get; set; }
+
         public LibraryContext Context;
 
         public ProfileModel(LibraryContext context)
@@ -56,6 +59,10 @@ namespace Library.Pages.Members
             ReservedRoom = (from r in Context.Rooms
                            where r.MemberID == Member.ID
                            select r).FirstOrDefault();
+
+            IsAccountSuspended = Member.Status == MemberStatus.Suspended;
+            NewNotifications = Context.Notifications.Any(n => n.MemberID == Member.ID && !n.Viewed);
+
             return Page();
         }
 
