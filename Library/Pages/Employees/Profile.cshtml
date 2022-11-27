@@ -16,7 +16,7 @@
     }
 }
 
-@if (role != null && (role == "Admin" || role == "Librarian"))
+@if ((role != null && (role == "Admin" || role == "Librarian")) && ( Model.UnpaidFines != null && Model.UnpaidFines.Count() >0))
 {
     Model.GetUnpaidFines();
     <h4>Unpaid Fines</h4>
@@ -47,7 +47,7 @@
 @if (role != null && (role == "Admin" || role == "Technician"))
 {
     Model.GetReservedRooms();
-    if (Model.ReservedRooms.Count > 0)
+    if (Model.ReservedRooms != null && Model.ReservedRooms.Count > 0)
     {
         <h4>Reserved Rooms</h4>
         <table class="table">
@@ -80,7 +80,7 @@
 @if (role != null && (role == "Admin" || role == "Technician"))
 {
     Model.GetUnavailableRooms();
-    if (Model.UnavailableRooms.Count > 0)
+    if (Model.UnavailableRooms != null && Model.UnavailableRooms.Count > 0)
     {
         <h4>Unavailable Rooms</h4>
         <table class="table">
@@ -108,7 +108,7 @@
 {
     Model.GetUnavailableServices();
 
-    if (Model.UnavailableServices.Count > 0)
+    if (Model.UnavailableServices != null && Model.UnavailableServices.Count > 0)
     {
         <h4>Unavailable Services</h4>
         <table class="table">
