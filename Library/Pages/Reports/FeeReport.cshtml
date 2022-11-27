@@ -27,6 +27,7 @@
 @if(Model.GenerateReport == true)
 {
     decimal total = 0;
+    decimal unpaidtotal = 0;
     <h4>Fees from @Model.Start.ToString("MM/dd/yyyy") to @Model.End.ToString("MM/dd/yyyy")</h4>
     <table class=" table">
         <thead>
@@ -48,14 +49,35 @@
                     <td>@row.Title</td>
                     <td>@row.CheckoutDate.ToString("MM/dd/yyyy")</td>
                     <td>@row.DueDate.ToString("MM/dd/yyyy")</td>
-                    <td>@row.ReturnDate</td>
-                    <td>@row.PaidDate</td>
+                    @if (row.ReturnDate == null)
+                    {
+                        <td>Not Yet Returned</td>
+                    }
+                    else
+                    {
+                        <td>@row.ReturnDate?.ToString("MM/dd/yyyy")</td>
+                    }
+                    @if (row.PaidDate == null)
+                    {
+                        <td>Not Yet Returned</td>
+                    }
+                    else
+                    {
+                        <td>@row.PaidDate?.ToString("MM/dd/yyyy")</td>
+                    }
                     <td>$@row.Amount.ToString("#.##")</td>
                 </tr>
                 total += row.Amount;
-            }
+                @if (row.PaidDate == null)
+                    unpaidtotal += row.Amount;
+
+        }
         </tbody>
     </table>
 
     <h4>Total Fines Owed: $@total.ToString("#.##")</h4>
+    @if (unpaidtotal != 0)
+    {
+        <h4>Total Amount of Unpaid Fines Owed: $@unpaidtotal.ToString("#.##")</h4>
+    }
 }
