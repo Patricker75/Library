@@ -100,5 +100,6 @@ namespace Library.Data
         public DbSet<ServiceUsageReport> ServiceUsageReports { get; set; } = default!;
         public DbSet<ResourceUsageReport> ResourceUsageReports { get; set; } = default!;
         public DbSet<UnpaidFine> UnpaidFines { get; set; } = default!;
+        public DbSet<FeeReport> FeeReports { get; set; } = default!;
     }
 }
