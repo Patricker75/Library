@@ -3,6 +3,7 @@ using Library.Models;
 using Library.Models.Relationships;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Pages.Books
@@ -62,7 +63,7 @@ namespace Library.Pages.Books
             return Page();
         }
         
-        private void CheckOutBook(Book book, Member member)
+        private IActionResult CheckOutBook(Book book, Member member)
         {
             // Days after for due date
             int interval = 0;
@@ -78,10 +79,19 @@ namespace Library.Pages.Books
 
             DateTime coDate = DateTime.Today;
 
-            _context.Database.ExecuteSqlRaw("INSERT INTO check_out (check_out_date, due_date, item_type, item_id, member_id, returned)\r\nVALUES ({0},{1},{2},{3},{4},{5})",
-                coDate.ToString(), coDate.AddDays(interval).ToString(), ItemType.Book, Book.ID, member.ID, 0);
+            try
+            {
+                _context.Database.ExecuteSqlRaw("INSERT INTO check_out (check_out_date, due_date, item_type, item_id, member_id, returned)\r\nVALUES ({0},{1},{2},{3},{4},{5})",
+                    coDate.ToString(), coDate.AddDays(interval).ToString(), ItemType.Book, Book.ID, member.ID, 0);
+            }
+            catch (SqlException sqlE)
+            {
+                return RedirectToAction("Get", new { bookID = book.ID, message = sqlE.Message });
+            }
 
             _context.SaveChanges();
+
+            return RedirectToAction("Get", new { bookID = book.ID, message = "Checked Out Book" });
         }
 
         private void HoldBook(Book book, Member member)
@@ -131,7 +141,7 @@ namespace Library.Pages.Books
             }
 
             // Check if member will exceed their checkout limit
-            if (_context.CheckOuts.Where(co => co.MemberID == m.ID && !co.IsReturned).Count() + 1 > m.CheckOutLimit) 
+            if (_context.CheckOuts.Where(co => co.MemberID == m.ID && !co.IsReturned && co.Type == ItemType.Book).Count() + 1 > m.CheckOutLimit) 
             {
                 return RedirectToAction("Get", new { bookID = b.ID, message = "You Have Reached Your Checkout Limit" });
             }
@@ -150,9 +160,7 @@ namespace Library.Pages.Books
             }
             else
             {
-                CheckOutBook(b, m);
-
-                return RedirectToAction("Get", new { bookID = b.ID, message = "Checked Out Book" });
+                return CheckOutBook(b, m);
             }
            
         }
