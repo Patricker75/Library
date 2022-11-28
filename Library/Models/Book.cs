@@ -30,6 +30,7 @@ namespace Library.Models
 		[Column("audience")]
 		public Audience Audience { get; set; }
 
+		[Range(0, int.MaxValue)]
 		[Required]
 		public int Quantity { get; set; }
 

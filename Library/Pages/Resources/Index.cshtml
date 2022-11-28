@@ -12,10 +12,10 @@
             <th>Resource Name</th>
             <th>Resource Description</th>
             <th>Resource Link</th>
-            @if (loginType != null && loginType == "employee")
-                {
-                  <th>Edit Resource</th>
-                }
+            @if (loginType != null && role != null && (role == "Admin" || role == "Technician"))
+            {
+                <th>Edit Resource</th>
+            }
         </tr>
     </thead>
 

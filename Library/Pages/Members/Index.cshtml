@@ -3,17 +3,22 @@
 @using Library.Data;
 @{
     ViewData["Title"] = "Members";
+
+    string? role = HttpContext.Session.GetString("employeeRole");
 }
 
-<form method="get">
-    <div class="form-group">
-        <label asp-for="FilteredStatus">Member Status:</label>
-        <select asp-for="FilteredStatus" asp-items="Html.GetEnumSelectList<MemberStatus>()">
-        </select>
-    </div>
+@if (role != null)
+{
+    <form method="get">
+        <div class="form-group">
+            <label asp-for="FilteredStatus">Member Status:</label>
+            <select asp-for="FilteredStatus" asp-items="Html.GetEnumSelectList<MemberStatus>()">
+            </select>
+        </div>
 
-    <input type="submit" value="Search" />
-</form>
+        <input type="submit" value="Search" />
+    </form>
+} 
 
 <table class="table">
     <thead>
@@ -21,7 +26,7 @@
             <th>Name</th>
             <th>Birthday</th>
             <th>Membership Type</th>
-            @if(Model.FilteredStatus == MemberStatus.Inactive)
+            @if(Model.FilteredStatus == MemberStatus.Inactive && role != null && role == "Admin")
             {
                 <th></th>
             }
@@ -35,7 +40,7 @@
                 <td>@member.FirstName @member.LastName</td>
                 <td>@Html.DisplayFor(m => member.BirthDate)</td>
                 <td>@Html.DisplayFor(m => member.Status)</td>
-                @if (Model.FilteredStatus == MemberStatus.Inactive)
+                @if (Model.FilteredStatus == MemberStatus.Inactive && role != null && role == "Admin")
                 {
                     <td>
                         <form method="post">

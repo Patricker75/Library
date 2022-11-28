@@ -13,7 +13,7 @@
 
     <div class="form-group">
         <label asp-for="Device.Type" class="control-label">Device Type:</label>
-        <select asp-for="Device.Type" asp-items="Html.GetEnumSelectList<DeviceType>()">
+        <select asp-for="Device.Type" asp-items="Html.GetEnumSelectList<DeviceType>()" class="form-control">
             <option hidden="hidden" selected="selected">Select A Device Type</option>
         </select>
         <span asp-validation-for="Device.Type" class="text-danger"></span>
@@ -21,7 +21,7 @@
 
     <div class="form-group">
         <label asp-for="Device.Name" class="control-label">Name:</label>
-        <input asp-for="Device.Name" />
+        <input asp-for="Device.Name" class="form-control"/>
         <span asp-validation-for="Device.Name" class="text-danger"></span>
     </div>
         

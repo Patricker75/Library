@@ -23,12 +23,6 @@ namespace Library.Pages.Members
 
         public IActionResult OnGet()
         {
-            string? loginRole = HttpContext.Session.GetString("employeeRole");
-            if (loginRole != "Admin")
-            {
-                return RedirectToPage("/Index");
-            }
-
             if (_context.Members != null)
             {
                 Members = _context.Members.Where(m => m.Status == FilteredStatus).ToList();

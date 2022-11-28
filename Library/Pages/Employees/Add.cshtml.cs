@@ -14,6 +14,7 @@ namespace Library.Pages.Employees
         [BindProperty]
         public LoginUser Login { get; set; } = default!;
 
+        public string Message { get; set; }
         public int Error { get; set; }
  
         private readonly LibraryContext _context;
@@ -23,8 +24,10 @@ namespace Library.Pages.Employees
             _context = library;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(string message = "")
         {
+            Message = message;
+
             string? role = HttpContext.Session.GetString("employeeRole");
             if (role == null || role != "Admin")
             {
@@ -70,7 +73,7 @@ namespace Library.Pages.Employees
                 _context.Employees.Add(Employee);
                 _context.SaveChanges();
 
-                return RedirectToPage("Add");
+                return RedirectToAction("Get", new { message = "New Employee Hired" });
             }
 
             return Page();

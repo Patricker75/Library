@@ -96,7 +96,7 @@
 }
 
 
-@if(Model.Holds != null && Model.Holds.Count() >0)
+@if(Model.Holds != null && Model.Holds.Count() > 0)
 {
     <table class="table">
         <h4>Current Holds</h4>
@@ -114,4 +114,10 @@
             </tr>
         }
     </table>
+}
+
+@if (!(Model.IsAccountSuspended || Model.NewNotifications || Model.ReservedRoom != null 
+|| (Model.CheckedOutBookID != null && Model.CheckedOutBookID.Count() > 0)
+||  Model.Holds != null && Model.Holds.Count() > 0)) {
+    <h3>You Have Nothing Checked Out! Go Check Some Stuff Out!</h3>
 }

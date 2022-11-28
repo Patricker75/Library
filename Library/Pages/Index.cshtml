@@ -24,19 +24,18 @@
         </td>
     </tr>
 
+    <tr>
+        <th>Members</th>
+        <td>
+            <a asp-page="/Members/Index">Library Members</a>
+            <br />
+            <a asp-page="/Members/Add">Register New Member</a>
+        </td>
+    </tr>
+    
+
     @if (loginType == "employee") //Employee level access
     {
-        <tr>
-            <th>Members</th>
-                <td>
-                    @if (role != null && role == "Admin")
-                    {
-                        <a asp-page="/Members/Index">Library Members</a>
-                        <br />
-                    }
-                    <a asp-page="/Members/Add">Register New Member</a>
-                </td>
-            </tr>
         <tr>
             <th>Employees</th>
             <td>

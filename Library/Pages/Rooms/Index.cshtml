@@ -35,7 +35,7 @@
                         </form>
                     </td>
                 }
-                else if (loginType != null && loginType == "employee")
+                else if (loginType != null && role != null && (role == "Admin" || role == "Technician"))
                 {
                     <td>
                         <form method="post">

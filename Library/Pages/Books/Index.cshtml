@@ -32,8 +32,17 @@
 
             <tr>
                 <td><a asp-page="/Books/ViewBook" asp-route-bookID="@book.ID">@book.Title</a></td>
-                <td>@author.FirstName     @if (@author.MiddleName != null){@author.MiddleName}    @author.LastName</td>
-                <td>@book.Summary</td>
+                <td>@author.FirstName @author.LastName</td>
+                
+                @if (book.Summary.Length > 120)
+                {
+                    <td>@book.Summary.Substring(0, 120)...</td>
+                }
+                else
+                {
+                    <td>@book.Summary</td>
+                }
+
                 <td>@book.Genre</td>
 
                 <td>@book.DeweyNumber</td>
