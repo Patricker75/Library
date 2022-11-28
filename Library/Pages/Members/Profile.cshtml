@@ -71,6 +71,7 @@
         <tr>
             <th>Device</th>
             <th>Check Out Date</th>
+            <th>Return By</th>
             <th></th>
         </tr>
 
@@ -82,6 +83,7 @@
             <tr>
                 <td>@device.Name</td>
                 <td>@co.CheckOutDate.ToString("MM/dd/yyyy")</td>
+                <td>@co.DueDate.ToString("MM/dd/yyyy")</td>
                 <td>
                     <form method="post">
                         <input type="hidden" name="checkOutID" value="@co.ID" />

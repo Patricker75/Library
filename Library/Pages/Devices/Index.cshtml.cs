@@ -13,6 +13,8 @@ namespace Library.Pages.Devices
         [BindProperty]
         public IList<Device> Devices { get; set; } = default!;
 
+        public string Message { get; set; } = default!;
+
         private LibraryContext _context;
 
         public IndexModel(LibraryContext context)
@@ -20,8 +22,10 @@ namespace Library.Pages.Devices
             _context = context;
         }
 
-        public void OnGet()
+        public void OnGet(string message = "")
         {
+            Message = message;
+
             if (_context.Devices != null)
             {
                 List<int> checkedOutID = (from d in _context.Devices
@@ -39,7 +43,7 @@ namespace Library.Pages.Devices
             int? id = HttpContext.Session.GetInt32("loginID");
             if (id == null)
             {
-                return Page();
+                return RedirectToAction("Get");
             }
 
             // Check if member has device type checked out
@@ -50,17 +54,19 @@ namespace Library.Pages.Devices
             Device? device = _context.Devices.FirstOrDefault(d => d.ID == deviceID);
             if (device == null)
             {
-                return Page();
-            }
-            if (devices.Contains(device.Type))
-            {
-                return Page();
+                return RedirectToAction("Get");
             }
 
-            Member? m = _context.Members.FirstOrDefault(m => m.ID == m.ID);
+            // Member has device type checked out already
+            if (devices.Contains(device.Type))
+            {
+                return RedirectToAction("Get", new { message = $"You Already Have a {device.Type} Checked Out"});
+            }
+
+            Member? m = _context.Members.FirstOrDefault(m => m.ID == id);
             if (m == null)
             {
-                return Page();
+                return RedirectToAction("Get");
             }
 
             // Days after for due date
@@ -80,7 +86,7 @@ namespace Library.Pages.Devices
 
             _context.SaveChanges();
 
-            return RedirectToPage("/Devices/Index");
+            return RedirectToAction("Get", new { message = "Device Check Out Successful"});
         }
     
         public IActionResult OnPostEdit(int deviceID)

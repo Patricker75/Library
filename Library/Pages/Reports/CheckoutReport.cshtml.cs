@@ -6,6 +6,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Library.Pages.Reports
 {
+    public enum CheckoutType
+    {
+        Book = 0,
+        Device = 1,
+        Both = 2
+    }
+
     public class CheckoutReportModel : PageModel
     {
         [BindProperty]
@@ -16,6 +23,9 @@ namespace Library.Pages.Reports
         [DataType(DataType.Date)]
         public DateTime End { get; set; }
 
+        [BindProperty]
+        public CheckoutType FilterType { get; set; }
+
         public bool GenerateReport = false;
 
         public IList<CheckoutReport> Reports { get; set; } = default!;
@@ -25,6 +35,7 @@ namespace Library.Pages.Reports
         public CheckoutReportModel(LibraryContext context)
         {
             _context = context;
+            FilterType = CheckoutType.Both;
         }
 
         public void OnGet()
@@ -40,8 +51,17 @@ namespace Library.Pages.Reports
                 return Page();
             }
 
-            Reports = _context.CheckoutReports.Where(vr => Start <= vr.CheckoutDate && vr.CheckoutDate <= End).ToList();
+            if (FilterType == CheckoutType.Both) 
+            {
+                Reports = _context.CheckoutReports.Where(vr => Start <= vr.CheckoutDate && vr.CheckoutDate <= End).ToList();
+            }
+            else
+            {
+                Reports = _context.CheckoutReports.Where(vr => Start <= vr.CheckoutDate && vr.CheckoutDate <= End && vr.ItemType == (ItemType)(int)FilterType).ToList();
+            }
+
             GenerateReport = true;
+
             return Page();
         }
     }

@@ -61,7 +61,7 @@ namespace Library.Data
 
         private void HandleViews(ModelBuilder builder)
         {
-            builder.Entity<MemberReport>().ToView("new_member_report").HasNoKey();
+            builder.Entity<MemberReport>().ToView("member_report").HasNoKey();
             builder.Entity<CheckoutReport>().ToView("check_out_report").HasNoKey();
             builder.Entity<ServiceUsageReport>().ToView("service_usage_report").HasNoKey();
             builder.Entity<ResourceUsageReport>().ToView("resource_usage_report").HasNoKey();
@@ -72,6 +72,7 @@ namespace Library.Data
 
             builder.Entity<CheckoutReport>().Property(co => co.ItemType).HasConversion(v => (short)v, v => (ItemType)v);
             builder.Entity<UnpaidFine>().Property(uf => uf.ItemType).HasConversion(v => (short)v, v => (ItemType)v);
+            builder.Entity<MemberReport>().Property(mr => mr.MemberType).HasConversion(v => (short)v, v => (MemberType)v);
         }
 
         public DbSet<Author> Authors { get; set; } = default!;
