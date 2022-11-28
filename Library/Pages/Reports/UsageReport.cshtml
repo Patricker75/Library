@@ -34,6 +34,7 @@
 
 @if (Model.ReportType == 0 && Model.ServiceReport != null)
 {
+    int total = 0;
     <table class="table">
         <thead>
             <tr>
@@ -46,6 +47,7 @@
         <tbody>
             @foreach(var report in Model.ServiceReport)
             {
+                total += report.Count();
                 <tr>
                     <td>@report.Count()</td>
                     <td>@report.Key</td>
@@ -54,9 +56,12 @@
             }
         </tbody>
     </table>
+
+    <h3>Total Number of Services Used: @total</h3>
 }
 else if (Model.ReportType == 1 && Model.ResourceReport != null)
 {
+    int total = 0;
     <table class="table">
         <thead>
             <tr>
@@ -68,6 +73,7 @@ else if (Model.ReportType == 1 && Model.ResourceReport != null)
         <tbody>
             @foreach (var report in Model.ResourceReport)
             {
+                total += report.Count();
                 <tr>
                     <td>@report.Count()</td>
                     <td>@report.Key</td>
@@ -75,4 +81,6 @@ else if (Model.ReportType == 1 && Model.ResourceReport != null)
             }
         </tbody>
     </table>
+
+    <h3>Total Number of Resources Used: @total</h3>
 }

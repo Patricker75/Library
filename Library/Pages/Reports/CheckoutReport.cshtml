@@ -21,7 +21,7 @@
 
     <div class="form-group">
         <label asp-for="FilterType" class="control-label">Checkout Type:</label>
-        <select asp-for="FilterType" asp-items="Html.GetEnumSelectList<CheckoutType>()">
+        <select asp-for="FilterType" asp-items="Html.GetEnumSelectList<CheckoutType>()" class="form-control">
         </select>
         <span asp-validation-for="FilterType" class="text-danger"></span>
     </div>
