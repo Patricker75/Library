@@ -1,5 +1,6 @@
 using Library.Data;
 using Library.Models;
+using Library.Models.Relationships;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -54,6 +55,22 @@ namespace Library.Pages.Members
 
             m.Status = MemberStatus.Inactive;
 
+            // Returns all books, devices, and room
+            IList<CheckOut> memberCO = _context.CheckOuts.Where(co => co.MemberID == m.ID && !co.IsReturned).ToList();
+            foreach (CheckOut checkOut in memberCO)
+            {
+                checkOut.ReturnDate = DateTime.Now;
+                checkOut.IsReturned = true;
+            }
+
+            Room? room = _context.Rooms.FirstOrDefault(r => r.MemberID == m.ID);
+            if (room != null)
+            {
+                room.MemberID = null;
+                _context.Attach(room).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+
+            _context.AttachRange(memberCO);
             _context.Attach(m).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 

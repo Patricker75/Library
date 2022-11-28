@@ -69,6 +69,11 @@ namespace Library.Pages.Devices
                 return RedirectToAction("Get");
             }
 
+            if (m.Status != MemberStatus.Active)
+            {
+                return RedirectToAction("Get", new { message = "Your Account is Supsended" });
+            }
+
             // Days after for due date
             int interval = 0;
             switch (m.Type)

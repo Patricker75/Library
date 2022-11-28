@@ -62,10 +62,22 @@
 
 @if (loginType != null && loginType == "member")
 {
-    <form method="post">
-        <input type="hidden" asp-for="Book.ID" />
-        <input type="submit" value="Check Out" asp-page-handler="checkout" />
-    </form>
+    if (!Model.OnHoldConfirmation)
+    {
+        <form method="post">
+            <input type="hidden" asp-for="Book.ID" />
+            <input type="submit" value="Check Out" asp-page-handler="checkout" />
+        </form>
+    }
+    else
+    {
+        <h4>Book is Currently Unavailable. Would you like to be hold the book?</h4>
+        <form method="post">
+            <input type="hidden" asp-for="Book.ID" />
+            <input type="submit" value="Yes" asp-page-handler="Hold" />
+            <input type="submit" value="No" asp-page-handler="Abort" />
+        </form>
+    }
 }
 
 @if (loginType != null && role != null && loginType == "employee" && (role == "Librarian" || role == "Admin"))

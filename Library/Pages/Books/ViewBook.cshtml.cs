@@ -19,6 +19,8 @@ namespace Library.Pages.Books
         [BindProperty]
         public Publisher Publisher { get; set; } = default!;
 
+        public bool OnHoldConfirmation { get; set; }
+
         public string Message { get; set; } = string.Empty;
 
         private readonly LibraryContext _context;
@@ -26,11 +28,13 @@ namespace Library.Pages.Books
         public ViewBookModel(LibraryContext context)
         {
             _context = context;
+            OnHoldConfirmation = false;
         }
 
-        public IActionResult OnGet(int? bookID, string message)
+        public IActionResult OnGet(int? bookID, string message, bool holdConfirm = false)
         {
             Message = message;
+            OnHoldConfirmation = holdConfirm;
 
             if (bookID == null)
             {
@@ -140,23 +144,9 @@ namespace Library.Pages.Books
                 return RedirectToAction("Get", new { bookID = b.ID, message = "Your Account is Supsended" });
             }
 
-            // Check if member will exceed their checkout limit
-            if (_context.CheckOuts.Where(co => co.MemberID == m.ID && !co.IsReturned && co.Type == ItemType.Book).Count() + 1 > m.CheckOutLimit) 
-            {
-                return RedirectToAction("Get", new { bookID = b.ID, message = "You Have Reached Your Checkout Limit" });
-            }
-
-            // Check if member has the book already checked out
-            if (_context.CheckOuts.Where(co => co.MemberID == m.ID && co.ItemID == Book.ID && co.Type == ItemType.Book && !co.IsReturned).Any())
-            {
-                return RedirectToAction("Get", new { bookID = b.ID, message = "You Already Have the Book Checked Out" });
-            }
-
             if (b.Quantity == 0)
             {
-                HoldBook(b, m);
-
-                return RedirectToAction("Get", new { bookID = b.ID, message = "Hold Request Sucessful" });
+                return RedirectToAction("Get", new { bookID = b.ID, holdConfirm = true });
             }
             else
             {
@@ -168,6 +158,33 @@ namespace Library.Pages.Books
         public IActionResult OnPostEdit()
         {
             return RedirectToPage("/Books/Edit", new { bookID = Book.ID });
+        }
+
+        public IActionResult OnPostHold()
+        {
+            Book? b = _context.Books.FirstOrDefault(b => b.ID == Book.ID);
+            if (b == null)
+            {
+                return Page();
+            }
+
+            Book = b;
+
+            int? id = HttpContext.Session.GetInt32("loginID");
+            if (id == null)
+            {
+                return Page();
+            }
+
+            Member? m = _context.Members.FirstOrDefault(m => m.ID == id);
+            if (m == null)
+            {
+                return Page();
+            }
+
+            HoldBook(b, m);
+
+            return RedirectToAction("Get", new { bookID = Book.ID, message = "Hold Request Sucessful" });
         }
     }
 }
