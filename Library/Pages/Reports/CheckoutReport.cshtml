@@ -31,13 +31,19 @@
 
 @if(Model.GenerateReport == true)
 {
-    <h4>Checked Out from @Model.Start.ToString("MM/dd/yyyy") to @Model.End.ToString("MM/dd/yyyy")</h4>
-<table class="table">
+    string type = "All Items";
+    @if (Model.FilterType == CheckoutType.Book){
+        type = "All Books";
+    }
+    else if (Model.FilterType == CheckoutType.Device)
+    {
+        type = "All Devices";
+    }
+    <h4>@type Checked Out from @Model.Start.ToString("MM/dd/yyyy") to @Model.End.ToString("MM/dd/yyyy")</h4>
+    <table class="table">
     
     <thead>
         <tr>
-               
-
             <th>Name</th>
             <th>Check Out Date</th>
             <th>Return Date</th>

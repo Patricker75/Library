@@ -23,6 +23,12 @@ namespace Library.Pages.Members
 
         public IActionResult OnGet()
         {
+            string? type = HttpContext.Session.GetString("loginType");
+            if (type == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
             if (_context.Members != null)
             {
                 Members = _context.Members.Where(m => m.Status == FilteredStatus).ToList();
