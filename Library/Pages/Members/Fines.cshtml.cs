@@ -12,6 +12,8 @@ namespace Library.Pages.Members
     {
         public IList<UnpaidFine> Fines { get; set; } = default!;
 
+        public string Message { get; set; }
+
         private readonly LibraryContext _context;
 
         public FinesModel(LibraryContext context)
@@ -19,7 +21,7 @@ namespace Library.Pages.Members
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(string message = "")
         {
             if (HttpContext.Session.GetString("loginType") != "member")
             {
@@ -31,6 +33,8 @@ namespace Library.Pages.Members
             {
                 return RedirectToPage("/Index");
             }
+
+            Message = message;
 
             if (_context.Fines != null)
             {
@@ -75,13 +79,18 @@ namespace Library.Pages.Members
             int? id = HttpContext.Session.GetInt32("loginID");
             if (id == null)
             {
-                return RedirectToPage("/Members/Fines");
+                return RedirectToAction("Get");
             }
 
             Member? m = _context.Members.FirstOrDefault(m => m.ID == id);
             if (m == null)
             {
-                return RedirectToPage("/Members/Fines");
+                return RedirectToAction("Get");
+            }
+
+            if (_context.CheckOuts.Any(co => co.ID == checkoutID && !co.IsReturned))
+            {
+                return RedirectToAction("Get", new { message = "You Must Return the Item First" });
             }
 
             IList<Fine> paidFines = _context.Fines.Where(f => f.CheckoutID == checkoutID && f.MemberID == m.ID).ToList();

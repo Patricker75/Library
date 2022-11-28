@@ -16,32 +16,35 @@
     }
 }
 
-@if ((role != null && (role == "Admin" || role == "Librarian")) && ( Model.UnpaidFines != null && Model.UnpaidFines.Count() >0))
+@if ((role != null && (role == "Admin" || role == "Librarian")))
 {
     Model.GetUnpaidFines();
-    <h4>Unpaid Fines</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Member Name</th>
-                <th>Amount</th>
-                <th>Fine Date</th>
-                <th>Item Fined</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach(var fine in Model.UnpaidFines)
-            {
+    if (Model.UnpaidFines != null && Model.UnpaidFines.Count() > 0)
+    {
+        <h4>Unpaid Fines</h4>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@fine.MemberName</td>
-                    <td>$@fine.Amount.ToString("#.##")</td>
-                    <td>@fine.FineDate.ToString("MM/dd/yyyy")</td>
-                    <td>@fine.ItemType: @fine.ItemName</td>
+                    <th>Member Name</th>
+                    <th>Amount</th>
+                    <th>Fine Date</th>
+                    <th>Item Fined</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                @foreach (var fine in Model.UnpaidFines)
+                {
+                    <tr>
+                        <td>@fine.MemberName</td>
+                        <td>$@fine.Amount.ToString("#.##")</td>
+                        <td>@fine.FineDate.ToString("MM/dd/yyyy")</td>
+                        <td>@fine.ItemType: @fine.ItemName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 }
 
 @if (role != null && (role == "Admin" || role == "Technician"))
