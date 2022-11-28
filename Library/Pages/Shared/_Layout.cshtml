@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
     @{
-    string? loginType = Context.Session.GetString("loginType");
+    string? type = Context.Session.GetString("loginType");
     string? role = Context.Session.GetString("employeeRole");
 }
 <head>
@@ -38,8 +38,16 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Reports/ViewReports">Reports</a>
                             </li>
                         }
+                        @if (type != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Employees/Edit">Edit Profile</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav navbar-right">
                         @{
-                            string? type = Context.Session.GetString("loginType");
 
                             if (type == null)
                             {
@@ -68,10 +76,6 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-page="/Employees/Edit">Edit</a>
-                                </li>
-
-                                <li class="nav-item">
                                     <a class="nav-link test-dark" asp-page="/Logout">Logout</a>
                                 </li>
                             }
@@ -89,7 +93,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - Library - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2022 Group 17 - Library
         </div>
     </footer>
 
