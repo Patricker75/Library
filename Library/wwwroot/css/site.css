@@ -1,7 +1,7 @@
 html, body {
-    font-size: 16px;
+    font-size: 20px;
     background-color: aliceblue;
-    font-family: "Papyrus", "copperplate", Fantasy;
+    font-family: "Verdana";
 }
 
 @media (min-width: 768px) {
